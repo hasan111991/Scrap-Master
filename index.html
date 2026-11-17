@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#064e3b" />
+  <meta name="description" content="DIGITAL KABARIYA — Sell Scrap. Get Paid. Recycle Better. Pakistan-first scrap collection, hub inventory, logistics & B2B marketplace." />
+  <title>DIGITAL KABARIYA PK — Sell Scrap. Get Paid. Recycle Better.</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23064e3b'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle'%3E%E2%99%BB%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --emerald-950: #022c22;
+      --emerald-900: #064e3b;
+      --emerald-700: #047857;
+      --emerald-600: #059669;
+      --emerald-500: #10b981;
+      --emerald-100: #d1fae5;
+      --emerald-50: #ecfdf5;
+      --amber-500: #f59e0b;
+      --amber-100: #fef3c7;
+      --amber-900: #78350f;
+      --slate-900: #0f172a;
+      --slate-700: #334155;
+      --slate-500: #64748b;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --danger-600: #dc2626;
+      --danger-50: #fef2f2;
+      --info-700: #1d4ed8;
+      --info-50: #eff6ff;
+      --radius: 14px;
+      --shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Arabic", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--slate-900);
+      line-height: 1.5;
+    }
+
+    body.rtl { direction: rtl; }
+
+    /* Header */
+    .topbar {
+      background: linear-gradient(135deg, var(--emerald-900), var(--emerald-700));
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 4px 16px rgba(2, 44, 34, 0.25);
+    }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--emerald-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .brand-title {
+      font-weight: 900;
+      font-size: 1.05rem;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pk-badge {
+      background: var(--amber-500);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .brand-tag {
+      font-size: 0.76rem;
+      color: var(--emerald-100);
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.24); }
+    select.portal-select {
+      background: rgba(2, 44, 34, 0.75);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+
+    /* Portal Strip */
+    .portal-strip-wrap {
+      background: #fff;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .portal-strip {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 8px 16px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .portal-pill {
+      border: 1px solid var(--slate-200);
+      background: var(--slate-100);
+      color: var(--slate-700);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.15s ease;
+    }
+    .portal-pill.active {
+      background: var(--emerald-700);
+      color: #fff;
+      border-color: var(--emerald-700);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 16px 48px;
+    }
+
+    /* Cards & Grid */
+    .grid { display: grid; gap: 14px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .card-emerald {
+      background: linear-gradient(135deg, var(--emerald-900), var(--emerald-700));
+      color: #fff;
+      border: none;
+    }
+    .card-amber {
+      background: var(--amber-100);
+      border: 1px solid var(--amber-500);
+      color: var(--amber-900);
+    }
+    .card-danger {
+      background: var(--danger-50);
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+    .card-info {
+      background: var(--info-50);
+      border: 1px solid #93c5fd;
+      color: #1e3a8a;
+    }
+
+    .subtabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .subtab {
+      background: #fff;
+      border: 1px solid var(--slate-200);
+      color: var(--slate-700);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+    .subtab.active {
+      background: var(--emerald-100);
+      border-color: var(--emerald-600);
+      color: var(--emerald-900);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .badge-emerald { background: var(--emerald-100); color: var(--emerald-900); }
+    .badge-amber { background: var(--amber-100); color: var(--amber-900); }
+    .badge-danger { background: #fee2e2; color: var(--danger-600); }
+    .badge-info { background: #dbeafe; color: var(--info-700); }
+
+    h2 { margin: 0 0 8px; font-size: 1.2rem; }
+    h3 { margin: 0 0 6px; font-size: 1rem; }
+    p.muted { margin: 0; color: var(--slate-500); font-size: 0.84rem; }
+
+    .kpi-value { font-size: 1.55rem; font-weight: 900; margin: 4px 0; }
+    .row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary { background: var(--emerald-700); color: #fff; }
+    .btn-primary:hover { background: var(--emerald-900); }
+    .btn-amber { background: var(--amber-500); color: #000; }
+    .btn-outline { background: #fff; border: 1px solid var(--slate-200); color: var(--slate-900); }
+    .btn-danger { background: var(--danger-600); color: #fff; }
+
+    label.field-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin: 8px 0 4px;
+      color: var(--slate-700);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--slate-200);
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 10px 8px;
+      text-align: left;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    body.rtl th, body.rtl td { text-align: right; }
+    th { font-size: 0.75rem; text-transform: uppercase; color: var(--slate-500); }
+    .table-wrap { overflow-x: auto; }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--slate-200);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--emerald-600);
+      transition: width 0.25s ease;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--slate-900);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      z-index: 90;
+      display: none;
+      max-width: 380px;
+    }
+    .toast.show { display: block; }
+
+    .footer {
+      border-top: 1px solid var(--slate-200);
+      background: #fff;
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--slate-500);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">♻️</div>
+        <div>
+          <div class="brand-title">
+            <span>DIGITAL KABARIYA</span>
+            <span class="pk-badge">PK</span>
+          </div>
+          <div class="brand-tag" id="brand-tagline">Sell Scrap. Get Paid. Recycle Better. • Rawalpindi, Islamabad &amp; Nationwide</div>
+        </div>
+      </div>
+
+      <div class="topbar-controls">
+        <button class="btn-ghost" id="lang-toggle-btn" type="button">اردو</button>
+        <select class="portal-select" id="portal-select" aria-label="Switch Role Portal"></select>
+      </div>
+    </div>
+  </header>
+
+  <nav class="portal-strip-wrap" aria-label="Role Portals">
+    <div class="portal-strip" id="portal-strip"></div>
+  </nav>
+
+  <main class="container" id="app-root"></main>
+
+  <footer class="footer">
+    <strong>DIGITAL KABARIYA PAKISTAN</strong> — Customer Web/PWA, Collector Dispatch, Collection Hub, B2B Recycler Marketplace, Corporate ESG, Finance Ledger &amp; Zero-Trust Governance.
+    <br />All estimates are advisory only; final PKR payout is strictly determined by physical scrap inspection and verified digital scale weight.
+  </footer>
+
+  <div class="toast" id="toast-box" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var STORAGE_KEY = 'digital_kabariya_web_state_v1';
+
+      var PORTALS = [
+        { id: 'customer', label: 'A/B. Customer Web/PWA', urdu: 'کسٹمر ویب ایپ' },
+        { id: 'collector', label: 'C. Collector App', urdu: 'کباڑیا ایپ' },
+        { id: 'hub', label: 'D. Collection Hub', urdu: 'کلیکشن ہب' },
+        { id: 'recycler', label: 'E. Recycler B2B', urdu: 'ری سائیکلر مارکیٹ' },
+        { id: 'corporate', label: 'F. Corporate ESG', urdu: 'کارپوریٹ پورٹل' },
+        { id: 'admin', label: 'G. Admin Command', urdu: 'ایڈمن پورٹل' },
+        { id: 'finance', label: 'H. Finance Ledger', urdu: 'مالیاتی لیجر' },
+        { id: 'operations', label: 'I. Operations Dispatch', urdu: 'آپریشنز کمانڈ' },
+        { id: 'inventory', label: 'J. Inventory SKUs', urdu: 'گودام انوینٹری' },
+        { id: 'pricing', label: 'K. Pricing Engine', urdu: 'نرخ انجن' },
+        { id: 'support', label: 'L. Support Desk', urdu: 'کسٹمر سپورٹ' },
+        { id: 'franchise', label: 'Cities & Hubs', urdu: 'شہر اور مراکز' },
+        { id: 'superadmin', label: 'M. Super Admin RBAC', urdu: 'سپر ایڈمن سیکیورٹی' }
+      ];
+
+      function createSeedState() {
+        return {
+          portal: 'customer',
+          customerTab: 'home',
+          isUrdu: false,
+          selectedCity: 'Rawalpindi',
+          wizardStep: 1,
+          wizard: {
+            materialId: 'mat_iron_01',
+            weightKg: 25,
+            photoName: 'scrap_photo_preview.jpg',
+            city: 'Rawalpindi',
+            zone: 'Chaklala Scheme III',
+            address: 'House 14-B, Street 6, Chaklala Scheme III, Rawalpindi',
+            date: 'Today',
+            slot: '02:00 PM - 04:00 PM',
+            paymentMethod: 'Easypaisa',
+            notes: 'Gate parking available; digital scale check requested.',
+            createdPickupId: null,
+            otpInput: '',
+            rating: 5,
+            review: 'Fast pickup and fair digital scale weighing!'
+          },
+          walletBalance: 3450,
+          eidCampaignActive: true,
+          materials: [
+            { id: 'mat_iron_01', name: 'Iron / Steel (Loha)', urdu: 'لوہا اور اسٹیل', category: 'Iron & Steel', rate: 145, unit: 'kg', icon: '🔩', desc: 'Structural iron, rebar cutouts, machinery frames' },
+            { id: 'mat_copper_01', name: 'Pure Copper Wire (Taamba)', urdu: 'تانبا وائر', category: 'Copper', rate: 2150, unit: 'kg', icon: '🔌', desc: 'Stripped motor copper, bright wire, pipes' },
+            { id: 'mat_brass_01', name: 'Brass Scrap (Peetal)', urdu: 'پیتل اسکریپ', category: 'Brass', rate: 1480, unit: 'kg', icon: '🚿', desc: 'Valves, sanitary fittings, utensils' },
+            { id: 'mat_alum_01', name: 'Aluminium (Silver)', urdu: 'ایلومینیم', category: 'Aluminium', rate: 440, unit: 'kg', icon: '🥫', desc: 'Window frames, pots, beverage cans' },
+            { id: 'mat_cardboard_01', name: 'Cardboard Boxes (Gatta)', urdu: 'گتہ / کارٹن', category: 'Cardboard', rate: 38, unit: 'kg', icon: '📦', desc: 'Dry corrugated packaging & cartons' },
+            { id: 'mat_paper_01', name: 'Newspapers & Books', urdu: 'ردی اخبار و کتابیں', category: 'Paper', rate: 52, unit: 'kg', icon: '📄', desc: 'Daily akhbar, notebooks, office records' },
+            { id: 'mat_plastic_01', name: 'PET Plastic Bottles', urdu: 'پلاسٹک بوتلیں', category: 'Plastic', rate: 85, unit: 'kg', icon: '🧴', desc: 'Clear crushed PET bottles & HDPE' },
+            { id: 'mat_glass_01', name: 'Sorted Glass Bottles', urdu: 'شیشہ و بوتلیں', category: 'Glass', rate: 22, unit: 'kg', icon: '🍾', desc: 'Clean clear & amber glass containers' },
+            { id: 'mat_ewaste_01', name: 'E-Waste & Circuit Boards', urdu: 'ای ویسٹ / کمپیوٹر', category: 'Electronics', rate: 680, unit: 'kg', icon: '💻', desc: 'PC motherboards, servers, telecom cards (EPA controlled)' },
+            { id: 'mat_battery_01', name: 'UPS & Car Lead-Acid Battery', urdu: 'یو پی ایس بیٹری', category: 'Batteries', rate: 380, unit: 'kg', icon: '🔋', desc: 'Unbroken dry/wet lead-acid batteries (EPA isolated)' },
+            { id: 'mat_appliance_01', name: 'AC & Appliance Compressors', urdu: 'اے سی و فریج کباڑ', category: 'Appliances', rate: 240, unit: 'kg', icon: '❄️', desc: 'Split AC units, washing machine motors, fridges' },
+            { id: 'mat_const_01', name: 'Construction Rebar & Alloy', urdu: 'تعمیراتی اسکریپ', category: 'Construction', rate: 138, unit: 'kg', icon: '🏗️', desc: 'Site steel offcuts, scaffolding pipes, wiring' },
+            { id: 'mat_eid_01', name: 'Eid Qurbani Animal Hides', urdu: 'قربانی کی کھالیں', category: 'Eid Qurbani', rate: 750, unit: 'piece', icon: '🐑', desc: 'Seasonal clean hides & leather mission' }
+          ],
+          pickups: [
+            { id: 'PKP-7821', customerName: 'Muhammad Tariq', city: 'Rawalpindi', zone: 'Chaklala Scheme III', address: 'House 14, St 6, Chaklala Scheme III, Rawalpindi', materialName: 'Iron / Steel (Loha)', estKg: 45, verKg: 48.5, rate: 145, status: 'EN_ROUTE', otp: '4892', collector: 'Rashid Khan (RWP-412)', paymentMethod: 'Raast', receipt: null },
+            { id: 'PKP-7825', customerName: 'Ayesha Siddiqui', city: 'Islamabad', zone: 'Sector F-10/3', address: 'House 22, St 18, F-10/3, Islamabad', materialName: 'Copper Wire + E-Waste', estKg: 14, verKg: 0, rate: 1650, status: 'ASSIGNED', otp: '7314', collector: 'Rashid Khan (RWP-412)', paymentMethod: 'Easypaisa', receipt: null },
+            { id: 'PKP-7819', customerName: 'Fatima Textile Mills', city: 'Karachi', zone: 'Korangi Industrial', address: 'Plot 89, Sector 15, Korangi, Karachi', materialName: 'Cardboard Boxes (Gatta)', estKg: 320, verKg: 315, rate: 38, status: 'COMPLETED', otp: '8120', collector: 'Kamran Baloch (KHI-109)', paymentMethod: 'Easypaisa', receipt: 'RCPT-KHI-2026-9921' }
+          ],
+          collector: {
+            name: 'Rashid Khan',
+            vehicle: 'Qingqi Loader RWP-412 (1000kg)',
+            todayEarnings: 4850,
+            completedToday: 4,
+            dailyTarget: 7,
+            rating: 4.92,
+            totalWeightKg: 14820
+          },
+          hubBatches: [
+            { batchId: 'BATCH-HUB-RWP-801', sourcePickupIds: ['PKP-7819', 'PKP-7798'], warehouse: 'I-9 / Chaklala Sorting Hub', material: 'Cardboard / Gatta', grade: 'A-Grade Baled', grossKg: 1420, netKg: 1385, purchaseCost: 52630, sortingCost: 2800, status: 'READY_FOR_MARKETPLACE' },
+            { batchId: 'BATCH-HUB-KHI-802', sourcePickupIds: ['PKP-7815', 'PKP-7801'], warehouse: 'SITE Hub West, Karachi', material: 'Iron / Steel (Loha)', grade: 'HMS-1 Heavy', grossKg: 3200, netKg: 3180, purchaseCost: 461100, sortingCost: 6400, status: 'READY_FOR_MARKETPLACE' }
+          ],
+          inventory: [
+            { id: 'SKU-IRON-01', name: 'Heavy Melting Iron (HMS-1)', category: 'Iron & Steel', grade: 'Grade A', stockKg: 3180, minKg: 500, rate: 165, warehouse: 'I-9 Hub Islamabad', hazardous: false },
+            { id: 'SKU-COPP-02', name: 'Stripped Bright Copper Wire', category: 'Copper', grade: '99.9% Millberry', stockKg: 420, minKg: 100, rate: 2350, warehouse: 'Chaklala Hub Rawalpindi', hazardous: false },
+            { id: 'SKU-BATT-03', name: 'Lead-Acid UPS Batteries', category: 'Batteries', grade: 'Sealed Hazard Bay', stockKg: 190, minKg: 250, rate: 410, warehouse: 'EPA Hazmat Bay I-10', hazardous: true },
+            { id: 'SKU-EWST-04', name: 'Server & Telecom Boards', category: 'Electronics', grade: 'Gold-Grade PCB', stockKg: 85, minKg: 120, rate: 740, warehouse: 'EPA Hazmat Bay I-10', hazardous: true }
+          ],
+          marketplaceLots: [
+            { lotId: 'LOT-MET-991', title: 'Heavy Melting Iron Scrap (HMS 1/2)', material: 'Iron / Steel', grade: 'HMS-1 Sorted Rebar', weightKg: 5000, buyNowPerKg: 172, minBidPerKg: 168, highestBidPerKg: 170, bidsCount: 4, location: 'I-9 Industrial Hub, Islamabad', status: 'AVAILABLE' },
+            { lotId: 'LOT-COP-204', title: 'Millberry Bright Copper Granules', material: 'Copper & Brass', grade: '99.9% Pure', weightKg: 1200, buyNowPerKg: 2450, minBidPerKg: 2400, highestBidPerKg: 2420, bidsCount: 7, location: 'Korangi Hub, Karachi', status: 'UNDER_BID' },
+            { lotId: 'LOT-PLAS-112', title: 'Baled Clear PET Bottle Flakes', material: 'Plastic (PET)', grade: 'Washed Hot-Baled', weightKg: 3500, buyNowPerKg: 118, minBidPerKg: 110, highestBidPerKg: 114, bidsCount: 3, location: 'Sundar Estate, Lahore', status: 'AVAILABLE' }
+          ],
+          b2bOrders: [
+            { orderId: 'PO-B2B-501', lotId: 'LOT-SHD-410', buyer: 'Mughal Steel Re-Rolling Mills', totalPkr: 840000, status: 'APPROVED_DISPATCHED' },
+            { orderId: 'PO-B2B-502', lotId: 'LOT-COP-204', buyer: 'Pakistan Cables Wholesale', totalPkr: 2940000, status: 'PENDING_ADMIN_APPROVAL' }
+          ],
+          pricingRules: [
+            { id: 'pr_01', materialId: 'mat_iron_01', materialName: 'Iron / Steel (Loha)', city: 'Rawalpindi / Islamabad', marketRate: 162, marginPct: 8, collectionCost: 4, minPrice: 130, maxPrice: 175 },
+            { id: 'pr_02', materialId: 'mat_copper_01', materialName: 'Pure Copper Wire (Taamba)', city: 'Nationwide Index', marketRate: 2290, marginPct: 5, collectionCost: 25, minPrice: 2000, maxPrice: 2450 },
+            { id: 'pr_03', materialId: 'mat_cardboard_01', materialName: 'Cardboard Boxes (Gatta)', city: 'Lahore / Rawalpindi', marketRate: 43, marginPct: 7, collectionCost: 2, minPrice: 30, maxPrice: 52 }
+          ],
+          ledger: [
+            { id: 'TX-9001', type: 'CREDIT', role: 'Customer', amount: 2850, category: 'PICKUP_PAYOUT', desc: 'Payout for #PKP-7819 via Easypaisa', idemp: 'IDEMP-99218274' },
+            { id: 'TX-9002', type: 'CREDIT', role: 'Collector', amount: 1250, category: 'COMMISSION', desc: 'Trip & Weight Commission for #PKP-7819', idemp: 'IDEMP-88371920' }
+          ],
+          fraudAlerts: [
+            { id: 'FR-01', pickupId: 'PKP-7744', type: 'WEIGHT_SPIKE_VARIANCE', severity: 'MEDIUM', desc: 'Customer entered 15kg; collector submitted 98kg. Photo scale check required.', status: 'OPEN' },
+            { id: 'FR-02', pickupId: 'PKP-7712', type: 'GPS_GEOFENCE_DRIFT', severity: 'LOW', desc: 'Arrival marked 450m from customer pin in Bahria Town Phase 7.', status: 'OPEN' }
+          ],
+          tickets: [
+            { id: 'TKT-301', category: 'WEIGHT', subject: 'Copper scale verification check', message: 'Scale calibration checked against 8.2kg wire bundle.', status: 'RESOLVED', resolution: 'Verified photo & credited Rs. 200 goodwill adjustment.' }
+          ],
+          addresses: [
+            'Home • House 14, Street 6, Chaklala Scheme III, Rawalpindi',
+            'Office • Suite 204, Blue Area, Jinnah Ave, Islamabad'
+          ],
+          auditLogs: [
+            { id: 'AUD-101', actor: 'PRICING_MANAGER', action: 'PRICE_UPDATE', entity: 'pr_01', details: 'Synced Rawalpindi steel index to Rs. 162/kg' },
+            { id: 'AUD-102', actor: 'HUB_OPERATOR', action: 'VARIANCE_AUDIT', entity: 'BATCH-HUB-RWP-801', details: 'Verified moisture shrinkage 2.4% (35kg)' }
+          ]
+        };
+      }
+
+      var state = loadState();
+
+      function loadState() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return createSeedState();
+          var parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.materials) || !Array.isArray(parsed.pickups)) {
+            return createSeedState();
+          }
+          return parsed;
+        } catch (e) {
+          return createSeedState();
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {}
+      }
+
+      function escapeHtml(val) {
+        return String(val == null ? '' : val)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatPkr(amount) {
+        var num = Math.round(Number(amount) || 0);
+        return 'Rs. ' + num.toLocaleString('en-US');
+      }
+
+      function getCityFactor(city) {
+        if (city === 'Karachi') return 1.03;
+        if (city === 'Lahore') return 1.01;
+        if (city === 'Faisalabad') return 0.98;
+        return 1.0;
+      }
+
+      function toast(msg) {
+        var el = document.getElementById('toast-box');
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(function () {
+          el.classList.remove('show');
+        }, 3200);
+      }
+
+      function pushAudit(actor, action, entity, details) {
+        state.auditLogs.unshift({
+          id: 'AUD-' + Math.floor(100 + Math.random() * 900),
+          actor: actor,
+          action: action,
+          entity: entity,
+          details: details
+        });
+      }
+
+      function renderShell() {
+        document.body.classList.toggle('rtl', !!state.isUrdu);
+        document.getElementById('lang-toggle-btn').textContent = state.isUrdu ? 'EN' : 'اردو';
+        document.getElementById('brand-tagline').textContent = state.isUrdu
+          ? 'کباڑ بیچیں • رقم کمائیں • ماحول بچائیں • راولپنڈی، اسلام آباد و پاکستان'
+          : 'Sell Scrap. Get Paid. Recycle Better. • Rawalpindi, Islamabad & Nationwide';
+
+        var selectEl = document.getElementById('portal-select');
+        selectEl.innerHTML = PORTALS.map(function (p) {
+          return '<option value="' + p.id + '"' + (state.portal === p.id ? ' selected' : '') + '>' +
+            escapeHtml(state.isUrdu ? p.urdu : p.label) + '</option>';
+        }).join('');
+
+        var stripEl = document.getElementById('portal-strip');
+        stripEl.innerHTML = PORTALS.map(function (p) {
+          return '<button type="button" class="portal-pill' + (state.portal === p.id ? ' active' : '') +
+            '" data-portal="' + p.id + '">' + escapeHtml(state.isUrdu ? p.urdu : p.label) + '</button>';
+        }).join('');
+      }
+
+      function renderApp() {
+        renderShell();
+        var root = document.getElementById('app-root');
+        var html = '';
+        switch (state.portal) {
+          case 'customer': html = renderCustomerPortal(); break;
+          case 'collector': html = renderCollectorPortal(); break;
+          case 'hub': html = renderHubPortal(); break;
+          case 'recycler': html = renderRecyclerPortal(); break;
+          case 'corporate': html = renderCorporatePortal(); break;
+          case 'admin': html = renderAdminPortal(); break;
+          case 'finance': html = renderFinancePortal(); break;
+          case 'operations': html = renderOperationsPortal(); break;
+          case 'inventory': html = renderInventoryPortal(); break;
+          case 'pricing': html = renderPricingPortal(); break;
+          case 'support': html = renderSupportPortal(); break;
+          case 'franchise': html = renderFranchisePortal(); break;
+          case 'superadmin': html = renderSuperAdminPortal(); break;
+          default: html = renderCustomerPortal();
+        }
+        root.innerHTML = html;
+      }
+
+      /* ---------------- 1. CUSTOMER WEB / PWA ---------------- */
+      function renderCustomerPortal() {
+        var tabs = [
+          { id: 'home', en: 'Home & Tracking', ur: 'ہوم و ٹریکنگ' },
+          { id: 'sell', en: 'Sell Scrap (18-Step Flow)', ur: 'کباڑ فروخت کریں' },
+          { id: 'rates', en: 'Live Scrap Rates', ur: 'آج کے ریٹس' },
+          { id: 'wallet', en: 'Wallet & Payouts', ur: 'والٹ و ادائیگی' },
+          { id: 'services', en: 'Addresses, Rewards & Offers', ur: 'پتے اور انعامات' }
+        ];
+
+        var nav = '<div class="subtabs">' + tabs.map(function (t) {
+          return '<button type="button" class="subtab' + (state.customerTab === t.id ? ' active' : '') +
+            '" data-ctab="' + t.id + '">' + escapeHtml(state.isUrdu ? t.urdu : t.en) + '</button>';
+        }).join('') + '</div>';
+
+        var body = '';
+        if (state.customerTab === 'home') body = renderCustomerHome();
+        else if (state.customerTab === 'sell') body = renderSellWizard();
+        else if (state.customerTab === 'rates') body = renderRatesTab();
+        else if (state.customerTab === 'wallet') body = renderWalletTab();
+        else body = renderCustomerServicesTab();
+
+        return nav + body;
+      }
+
+      function renderCustomerHome() {
+        var active = state.pickups.find(function (p) { return p.status !== 'COMPLETED' && p.status !== 'CANCELLED'; });
+        var html = '';
+
+        html += '<div class="grid grid-2" style="margin-bottom:16px;">';
+        html += '<div class="card card-emerald">' +
+          '<div class="row-between">' +
+          '<div><div style="font-size:0.8rem;opacity:0.88;">' + (state.isUrdu ? 'موجودہ والٹ بیلنس' : 'Available Scrap Wallet') + '</div>' +
+          '<div class="kpi-value">' + formatPkr(state.walletBalance) + '</div></div>' +
+          '<button type="button" class="btn btn-amber" data-ctab="wallet">' + (state.isUrdu ? 'کیش آؤٹ' : 'Withdraw PKR') + '</button>' +
+          '</div>' +
+          '<p style="font-size:0.82rem;opacity:0.9;margin:8px 0 12px;">Instant payout via Cash, Easypaisa, JazzCash, or Raast after physical scale verification.</p>' +
+          '<button type="button" class="btn btn-outline" data-ctab="sell">' + (state.isUrdu ? 'ابھی پک اپ بک کریں' : '🚚 Book Doorstep Scrap Pickup') + '</button>' +
+          '</div>';
+
+        if (active) {
+          html += '<div class="card card-info">' +
+            '<div class="row-between"><h3>Active Pickup #' + escapeHtml(active.id) + '</h3>' +
+            '<span class="badge badge-info">' + escapeHtml(active.status) + '</span></div>' +
+            '<p style="margin:6px 0;"><strong>' + escapeHtml(active.materialName) + '</strong> • ' + escapeHtml(active.city) + ' (' + escapeHtml(active.zone) + ')</p>' +
+            '<p style="margin:4px 0;font-size:0.84rem;">Collector: ' + escapeHtml(active.collector) + '</p>' +
+            '<div class="card card-amber" style="margin-top:10px;padding:10px;">' +
+            '<strong>🔐 Security OTP: ' + escapeHtml(active.otp) + '</strong> — Share only when collector arrives with digital scale.' +
+            '</div>' +
+            '</div>';
+        } else {
+          html += '<div class="card card-amber">' +
+            '<h3>🐑 Eid Qurbani Waste &amp; Hides Mission</h3>' +
+            '<p style="font-size:0.85rem;margin:6px 0 12px;">Clean city collection across Rawalpindi, Islamabad, Lahore &amp; Karachi. Hides pickup Rs. 750/piece.</p>' +
+            '<button type="button" class="btn btn-primary" data-quick-cat="mat_eid_01">Book Qurbani Pickup</button>' +
+            '</div>';
+        }
+        html += '</div>';
+
+        html += '<div class="card" style="margin-bottom:16px;">' +
+          '<div class="row-between" style="margin-bottom:10px;"><h2>' + (state.isUrdu ? 'قابلِ قبول کباڑ کی اقسام' : 'Accepted Scrap Categories (Tap to Sell)') + '</h2>' +
+          '<button type="button" class="btn btn-outline" data-ctab="rates">View All Rates →</button></div>' +
+          '<div class="grid grid-4">' +
+          state.materials.slice(0, 8).map(function (m) {
+            return '<button type="button" class="card" style="text-align:left;cursor:pointer;padding:12px;" data-quick-cat="' + m.id + '">' +
+              '<div style="font-size:1.5rem;">' + m.icon + '</div>' +
+              '<div style="font-weight:800;font-size:0.86rem;margin-top:4px;">' + escapeHtml(state.isUrdu ? m.urdu : m.name) + '</div>' +
+              '<div style="color:var(--emerald-700);font-weight:800;font-size:0.84rem;margin-top:2px;">' + formatPkr(m.rate) + ' / ' + escapeHtml(m.unit) + '</div>' +
+              '</button>';
+          }).join('') +
+          '</div></div>';
+
+        html += '<div class="card"><h2>' + (state.isUrdu ? 'حالیہ پک اپ ریکارڈ' : 'Pickup History') + '</h2>' +
+          '<div class="table-wrap"><table><thead><tr><th>ID</th><th>City / Zone</th><th>Material</th><th>Est / Ver Weight</th><th>Payout Method</th><th>Status</th></tr></thead><tbody>' +
+          state.pickups.map(function (p) {
+            var payout = (p.verKg > 0 ? p.verKg : p.estKg) * p.rate;
+            return '<tr>' +
+              '<td><strong>' + escapeHtml(p.id) + '</strong></td>' +
+              '<td>' + escapeHtml(p.city) + ' • ' + escapeHtml(p.zone) + '</td>' +
+              '<td>' + escapeHtml(p.materialName) + '</td>' +
+              '<td>' + escapeHtml(p.estKg) + ' kg / ' + (p.verKg > 0 ? escapeHtml(p.verKg) + ' kg' : 'Pending') + '</td>' +
+              '<td>' + escapeHtml(p.paymentMethod) + ' (' + formatPkr(payout) + ')</td>' +
+              '<td><span class="badge ' + (p.status === 'COMPLETED' ? 'badge-emerald' : 'badge-amber') + '">' + escapeHtml(p.status) + '</span></td>' +
+              '</tr>';
+          }).join('') +
+          '</tbody></table></div></div>';
+
+        return html;
+      }
+
+      function renderSellWizard() {
+        var step = state.wizardStep;
+        var w = state.wizard;
+        var mat = state.materials.find(function (m) { return m.id === w.materialId; }) || state.materials[0];
+        var estTotal = (Number(w.weightKg) || 0) * mat.rate * getCityFactor(w.city);
+        var activePickup = state.pickups.find(function (p) { return p.id === w.createdPickupId; });
+
+        var stepsLabels = [
+          '1. Material', '2. Quantity', '3. Photos', '4. AI Advisory Estimate',
+          '5. Address', '6. Date', '7. Time Slot', '8. Confirm Pickup',
+          '9. Collector Assigned', '10. Live Tracking', '11. Collector Arrived', '12. OTP Check',
+          '13. Physical Scale', '14. Final Amount', '15. Customer Approval', '16. Payout',
+          '17. Digital Receipt', '18. Rating & Review'
+        ];
+
+        var content = '';
+        if (step === 1) {
+          content = '<label class="field-label">Select Scrap Material Category</label>' +
+            '<div class="grid grid-3">' +
+            state.materials.map(function (m) {
+              var sel = m.id === w.materialId;
+              return '<button type="button" class="card" data-wiz-mat="' + m.id + '" style="text-align:left;cursor:pointer;border:2px solid ' + (sel ? 'var(--emerald-600)' : 'var(--slate-200)') + ';background:' + (sel ? 'var(--emerald-50)' : '#fff') + ';">' +
+                '<div style="font-size:1.4rem;">' + m.icon + '</div>' +
+                '<div style="font-weight:800;font-size:0.86rem;">' + escapeHtml(state.isUrdu ? m.urdu : m.name) + '</div>' +
+                '<div style="font-size:0.78rem;color:var(--emerald-700);font-weight:700;">~' + formatPkr(m.rate) + ' / ' + escapeHtml(m.unit) + '</div>' +
+                '</button>';
+            }).join('') + '</div>';
+        } else if (step === 2) {
+          content = '<label class="field-label">Estimated Weight (KG or Pieces)</label>' +
+            '<input type="number" min="1" step="0.5" id="wiz-weight" value="' + escapeHtml(w.weightKg) + '" />' +
+            '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">' +
+            [10, 25, 50, 100, 250].map(function (k) {
+              return '<button type="button" class="btn btn-outline" data-wiz-preset="' + k + '">' + k + ' kg</button>';
+            }).join('') + '</div>';
+        } else if (step === 3) {
+          content = '<label class="field-label">Upload / Attach Scrap Photos (Optional)</label>' +
+            '<input type="file" accept="image/*" id="wiz-photo-input" />' +
+            '<p class="muted" style="margin-top:8px;">Attached file: <strong>' + escapeHtml(w.photoName) + '</strong></p>';
+        } else if (step === 4) {
+          content = '<div class="card card-emerald" style="margin-bottom:12px;">' +
+            '<div>Advisory Estimate for <strong>' + escapeHtml(mat.name) + '</strong> (' + escapeHtml(w.weightKg) + ' ' + escapeHtml(mat.unit) + ')</div>' +
+            '<div class="kpi-value">' + formatPkr(estTotal) + '</div>' +
+            '</div>' +
+            '<div class="card card-danger"><strong>⚠️ Mandatory Pricing Policy:</strong> The estimated AI price is NEVER final. Final PKR payout strictly depends on verified material grade, impurity deduction, and physical digital-scale weighing at your doorstep.</div>';
+        } else if (step === 5) {
+          content = '<label class="field-label">City</label>' +
+            '<select id="wiz-city">' +
+            ['Rawalpindi', 'Islamabad', 'Karachi', 'Lahore', 'Faisalabad'].map(function (c) {
+              return '<option value="' + c + '"' + (w.city === c ? ' selected' : '') + '>' + c + '</option>';
+            }).join('') + '</select>' +
+            '<label class="field-label">Zone / Sector</label>' +
+            '<input type="text" id="wiz-zone" value="' + escapeHtml(w.zone) + '" />' +
+            '<label class="field-label">Full Street Address</label>' +
+            '<textarea id="wiz-address" rows="2">' + escapeHtml(w.address) + '</textarea>';
+        } else if (step === 6) {
+          content = '<label class="field-label">Select Pickup Date</label>' +
+            '<select id="wiz-date">' +
+            ['Today', 'Tomorrow', 'In 2 Days', 'Weekend Special'].map(function (d) {
+              return '<option value="' + d + '"' + (w.date === d ? ' selected' : '') + '>' + d + '</option>';
+            }).join('') + '</select>';
+        } else if (step === 7) {
+          content = '<label class="field-label">Select Collection Time Slot</label>' +
+            '<select id="wiz-slot">' +
+            ['09:00 AM - 11:00 AM', '02:00 PM - 04:00 PM', '05:00 PM - 07:00 PM'].map(function (s) {
+              return '<option value="' + s + '"' + (w.slot === s ? ' selected' : '') + '>' + s + '</option>';
+            }).join('') + '</select>';
+        } else if (step === 8) {
+          content = '<div class="card" style="background:var(--slate-100);margin-bottom:10px;">' +
+            '<div><strong>Material:</strong> ' + escapeHtml(mat.name) + ' (' + escapeHtml(w.weightKg) + ' ' + escapeHtml(mat.unit) + ')</div>' +
+            '<div><strong>Address:</strong> ' + escapeHtml(w.city) + ' — ' + escapeHtml(w.address) + '</div>' +
+            '<div><strong>Schedule:</strong> ' + escapeHtml(w.date) + ' (' + escapeHtml(w.slot) + ')</div>' +
+            '<div><strong>Advisory Estimate:</strong> ' + formatPkr(estTotal) + '</div>' +
+            '</div>' +
+            '<label class="field-label">Preferred Payout Method</label>' +
+            '<select id="wiz-pay">' +
+            ['Easypaisa', 'JazzCash', 'Raast', 'Cash on Pickup'].map(function (pm) {
+              return '<option value="' + pm + '"' + (w.paymentMethod === pm ? ' selected' : '') + '>' + pm + '</option>';
+            }).join('') + '</select>' +
+            '<label class="field-label">Gate / Collector Notes</label>' +
+            '<input type="text" id="wiz-notes" value="' + escapeHtml(w.notes) + '" />';
+        } else if (step === 9 || step === 10 || step === 11) {
+          var p9 = activePickup || state.pickups[0];
+          content = '<div class="card card-info">' +
+            '<h3>' + (step === 9 ? '🛵 Collector Assigned' : step === 10 ? '📍 Live Tracking En-Route (1.4 km)' : '🔔 Collector Arrived at Gate') + '</h3>' +
+            '<p style="margin:6px 0;">Pickup ID: <strong>' + escapeHtml(p9.id) + '</strong> • Collector: <strong>' + escapeHtml(p9.collector) + '</strong></p>' +
+            '<div class="card card-amber" style="margin-top:8px;"><strong>Customer Verification OTP: ' + escapeHtml(p9.otp) + '</strong></div>' +
+            '</div>';
+        } else if (step === 12) {
+          var p12 = activePickup || state.pickups[0];
+          content = '<p>Provide your 4-digit security OTP to unlock the collector digital scale:</p>' +
+            '<div class="card card-amber" style="margin-bottom:10px;">Expected OTP: <strong>' + escapeHtml(p12.otp) + '</strong></div>' +
+            '<label class="field-label">Enter OTP to Verify</label>' +
+            '<input type="text" id="wiz-otp" value="' + escapeHtml(w.otpInput || p12.otp) + '" />';
+        } else if (step === 13 || step === 14 || step === 15) {
+          var p13 = activePickup || state.pickups[0];
+          var verKg = p13.verKg > 0 ? p13.verKg : (Number(w.weightKg) + 2);
+          var finalAmt = verKg * p13.rate;
+          content = '<div class="card card-emerald">' +
+            '<div>Digital Scale Verified Readout</div>' +
+            '<div class="kpi-value">' + escapeHtml(verKg) + ' KG • ' + formatPkr(finalAmt) + '</div>' +
+            '<div>Applied Rate: ' + formatPkr(p13.rate) + ' / kg • Doorstep Fee: Rs. 0</div>' +
+            '</div>';
+        } else if (step === 16 || step === 17) {
+          var p16 = activePickup || state.pickups[0];
+          var finalK = p16.verKg > 0 ? p16.verKg : (Number(w.weightKg) + 2);
+          var finalTotal = finalK * p16.rate;
+          content = '<div class="card">' +
+            '<h3>Official Tax &amp; Payout Receipt</h3>' +
+            '<p>Receipt No: <strong>' + escapeHtml(p16.receipt || 'RCPT-PK-2026-8841') + '</strong></p>' +
+            '<p>Material: <strong>' + escapeHtml(p16.materialName) + '</strong></p>' +
+            '<p>Verified Weight: <strong>' + escapeHtml(finalK) + ' KG</strong></p>' +
+            '<p>Settled via <strong>' + escapeHtml(p16.paymentMethod) + '</strong>: <strong>' + formatPkr(finalTotal) + '</strong></p>' +
+            '</div>';
+        } else {
+          content = '<label class="field-label">Rate Collector Service (1-5 Stars)</label>' +
+            '<select id="wiz-rating">' +
+            [5, 4, 3, 2, 1].map(function (r) { return '<option value="' + r + '"' + (w.rating === r ? ' selected' : '') + '>' + r + ' Stars</option>'; }).join('') +
+            '</select>' +
+            '<label class="field-label">Review Feedback</label>' +
+            '<textarea id="wiz-review" rows="2">' + escapeHtml(w.review) + '</textarea>';
+        }
+
+        return '<div class="card">' +
+          '<div class="row-between"><h2>' + escapeHtml(stepsLabels[step - 1]) + '</h2>' +
+          '<span class="badge badge-emerald">Step ' + step + ' / 18</span></div>' +
+          '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round((step / 18) * 100) + '%;"></div></div>' +
+          '<div style="margin:14px 0;">' + content + '</div>' +
+          '<div class="row-between">' +
+          (step > 1 && step < 9 ? '<button type="button" class="btn btn-outline" id="wiz-prev-btn">← Previous</button>' : '<span></span>') +
+          '<button type="button" class="btn btn-primary" id="wiz-next-btn">' + (step === 8 ? 'Confirm Pickup & Assign Collector →' : step === 18 ? 'Complete & Return Home ✓' : 'Next Step →') + '</button>' +
+          '</div></div>';
+      }
+
+      function renderRatesTab() {
+        var factor = getCityFactor(state.selectedCity);
+        return '<div class="card">' +
+          '<div class="row-between" style="margin-bottom:12px;">' +
+          '<div><h2>Live Pakistan Scrap Market Rates</h2><p class="muted">Wholesale &amp; port-indexed PKR prices • Bulk (&gt;200 kg) receives +5% bonus</p></div>' +
+          '<select id="rates-city-select" style="width:auto;">' +
+          ['Rawalpindi', 'Islamabad', 'Karachi', 'Lahore', 'Faisalabad'].map(function (c) {
+            return '<option value="' + c + '"' + (state.selectedCity === c ? ' selected' : '') + '>' + c + '</option>';
+          }).join('') + '</select></div>' +
+          '<div class="table-wrap"><table><thead><tr><th>Category</th><th>Material</th><th>Market Rate (' + escapeHtml(state.selectedCity) + ')</th><th>Action</th></tr></thead><tbody>' +
+          state.materials.map(function (m) {
+            var adj = Math.round(m.rate * factor);
+            return '<tr>' +
+              '<td>' + m.icon + ' ' + escapeHtml(m.category) + '</td>' +
+              '<td><strong>' + escapeHtml(state.isUrdu ? m.urdu : m.name) + '</strong><br><span class="muted">' + escapeHtml(m.desc) + '</span></td>' +
+              '<td><strong style="color:var(--emerald-700);">' + formatPkr(adj) + '</strong> / ' + escapeHtml(m.unit) + '</td>' +
+              '<td><button type="button" class="btn btn-primary" data-quick-cat="' + m.id + '">Sell</button></td>' +
+              '</tr>';
+          }).join('') +
+          '</tbody></table></div></div>';
+      }
+
+      function renderWalletTab() {
+        return '<div class="grid grid-2">' +
+          '<div class="card card-emerald">' +
+          '<h3>Customer Scrap Wallet</h3>' +
+          '<div class="kpi-value">' + formatPkr(state.walletBalance) + '</div>' +
+          '<label class="field-label" style="color:var(--emerald-100);">Withdraw Amount (PKR)</label>' +
+          '<input type="number" id="wd-amount" value="1000" min="1" />' +
+          '<label class="field-label" style="color:var(--emerald-100);">Channel (Easypaisa / JazzCash / Raast IBAN)</label>' +
+          '<select id="wd-method"><option>Easypaisa</option><option>JazzCash</option><option>Raast IBAN</option><option>Bank Transfer</option></select>' +
+          '<label class="field-label" style="color:var(--emerald-100);">Account Number</label>' +
+          '<input type="text" id="wd-account" value="03001234567" />' +
+          '<button type="button" class="btn btn-amber" id="wd-submit-btn" style="margin-top:12px;">Withdraw Funds</button>' +
+          '</div>' +
+          '<div class="card">' +
+          '<h3>Audited Double-Entry Ledger</h3>' +
+          '<div class="table-wrap"><table><thead><tr><th>Tx</th><th>Description</th><th>Amount</th></tr></thead><tbody>' +
+          state.ledger.map(function (l) {
+            return '<tr><td><strong>' + escapeHtml(l.id) + '</strong><br><span class="muted">' + escapeHtml(l.idemp) + '</span></td>' +
+              '<td>' + escapeHtml(l.desc) + '</td>' +
+              '<td style="font-weight:800;color:' + (l.type === 'CREDIT' ? 'var(--emerald-700)' : 'var(--danger-600)') + ';">' + (l.type === 'CREDIT' ? '+' : '-') + formatPkr(l.amount) + '</td></tr>';
+          }).join('') +
+          '</tbody></table></div></div></div>';
+      }
+
+      function renderCustomerServicesTab() {
+        return '<div class="grid grid-2">' +
+          '<div class="card">' +
+          '<h3>📍 Saved Pickup Addresses</h3>' +
+          '<ul>' + state.addresses.map(function (a) { return '<li>' + escapeHtml(a) + '</li>'; }).join('') + '</ul>' +
+          '<label class="field-label">Add New Address</label>' +
+          '<input type="text" id="new-addr-input" placeholder="House / Shop, Sector, City" />' +
+          '<button type="button" class="btn btn-primary" id="save-addr-btn" style="margin-top:10px;">Save Address</button>' +
+          '</div>' +
+          '<div class="card card-amber">' +
+          '<h3>🎁 Rewards, Referrals &amp; Active Offers</h3>' +
+          '<p><strong>Green Points:</strong> 420 pts</p>' +
+          '<p><strong>Referral Code:</strong> <code>KABARIYA-PK150</code> (+Rs. 150 bonus per friend)</p>' +
+          '<p><strong>Launch Offer:</strong> Zero Doorstep Collection Fee in Rawalpindi &amp; Islamabad + 5% Bulk Bonus (&gt;200 kg).</p>' +
+          '</div></div>';
+      }
+
+      /* ---------------- 2. COLLECTOR APP ---------------- */
+      function renderCollectorPortal() {
+        var c = state.collector;
+        return '<div class="card card-emerald" style="margin-bottom:16px;">' +
+          '<div class="row-between"><div><h2>🚚 ' + escapeHtml(c.name) + '</h2><div>' + escapeHtml(c.vehicle) + ' • ⭐ ' + c.rating + '</div></div>' +
+          '<div style="text-align:right;"><div style="font-size:0.78rem;opacity:0.9;">Today\'s Commission</div><div class="kpi-value">' + formatPkr(c.todayEarnings) + '</div><div>Target: ' + c.completedToday + '/' + c.dailyTarget + ' Jobs</div></div></div>' +
+          '</div>' +
+          '<div class="grid">' +
+          state.pickups.map(function (p) {
+            return '<div class="card"><div class="row-between">' +
+              '<div><strong>#' + escapeHtml(p.id) + ' • ' + escapeHtml(p.city) + ' (' + escapeHtml(p.zone) + ')</strong>' +
+              '<div class="muted">' + escapeHtml(p.materialName) + ' (~' + p.estKg + ' kg) • Payment: ' + escapeHtml(p.paymentMethod) + '</div></div>' +
+              '<span class="badge badge-info">' + escapeHtml(p.status) + '</span></div>' +
+              (p.status !== 'COMPLETED' ?
+                '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+                (p.status === 'ASSIGNED' ? '<button type="button" class="btn btn-primary" data-col-accept="' + p.id + '">Accept &amp; En-Route</button>' : '') +
+                (p.status === 'EN_ROUTE' ? '<button type="button" class="btn btn-amber" data-col-arrive="' + p.id + '">Mark Arrived</button>' : '') +
+                (p.status === 'ARRIVED' || p.status === 'EN_ROUTE' ?
+                  '<input type="number" step="0.5" value="' + (p.estKg + 2) + '" id="col-wt-' + p.id + '" style="width:110px;" aria-label="Scale Weight" />' +
+                  '<input type="text" placeholder="OTP (' + escapeHtml(p.otp) + ')" id="col-otp-' + p.id + '" style="width:120px;" aria-label="OTP" />' +
+                  '<button type="button" class="btn btn-primary" data-col-complete="' + p.id + '">Weigh, Verify &amp; Settle</button>' : '') +
+                '</div>' : '<div style="margin-top:6px;color:var(--emerald-700);font-weight:700;">Settled Receipt: ' + escapeHtml(p.receipt || 'Issued') + ' (' + p.verKg + ' kg)</div>') +
+              '</div>';
+          }).join('') +
+          '</div>';
+      }
+
+      /* ---------------- 3. COLLECTION HUB ---------------- */
+      function renderHubPortal() {
+        return '<div class="grid grid-2">' +
+          '<div class="card">' +
+          '<h2>🏭 Inbound Hub Weighing &amp; Batch Creation</h2>' +
+          '<label class="field-label">Material Name</label><input type="text" id="hub-mat" value="Copper &amp; Brass Mix" />' +
+          '<label class="field-label">Grade Assigned</label><input type="text" id="hub-grade" value="Sorted A-Grade Baled" />' +
+          '<label class="field-label">Gross Scale Weight (KG)</label><input type="number" id="hub-gross" value="620" />' +
+          '<label class="field-label">Net Weight after Moisture/Dirt Variance (KG)</label><input type="number" id="hub-net" value="605" />' +
+          '<label class="field-label">Sorting &amp; Baling Cost (PKR)</label><input type="number" id="hub-sortcost" value="2200" />' +
+          '<button type="button" class="btn btn-primary" id="hub-create-btn" style="margin-top:12px;">Create Inventory Batch &amp; Publish to B2B</button>' +
+          '</div>' +
+          '<div class="card"><h2>Hub Sorted Batches (' + state.hubBatches.length + ')</h2>' +
+          state.hubBatches.map(function (b) {
+            var variance = b.netKg - b.grossKg;
+            return '<div style="border-bottom:1px solid var(--slate-200);padding:10px 0;">' +
+              '<div class="row-between"><strong>' + escapeHtml(b.batchId) + '</strong><span class="badge badge-emerald">' + escapeHtml(b.status) + '</span></div>' +
+              '<div>' + escapeHtml(b.material) + ' (' + escapeHtml(b.grade) + ') — ' + escapeHtml(b.warehouse) + '</div>' +
+              '<div class="muted">Gross: ' + b.grossKg + ' kg • Net: ' + b.netKg + ' kg • Variance: ' + variance + ' kg • Cost: ' + formatPkr(b.purchaseCost) + '</div>' +
+              '</div>';
+          }).join('') +
+          '</div></div>';
+      }
+
+      /* ---------------- 4. RECYCLER / B2B MARKETPLACE ---------------- */
+      function renderRecyclerPortal() {
+        return '<div class="grid grid-2">' +
+          state.marketplaceLots.map(function (lot) {
+            return '<div class="card">' +
+              '<div class="row-between"><strong>' + escapeHtml(lot.lotId) + '</strong><span class="badge ' + (lot.status === 'SOLD' ? 'badge-danger' : 'badge-emerald') + '">' + escapeHtml(lot.status) + '</span></div>' +
+              '<h3 style="margin-top:6px;color:var(--emerald-700);">' + escapeHtml(lot.title) + '</h3>' +
+              '<p class="muted">' + escapeHtml(lot.grade) + ' • ' + escapeHtml(lot.location) + '</p>' +
+              '<div class="row-between" style="margin:10px 0;">' +
+              '<div><span class="muted">Tonnage:</span> <strong>' + lot.weightKg + ' kg</strong></div>' +
+              '<div><span class="muted">Buy Now:</span> <strong>' + formatPkr(lot.buyNowPerKg) + '/kg</strong></div>' +
+              '<div><span class="muted">High Bid:</span> <strong>' + formatPkr(lot.highestBidPerKg) + '/kg (' + lot.bidsCount + ')</strong></div>' +
+              '</div>' +
+              (lot.status !== 'SOLD' ?
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                '<input type="number" id="bid-' + lot.lotId + '" value="' + (lot.highestBidPerKg + 2) + '" style="width:110px;" aria-label="Bid PKR" />' +
+                '<button type="button" class="btn btn-outline" data-lot-bid="' + lot.lotId + '">Place Bid</button>' +
+                '<button type="button" class="btn btn-primary" data-lot-buy="' + lot.lotId + '">Buy Lot (' + formatPkr(lot.weightKg * lot.buyNowPerKg) + ')</button>' +
+                '</div>' : '<div class="muted">Sold via B2B Purchase Order.</div>') +
+              '</div>';
+          }).join('') +
+          '</div>' +
+          '<div class="card" style="margin-top:16px;"><h2>B2B Purchase Orders &amp; High-Value Approvals</h2>' +
+          '<div class="table-wrap"><table><thead><tr><th>PO ID</th><th>Lot</th><th>Buyer</th><th>Order Value</th><th>Status</th></tr></thead><tbody>' +
+          state.b2bOrders.map(function (o) {
+            return '<tr><td><strong>' + escapeHtml(o.orderId) + '</strong></td><td>' + escapeHtml(o.lotId) + '</td><td>' + escapeHtml(o.buyer) + '</td><td>' + formatPkr(o.totalPkr) + '</td><td><span class="badge ' + (o.status.indexOf('PENDING') !== -1 ? 'badge-amber' : 'badge-emerald') + '">' + escapeHtml(o.status) + '</span></td></tr>';
+          }).join('') + '</tbody></table></div></div>';
+      }
+
+      /* ---------------- 5. CORPORATE ESG PORTAL ---------------- */
+      function renderCorporatePortal() {
+        var branches = [
+          { name: 'Packages Head Office', city: 'Lahore', monthlyKg: 1850, last: '2026-09-02' },
+          { name: 'Distribution Warehouse Korangi', city: 'Karachi', monthlyKg: 3400, last: '2026-09-05' },
+          { name: 'Islamabad Liaison Office', city: 'Islamabad', monthlyKg: 650, last: '2026-08-28' }
+        ];
+        return '<div class="grid grid-3" style="margin-bottom:16px;">' +
+          '<div class="card card-emerald"><div>Waste Diverted</div><div class="kpi-value">48,500 KG</div><div>Verified Landfill Diversion</div></div>' +
+          '<div class="card"><div>CO2 Prevented</div><div class="kpi-value" style="color:var(--emerald-700);">112.4 Tons</div><div>EPA Compliant Chain of Custody</div></div>' +
+          '<div class="card card-amber"><div>Trees Equivalent</div><div class="kpi-value">840 Trees</div><div>CERT-DK-PK-2026-092</div></div>' +
+          '</div>' +
+          '<div class="card"><h2>Corporate Branches &amp; Scheduled Contracts</h2>' +
+          branches.map(function (b) {
+            return '<div class="row-between" style="padding:10px 0;border-bottom:1px solid var(--slate-200);">' +
+              '<div><strong>' + escapeHtml(b.name) + '</strong> (' + escapeHtml(b.city) + ')<div class="muted">' + b.monthlyKg + ' kg/month • Last pickup: ' + b.last + '</div></div>' +
+              '<button type="button" class="btn btn-outline" data-toast="Recurring industrial truck scheduled for ' + escapeHtml(b.name) + '">Schedule Pickup</button>' +
+              '</div>';
+          }).join('') + '</div>';
+      }
+
+      /* ---------------- 6. ADMIN COMMAND ---------------- */
+      function renderAdminPortal() {
+        return '<div class="grid grid-3" style="margin-bottom:16px;">' +
+          '<div class="card"><div>Total Recycled Volume</div><div class="kpi-value" style="color:var(--emerald-700);">148,200 KG</div></div>' +
+          '<div class="card"><div>Active Pickups</div><div class="kpi-value">' + state.pickups.length + ' Live</div></div>' +
+          '<div class="card card-amber"><div>Eid Qurbani Campaign</div><div class="kpi-value">' + (state.eidCampaignActive ? 'ACTIVE' : 'PAUSED') + '</div>' +
+          '<button type="button" class="btn btn-primary" id="admin-eid-toggle">' + (state.eidCampaignActive ? 'Pause Campaign' : 'Activate Campaign') + '</button></div>' +
+          '</div>' +
+          '<div class="card" style="margin-bottom:16px;"><h2>AI Fraud &amp; Anomaly Radar</h2>' +
+          state.fraudAlerts.map(function (f) {
+            return '<div class="card card-danger" style="margin-top:10px;"><div class="row-between">' +
+              '<div><strong>' + escapeHtml(f.type) + ' (' + escapeHtml(f.pickupId) + ')</strong><div>' + escapeHtml(f.desc) + '</div></div>' +
+              (f.status === 'OPEN' ? '<button type="button" class="btn btn-primary" data-fraud-clear="' + f.id + '">Clear Exception</button>' : '<span class="badge badge-emerald">' + escapeHtml(f.status) + '</span>') +
+              '</div></div>';
+          }).join('') + '</div>' +
+          '<div class="card"><h2>Pending High-Value B2B Approvals</h2>' +
+          state.b2bOrders.map(function (o) {
+            return '<div class="row-between" style="padding:8px 0;border-bottom:1px solid var(--slate-200);">' +
+              '<div><strong>' + escapeHtml(o.orderId) + '</strong> • ' + escapeHtml(o.buyer) + ' (' + formatPkr(o.totalPkr) + ')</div>' +
+              (o.status.indexOf('PENDING') !== -1 ? '<button type="button" class="btn btn-primary" data-approve-po="' + o.orderId + '">Approve B2B Order</button>' : '<span class="badge badge-emerald">' + escapeHtml(o.status) + '</span>') +
+              '</div>';
+          }).join('') + '</div>';
+      }
+
+      /* ---------------- 7. FINANCE LEDGER ---------------- */
+      function renderFinancePortal() {
+        var revenue = 2480000;
+        var purchase = 1790000;
+        var collection = 145000;
+        var sorting = 68000;
+        var commission = 112000;
+        var net = revenue - purchase - collection - sorting - commission;
+        return '<div class="card card-emerald" style="margin-bottom:16px;">' +
+          '<h2>Double-Entry Finance &amp; Unit Economics (PKR)</h2>' +
+          '<div class="grid grid-3" style="margin-top:10px;">' +
+          '<div><div>Gross Revenue</div><div class="kpi-value">' + formatPkr(revenue) + '</div></div>' +
+          '<div><div>Costs &amp; Commissions</div><div class="kpi-value">' + formatPkr(purchase + collection + sorting + commission) + '</div></div>' +
+          '<div><div>Net Operating Profit</div><div class="kpi-value" style="color:var(--amber-500);">' + formatPkr(net) + '</div></div>' +
+          '</div></div>' +
+          renderWalletTab();
+      }
+
+      /* ---------------- 8. OPERATIONS DISPATCH ---------------- */
+      function renderOperationsPortal() {
+        var zones = [
+          { zone: 'Rawalpindi • Chaklala Scheme III', fleet: '6 Active Collectors', sla: '98.4% SLA' },
+          { zone: 'Rawalpindi • Bahria Town Phase 1-8', fleet: '9 Active Collectors', sla: '97.1% SLA' },
+          { zone: 'Islamabad • Sectors F-6, F-7, F-10', fleet: '5 Active Collectors', sla: '99.0% SLA' },
+          { zone: 'Islamabad • I-9 / I-10 Industrial Hub', fleet: '4 Hub Trucks', sla: '96.5% SLA' },
+          { zone: 'Karachi • DHA / Korangi Corridor', fleet: '14 Active Collectors', sla: '95.8% SLA' },
+          { zone: 'Lahore • Gulberg / Sundar Estate', fleet: '11 Active Collectors', sla: '96.9% SLA' }
+        ];
+        return '<div class="card"><h2>Operations Zone SLA &amp; Fleet Radar</h2>' +
+          '<div class="grid grid-2" style="margin-top:12px;">' +
+          zones.map(function (z) {
+            return '<div class="card"><div class="row-between"><div><strong>' + escapeHtml(z.zone) + '</strong><div class="muted">' + escapeHtml(z.fleet) + '</div></div><span class="badge badge-emerald">' + escapeHtml(z.sla) + '</span></div></div>';
+          }).join('') + '</div></div>';
+      }
+
+      /* ---------------- 9. INVENTORY SKUS ---------------- */
+      function renderInventoryPortal() {
+        return '<div class="grid">' +
+          '<div class="card"><div class="row-between"><h2>Warehouse Scrap Inventory SKUs</h2>' +
+          '<span class="badge badge-amber">Hazardous Batteries &amp; E-Waste Isolated</span></div></div>' +
+          '<div class="grid grid-2">' +
+          state.inventory.map(function (item) {
+            var low = item.stockKg < item.minKg;
+            return '<div class="card" style="border-color:' + (low ? 'var(--danger-600)' : 'var(--slate-200)') + ';">' +
+              '<div class="row-between"><strong>' + escapeHtml(item.name) + '</strong>' +
+              '<div>' + (item.hazardous ? '<span class="badge badge-amber">EPA ISOLATED</span> ' : '') +
+              '<span class="badge ' + (low ? 'badge-danger' : 'badge-emerald') + '">' + (low ? 'LOW STOCK' : 'IN STOCK') + '</span></div></div>' +
+              '<p class="muted">' + escapeHtml(item.grade) + ' • ' + escapeHtml(item.warehouse) + '</p>' +
+              '<div class="row-between" style="margin:10px 0;"><strong>' + item.stockKg + ' KG</strong><span>Val: ' + formatPkr(item.stockKg * item.rate) + '</span></div>' +
+              '<div style="display:flex;gap:8px;">' +
+              '<button type="button" class="btn btn-outline" data-inv-adj="' + item.id + '" data-delta="-10">-10 kg</button>' +
+              '<button type="button" class="btn btn-outline" data-inv-adj="' + item.id + '" data-delta="25">+25 kg</button>' +
+              '<button type="button" class="btn btn-primary" data-inv-adj="' + item.id + '" data-delta="100">+100 kg</button>' +
+              '</div></div>';
+          }).join('') + '</div></div>';
+      }
+
+      /* ---------------- 10. PRICING MANAGEMENT ---------------- */
+      function renderPricingPortal() {
+        return '<div class="card card-amber" style="margin-bottom:16px;">' +
+          '<strong>Dynamic Pricing Guardrails Formula:</strong> Customer Rate = clamp(Market Rate - Margin% - Collection Cost, Min, Max). Updating a rule updates live rates &amp; writes an immutable audit entry.' +
+          '</div><div class="grid grid-3">' +
+          state.pricingRules.map(function (r) {
+            var calc = Math.max(r.minPrice, Math.min(r.maxPrice, Math.round(r.marketRate * (1 - r.marginPct / 100) - r.collectionCost)));
+            return '<div class="card">' +
+              '<h3>' + escapeHtml(r.materialName) + '</h3>' +
+              '<p class="muted">' + escapeHtml(r.city) + ' • Bounds: ' + formatPkr(r.minPrice) + ' – ' + formatPkr(r.maxPrice) + '</p>' +
+              '<label class="field-label">Market Rate (PKR/KG)</label>' +
+              '<input type="number" id="pr-rate-' + r.id + '" value="' + r.marketRate + '" />' +
+              '<label class="field-label">Buying Margin (%)</label>' +
+              '<input type="number" id="pr-margin-' + r.id + '" value="' + r.marginPct + '" />' +
+              '<div class="row-between" style="margin:10px 0;"><span>Customer Payout:</span><strong style="color:var(--emerald-700);">' + formatPkr(calc) + ' / kg</strong></div>' +
+              '<button type="button" class="btn btn-primary" data-save-rule="' + r.id + '">Save &amp; Audit</button>' +
+              '</div>';
+          }).join('') + '</div>';
+      }
+
+      /* ---------------- 11. SUPPORT DESK ---------------- */
+      function renderSupportPortal() {
+        return '<div class="grid grid-2">' +
+          '<div class="card"><h2>Open Customer / Collector Support Ticket</h2>' +
+          '<label class="field-label">Category</label>' +
+          '<select id="sup-cat"><option>WEIGHT</option><option>PAYMENT</option><option>COLLECTOR</option><option>OTHER</option></select>' +
+          '<label class="field-label">Subject</label><input type="text" id="sup-subj" placeholder="e.g. Scale discrepancy or Easypaisa delay" />' +
+          '<label class="field-label">Details</label><textarea id="sup-msg" rows="3" placeholder="Describe issue with pickup ID..."></textarea>' +
+          '<button type="button" class="btn btn-primary" id="sup-submit-btn" style="margin-top:10px;">Submit Ticket</button>' +
+          '</div>' +
+          '<div class="card"><h2>Active &amp; Resolved Tickets (' + state.tickets.length + ')</h2>' +
+          state.tickets.map(function (t) {
+            return '<div style="padding:10px 0;border-bottom:1px solid var(--slate-200);">' +
+              '<div class="row-between"><strong>' + escapeHtml(t.id) + ' • ' + escapeHtml(t.subject) + '</strong>' +
+              '<span class="badge ' + (t.status === 'RESOLVED' ? 'badge-emerald' : 'badge-amber') + '">' + escapeHtml(t.status) + '</span></div>' +
+              '<p class="muted" style="margin:4px 0;">' + escapeHtml(t.message) + '</p>' +
+              (t.status !== 'RESOLVED' ? '<button type="button" class="btn btn-outline" data-resolve-tkt="' + t.id + '">Mark Resolved</button>' : '<div style="font-size:0.78rem;color:var(--emerald-700);">' + escapeHtml(t.resolution) + '</div>') +
+              '</div>';
+          }).join('') + '</div></div>';
+      }
+
+      /* ---------------- 12. FRANCHISE & CITIES ---------------- */
+      function renderFranchisePortal() {
+        var cities = [
+          { city: 'Rawalpindi (Launch City)', zones: 'Chaklala Scheme III, Saddar, Bahria Town, Satellite Town', fleet: '18 Collectors • ACTIVE' },
+          { city: 'Islamabad (Launch City)', zones: 'Sectors F, G, H, I, DHA & Bahria Enclave', fleet: '14 Collectors • ACTIVE' },
+          { city: 'Lahore Hub', zones: 'Gulberg, Johar Town, Sundar Industrial Estate', fleet: '22 Collectors • ACTIVE' },
+          { city: 'Karachi Metro', zones: 'DHA, Clifton, Korangi Industrial, SITE', fleet: '31 Collectors • ACTIVE' },
+          { city: 'Faisalabad', zones: 'Peoples Colony & Textile Belt', fleet: 'ONBOARDING • Q4' },
+          { city: 'Multan & Peshawar', zones: 'Regional Franchise Partners', fleet: 'PLANNED EXPANSION' }
+        ];
+        return '<div class="grid grid-2">' +
+          cities.map(function (c) {
+            return '<div class="card"><div class="row-between"><h3>' + escapeHtml(c.city) + '</h3><span class="badge badge-emerald">' + escapeHtml(c.fleet) + '</span></div><p class="muted" style="margin-top:6px;">' + escapeHtml(c.zones) + '</p></div>';
+          }).join('') + '</div>';
+      }
+
+      /* ---------------- 13. SUPER ADMIN GOVERNANCE ---------------- */
+      function renderSuperAdminPortal() {
+        var rbac = [
+          ['Customer', 'Own Profile, Own Pickups, Own Wallet Ledger, Support Tickets'],
+          ['Collector (Kabariya)', 'Assigned Pickups Only (No customer PII leak), OTP & Scale Entry'],
+          ['Collection Hub', 'Inbound Batches, Moisture/Dirt Variance Check, Warehouse Inventory'],
+          ['Recycler / B2B Buyer', 'Wholesale Marketplace Lots, Bidding, Purchase Orders & Invoices'],
+          ['Corporate Client', 'Multi-Branch Scheduling, ESG Certificates & Waste Audit'],
+          ['Finance & Pricing', 'PKR Margin Guardrails, Double-Entry Ledger, Settlement Approvals'],
+          ['Super Admin', 'Zero-Trust Firestore Rules, App Check, RBAC & Immutable Audit Trail']
+        ];
+        return '<div class="card card-emerald" style="margin-bottom:16px;">' +
+          '<div class="row-between"><div><h2>Zero-Trust RBAC &amp; Compliance Governance</h2>' +
+          '<div>Enforced in Android APK via Google Sign-In + App Check + owner-scoped Firestore rules.</div></div>' +
+          '<button type="button" class="btn btn-amber" id="reset-state-btn">Reset Demo Data</button></div></div>' +
+          '<div class="grid grid-2">' +
+          '<div class="card"><h3>Role-Based Access Control Matrix</h3>' +
+          rbac.map(function (r) { return '<div style="padding:8px 0;border-bottom:1px solid var(--slate-200);"><strong>' + escapeHtml(r[0]) + '</strong><div class="muted">' + escapeHtml(r[1]) + '</div></div>'; }).join('') +
+          '</div>' +
+          '<div class="card"><h3>Immutable System Audit Trail (' + state.auditLogs.length + ')</h3>' +
+          state.auditLogs.slice(0, 12).map(function (a) {
+            return '<div style="padding:8px 0;border-bottom:1px solid var(--slate-200);"><strong>' + escapeHtml(a.action) + '</strong> • ' + escapeHtml(a.entity) + '<div class="muted">' + escapeHtml(a.actor) + ': ' + escapeHtml(a.details) + '</div></div>';
+          }).join('') + '</div></div>';
+      }
+
+      /* ---------------- EVENT DELEGATION ---------------- */
+      document.getElementById('lang-toggle-btn').addEventListener('click', function () {
+        state.isUrdu = !state.isUrdu;
+        saveState();
+        renderApp();
+      });
+
+      document.getElementById('portal-select').addEventListener('change', function (e) {
+        state.portal = e.target.value;
+        saveState();
+        renderApp();
+      });
+
+      document.getElementById('portal-strip').addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-portal]');
+        if (!btn) return;
+        state.portal = btn.getAttribute('data-portal');
+        saveState();
+        renderApp();
+      });
+
+      document.getElementById('app-root').addEventListener('change', function (e) {
+        if (e.target.id === 'rates-city-select') {
+          state.selectedCity = e.target.value;
+          saveState();
+          renderApp();
+        } else if (e.target.id === 'wiz-photo-input' && e.target.files && e.target.files[0]) {
+          state.wizard.photoName = e.target.files[0].name;
+          saveState();
+          renderApp();
+        }
+      });
+
+      document.getElementById('app-root').addEventListener('click', function (e) {
+        var t = e.target;
+
+        var ctabEl = t.closest('[data-ctab]');
+        if (ctabEl) {
+          state.customerTab = ctabEl.getAttribute('data-ctab');
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var quickCat = t.closest('[data-quick-cat]');
+        if (quickCat) {
+          state.wizard.materialId = quickCat.getAttribute('data-quick-cat');
+          state.wizardStep = 1;
+          state.portal = 'customer';
+          state.customerTab = 'sell';
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var wizMat = t.closest('[data-wiz-mat]');
+        if (wizMat) {
+          state.wizard.materialId = wizMat.getAttribute('data-wiz-mat');
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var preset = t.closest('[data-wiz-preset]');
+        if (preset) {
+          state.wizard.weightKg = Number(preset.getAttribute('data-wiz-preset'));
+          saveState();
+          renderApp();
+          return;
+        }
+
+        if (t.id === 'wiz-prev-btn' && state.wizardStep > 1) {
+          state.wizardStep--;
+          saveState();
+          renderApp();
+          return;
+        }
+
+        if (t.id === 'wiz-next-btn') {
+          handleWizardNext();
+          return;
+        }
+
+        if (t.id === 'wd-submit-btn') {
+          var amt = Number(document.getElementById('wd-amount').value) || 0;
+          var meth = document.getElementById('wd-method').value;
+          var acct = document.getElementById('wd-account').value.trim();
+          if (amt <= 0 || amt > state.walletBalance) {
+            toast('Enter a valid amount within available PKR balance.');
+            return;
+          }
+          state.walletBalance -= amt;
+          state.ledger.unshift({
+            id: 'TX-' + Math.floor(1000 + Math.random() * 9000),
+            type: 'DEBIT',
+            role: 'Customer',
+            amount: amt,
+            category: 'WITHDRAWAL',
+            desc: 'Withdrawal to ' + acct + ' via ' + meth,
+            idemp: 'IDEMP-' + Math.floor(100000 + Math.random() * 900000)
+          });
+          pushAudit('CUSTOMER', 'WALLET_WITHDRAWAL', meth, formatPkr(amt) + ' to ' + acct);
+          saveState();
+          renderApp();
+          toast('Withdrew ' + formatPkr(amt) + ' via ' + meth + '!');
+          return;
+        }
+
+        if (t.id === 'save-addr-btn') {
+          var addrVal = document.getElementById('new-addr-input').value.trim();
+          if (addrVal) {
+            state.addresses.push(addrVal);
+            saveState();
+            renderApp();
+            toast('Address saved!');
+          }
+          return;
+        }
+
+        var colAcc = t.closest('[data-col-accept]');
+        if (colAcc) {
+          var pid = colAcc.getAttribute('data-col-accept');
+          state.pickups.forEach(function (p) { if (p.id === pid) p.status = 'EN_ROUTE'; });
+          saveState();
+          renderApp();
+          toast('Job #' + pid + ' accepted!');
+          return;
+        }
+
+        var colArr = t.closest('[data-col-arrive]');
+        if (colArr) {
+          var pidA = colArr.getAttribute('data-col-arrive');
+          state.pickups.forEach(function (p) { if (p.id === pidA) p.status = 'ARRIVED'; });
+          saveState();
+          renderApp();
+          toast('Marked arrived at gate.');
+          return;
+        }
+
+        var colComp = t.closest('[data-col-complete]');
+        if (colComp) {
+          var pidC = colComp.getAttribute('data-col-complete');
+          var wtEl = document.getElementById('col-wt-' + pidC);
+          var otpEl = document.getElementById('col-otp-' + pidC);
+          var targetP = state.pickups.find(function (p) { return p.id === pidC; });
+          if (!targetP) return;
+          var entered = (otpEl && otpEl.value.trim()) || '';
+          if (entered !== targetP.otp) {
+            toast('Invalid OTP! Ask customer for code: ' + targetP.otp);
+            return;
+          }
+          var verKg = Math.max(0.5, Number(wtEl && wtEl.value) || targetP.estKg);
+          targetP.verKg = verKg;
+          targetP.status = 'COMPLETED';
+          targetP.receipt = 'RCPT-PK-' + Math.floor(10000 + Math.random() * 90000);
+          var payout = verKg * targetP.rate;
+          var comm = Math.round(150 + verKg * 3.5);
+          state.collector.todayEarnings += comm;
+          state.collector.completedToday += 1;
+          state.walletBalance += payout;
+          state.ledger.unshift({
+            id: 'TX-' + Math.floor(1000 + Math.random() * 9000),
+            type: 'CREDIT',
+            role: 'Customer',
+            amount: payout,
+            category: 'PICKUP_PAYOUT',
+            desc: 'Settled #' + targetP.id + ' (' + verKg + ' kg)',
+            idemp: 'IDEMP-' + Math.floor(100000 + Math.random() * 900000)
+          });
+          pushAudit('COLLECTOR', 'PICKUP_SETTLED', targetP.id, 'Verified ' + verKg + 'kg -> ' + formatPkr(payout));
+          saveState();
+          renderApp();
+          toast('OTP verified, weighed & settled ' + formatPkr(payout) + '!');
+          return;
+        }
+
+        if (t.id === 'hub-create-btn') {
+          var mat = document.getElementById('hub-mat').value.trim();
+          var grade = document.getElementById('hub-grade').value.trim();
+          var gross = Number(document.getElementById('hub-gross').value) || 500;
+          var net = Number(document.getElementById('hub-net').value) || 490;
+          var sortC = Number(document.getElementById('hub-sortcost').value) || 1500;
+          var bid = 'BATCH-HUB-' + Math.floor(100 + Math.random() * 900);
+          var cost = net * 140;
+          state.hubBatches.unshift({
+            batchId: bid,
+            sourcePickupIds: ['PKP-7821'],
+            warehouse: 'Rawalpindi / Islamabad Central Hub',
+            material: mat,
+            grade: grade,
+            grossKg: gross,
+            netKg: net,
+            purchaseCost: cost,
+            sortingCost: sortC,
+            status: 'READY_FOR_MARKETPLACE'
+          });
+          state.marketplaceLots.unshift({
+            lotId: 'LOT-' + Math.floor(100 + Math.random() * 900),
+            title: grade + ' ' + mat,
+            material: mat,
+            grade: grade,
+            weightKg: net,
+            buyNowPerKg: Math.round(((cost + sortC) / net) * 1.15),
+            minBidPerKg: Math.round(((cost + sortC) / net) * 1.08),
+            highestBidPerKg: 0,
+            bidsCount: 0,
+            location: 'I-9 Hub, Islamabad',
+            status: 'AVAILABLE'
+          });
+          pushAudit('HUB_OPERATOR', 'BATCH_CREATED', bid, 'Net ' + net + ' kg -> listed to B2B');
+          saveState();
+          renderApp();
+          toast('Batch ' + bid + ' sorted & pushed to Recycler Marketplace!');
+          return;
+        }
+
+        var bidBtn = t.closest('[data-lot-bid]');
+        if (bidBtn) {
+          var lid = bidBtn.getAttribute('data-lot-bid');
+          var bAmt = Number(document.getElementById('bid-' + lid).value) || 0;
+          state.marketplaceLots.forEach(function (l) {
+            if (l.lotId === lid && bAmt >= l.minBidPerKg) {
+              l.highestBidPerKg = Math.max(l.highestBidPerKg, bAmt);
+              l.bidsCount += 1;
+              l.status = 'UNDER_BID';
+            }
+          });
+          pushAudit('RECYCLER', 'MARKETPLACE_BID', lid, formatPkr(bAmt) + '/kg');
+          saveState();
+          renderApp();
+          toast('Bid placed on ' + lid + '!');
+          return;
+        }
+
+        var buyBtn = t.closest('[data-lot-buy]');
+        if (buyBtn) {
+          var lidB = buyBtn.getAttribute('data-lot-buy');
+          var lot = state.marketplaceLots.find(function (l) { return l.lotId === lidB; });
+          if (lot) {
+            lot.status = 'SOLD';
+            var totalPo = lot.weightKg * lot.buyNowPerKg;
+            state.b2bOrders.unshift({
+              orderId: 'PO-B2B-' + Math.floor(100 + Math.random() * 900),
+              lotId: lot.lotId,
+              buyer: 'Verified Recycler Buyer',
+              totalPkr: totalPo,
+              status: totalPo > 500000 ? 'PENDING_ADMIN_APPROVAL' : 'APPROVED_DISPATCHED'
+            });
+            pushAudit('RECYCLER', 'LOT_PURCHASED', lidB, formatPkr(totalPo));
+            saveState();
+            renderApp();
+            toast('Order created for ' + lidB + ' (' + formatPkr(totalPo) + ')');
+          }
+          return;
+        }
+
+        var invAdj = t.closest('[data-inv-adj]');
+        if (invAdj) {
+          var sku = invAdj.getAttribute('data-inv-adj');
+          var delta = Number(invAdj.getAttribute('data-delta'));
+          state.inventory.forEach(function (item) {
+            if (item.id === sku) {
+              item.stockKg = Math.max(0, item.stockKg + delta);
+            }
+          });
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var saveRuleBtn = t.closest('[data-save-rule]');
+        if (saveRuleBtn) {
+          var rid = saveRuleBtn.getAttribute('data-save-rule');
+          var newR = Number(document.getElementById('pr-rate-' + rid).value) || 0;
+          var newM = Number(document.getElementById('pr-margin-' + rid).value) || 0;
+          state.pricingRules.forEach(function (r) {
+            if (r.id === rid) {
+              r.marketRate = newR;
+              r.marginPct = newM;
+              var calc = Math.max(r.minPrice, Math.min(r.maxPrice, Math.round(newR * (1 - newM / 100) - r.collectionCost)));
+              state.materials.forEach(function (m) {
+                if (m.id === r.materialId) m.rate = calc;
+              });
+            }
+          });
+          pushAudit('PRICING_ADMIN', 'RULE_UPDATED', rid, 'Market Rate ' + formatPkr(newR) + ', Margin ' + newM + '%');
+          saveState();
+          renderApp();
+          toast('Pricing rule updated and customer rates synced!');
+          return;
+        }
+
+        if (t.id === 'admin-eid-toggle') {
+          state.eidCampaignActive = !state.eidCampaignActive;
+          pushAudit('ADMIN', 'EID_TOGGLE', 'eid_2026', 'Active = ' + state.eidCampaignActive);
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var fraudBtn = t.closest('[data-fraud-clear]');
+        if (fraudBtn) {
+          var fid = fraudBtn.getAttribute('data-fraud-clear');
+          state.fraudAlerts.forEach(function (f) { if (f.id === fid) f.status = 'CLEARED'; });
+          pushAudit('ADMIN', 'FRAUD_CLEARED', fid, 'Manual scale photo review passed');
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var poBtn = t.closest('[data-approve-po]');
+        if (poBtn) {
+          var oid = poBtn.getAttribute('data-approve-po');
+          state.b2bOrders.forEach(function (o) { if (o.orderId === oid) o.status = 'APPROVED_DISPATCHED'; });
+          pushAudit('ADMIN', 'HIGH_VALUE_PO_APPROVED', oid, 'Cleared for dispatch');
+          saveState();
+          renderApp();
+          toast('Order ' + oid + ' approved!');
+          return;
+        }
+
+        if (t.id === 'sup-submit-btn') {
+          var cat = document.getElementById('sup-cat').value;
+          var subj = document.getElementById('sup-subj').value.trim();
+          var msg = document.getElementById('sup-msg').value.trim();
+          if (subj.length < 2 || msg.length < 5) {
+            toast('Enter a valid subject and message.');
+            return;
+          }
+          var tid = 'TKT-' + Math.floor(100 + Math.random() * 900);
+          state.tickets.unshift({ id: tid, category: cat, subject: subj, message: msg, status: 'OPEN', resolution: '' });
+          pushAudit('SUPPORT', 'TICKET_CREATED', tid, subj);
+          saveState();
+          renderApp();
+          toast('Support ticket ' + tid + ' submitted!');
+          return;
+        }
+
+        var resTkt = t.closest('[data-resolve-tkt]');
+        if (resTkt) {
+          var tidR = resTkt.getAttribute('data-resolve-tkt');
+          state.tickets.forEach(function (tk) {
+            if (tk.id === tidR) {
+              tk.status = 'RESOLVED';
+              tk.resolution = 'Verified and closed by Support Operations.';
+            }
+          });
+          saveState();
+          renderApp();
+          return;
+        }
+
+        var toastBtn = t.closest('[data-toast]');
+        if (toastBtn) {
+          toast(toastBtn.getAttribute('data-toast'));
+          return;
+        }
+
+        if (t.id === 'reset-state-btn') {
+          state = createSeedState();
+          saveState();
+          renderApp();
+          toast('Ecosystem demo state reset to defaults.');
+        }
+      });
+
+      function handleWizardNext() {
+        var step = state.wizardStep;
+        var w = state.wizard;
+
+        if (step === 2) {
+          var wt = Number(document.getElementById('wiz-weight').value);
+          w.weightKg = wt > 0 ? wt : 10;
+        } else if (step === 5) {
+          w.city = document.getElementById('wiz-city').value;
+          w.zone = document.getElementById('wiz-zone').value.trim() || 'Central Zone';
+          w.address = document.getElementById('wiz-address').value.trim() || w.address;
+        } else if (step === 6) {
+          w.date = document.getElementById('wiz-date').value;
+        } else if (step === 7) {
+          w.slot = document.getElementById('wiz-slot').value;
+        } else if (step === 8) {
+          w.paymentMethod = document.getElementById('wiz-pay').value;
+          w.notes = document.getElementById('wiz-notes').value;
+          var mat = state.materials.find(function (m) { return m.id === w.materialId; }) || state.materials[0];
+          var newId = 'PKP-' + Math.floor(1000 + Math.random() * 9000);
+          var otp = String(Math.floor(1000 + Math.random() * 9000));
+          state.pickups.unshift({
+            id: newId,
+            customerName: 'Customer Account',
+            city: w.city,
+            zone: w.zone,
+            address: w.address,
+            materialName: mat.name,
+            estKg: w.weightKg,
+            verKg: 0,
+            rate: Math.round(mat.rate * getCityFactor(w.city)),
+            status: 'ASSIGNED',
+            otp: otp,
+            collector: 'Rashid Khan (RWP-412)',
+            paymentMethod: w.paymentMethod,
+            receipt: null
+          });
+          w.createdPickupId = newId;
+          w.otpInput = otp;
+          pushAudit('CUSTOMER', 'PICKUP_BOOKED', newId, w.city + ' • ' + mat.name + ' (' + w.weightKg + 'kg)');
+          toast('Pickup #' + newId + ' confirmed! Collector assigned.');
+        } else if (step === 9) {
+          var p9 = state.pickups.find(function (p) { return p.id === w.createdPickupId; });
+          if (p9) p9.status = 'EN_ROUTE';
+        } else if (step === 10) {
+          var p10 = state.pickups.find(function (p) { return p.id === w.createdPickupId; });
+          if (p10) p10.status = 'ARRIVED';
+        } else if (step === 12) {
+          var entered = document.getElementById('wiz-otp').value.trim();
+          var p12 = state.pickups.find(function (p) { return p.id === w.createdPickupId; });
+          if (p12 && entered !== p12.otp) {
+            toast('OTP mismatch! Enter ' + p12.otp);
+            return;
+          }
+          if (p12) {
+            p12.verKg = Number(w.weightKg) + 2;
+            p12.status = 'WEIGHING';
+          }
+        } else if (step === 15) {
+          var p15 = state.pickups.find(function (p) { return p.id === w.createdPickupId; });
+          if (p15 && p15.status !== 'COMPLETED') {
+            p15.status = 'COMPLETED';
+            p15.receipt = 'RCPT-PK-' + Math.floor(10000 + Math.random() * 90000);
+            var amt = (p15.verKg || p15.estKg) * p15.rate;
+            state.walletBalance += amt;
+            state.ledger.unshift({
+              id: 'TX-' + Math.floor(1000 + Math.random() * 9000),
+              type: 'CREDIT',
+              role: 'Customer',
+              amount: amt,
+              category: 'PICKUP_PAYOUT',
+              desc: 'Pickup #' + p15.id + ' settled via ' + p15.paymentMethod,
+              idemp: 'IDEMP-' + Math.floor(100000 + Math.random() * 900000)
+            });
+            pushAudit('SYSTEM', 'PAYOUT_SETTLED', p15.id, formatPkr(amt) + ' via ' + p15.paymentMethod);
+          }
+        } else if (step === 18) {
+          w.rating = Number(document.getElementById('wiz-rating').value) || 5;
+          w.review = document.getElementById('wiz-review').value;
+          state.wizardStep = 1;
+          state.customerTab = 'home';
+          saveState();
+          renderApp();
+          toast('Thank you for your ' + w.rating + '-star review!');
+          return;
+        }
+
+        state.wizardStep = step + 1;
+        saveState();
+        renderApp();
+      }
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+      }
+
+      renderApp();
+    })();
+  </script>
+</body>
+</html>

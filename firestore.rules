@@ -1,0 +1,436 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- GLOBAL HARDENED HELPERS ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (
+          'email' in request.auth.token &&
+          request.auth.token.email == 'hasanaamir815@gmail.com' &&
+          'email_verified' in request.auth.token &&
+          request.auth.token.email_verified == true
+        )
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidTimestamp(ts) {
+      return ts is timestamp && ts <= request.time;
+    }
+
+    // --- VALIDATION HELPERS ---
+
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100 &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 150)) &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 30)) &&
+             data.city is string && data.city.size() >= 1 && data.city.size() <= 60 &&
+             (!('zone' in data) || (data.zone is string && data.zone.size() <= 80)) &&
+             data.role in ['CUSTOMER', 'COLLECTOR', 'HUB_OPERATOR', 'RECYCLER', 'CORPORATE_CLIENT', 'ADMIN', 'SUPER_ADMIN'] &&
+             data.status in ['ACTIVE', 'SUSPENDED'];
+    }
+
+    function isValidLedgerEntry(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.amount is number && data.amount > 0 && data.amount <= 100000000 &&
+             data.type in ['CREDIT', 'DEBIT'] &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 50 &&
+             data.referenceId is string && data.referenceId.size() >= 1 && data.referenceId.size() <= 128 &&
+             data.idempotencyKey is string && data.idempotencyKey.size() >= 1 && data.idempotencyKey.size() <= 128 &&
+             data.balanceAfter is number && data.balanceAfter >= 0 &&
+             data.description is string && data.description.size() >= 1 && data.description.size() <= 300;
+    }
+
+    function isValidScrapInventory(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.materialId is string && data.materialId.size() >= 1 && data.materialId.size() <= 80 &&
+             data.name is string && data.name.size() >= 1 && data.name.size() <= 120 &&
+             (!('urduName' in data) || (data.urduName is string && data.urduName.size() <= 120)) &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.grade is string && data.grade.size() >= 1 && data.grade.size() <= 80 &&
+             data.currentStockKg is number && data.currentStockKg >= 0 && data.currentStockKg <= 10000000 &&
+             data.minThresholdKg is number && data.minThresholdKg >= 0 && data.minThresholdKg <= 1000000 &&
+             data.unitPricePkr is number && data.unitPricePkr >= 0 && data.unitPricePkr <= 1000000 &&
+             data.warehouseLocation is string && data.warehouseLocation.size() >= 1 && data.warehouseLocation.size() <= 120 &&
+             data.status in ['IN_STOCK', 'LOW_STOCK', 'DEPLETED', 'DISPATCHED'];
+    }
+
+    function isValidPickup(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 100 &&
+             (!('customerPhone' in data) || (data.customerPhone is string && data.customerPhone.size() <= 30)) &&
+             data.city is string && data.city.size() >= 1 && data.city.size() <= 60 &&
+             data.zone is string && data.zone.size() >= 1 && data.zone.size() <= 80 &&
+             data.address is string && data.address.size() >= 3 && data.address.size() <= 300 &&
+             data.itemsSummary is string && data.itemsSummary.size() >= 1 && data.itemsSummary.size() <= 400 &&
+             data.estimatedWeightKg is number && data.estimatedWeightKg >= 0 && data.estimatedWeightKg <= 100000 &&
+             data.estimatedTotalPkr is number && data.estimatedTotalPkr >= 0 && data.estimatedTotalPkr <= 50000000 &&
+             data.verifiedWeightKg is number && data.verifiedWeightKg >= 0 && data.verifiedWeightKg <= 100000 &&
+             data.verifiedTotalPkr is number && data.verifiedTotalPkr >= 0 && data.verifiedTotalPkr <= 50000000 &&
+             data.status in ['REQUESTED', 'ASSIGNED', 'EN_ROUTE', 'ARRIVED', 'WEIGHING', 'CONFIRMED', 'PAID', 'RECEIVED_AT_HUB', 'SORTED', 'COMPLETED', 'CANCELLED'] &&
+             data.scheduledDate is string && data.scheduledDate.size() >= 1 && data.scheduledDate.size() <= 60 &&
+             data.timeSlot is string && data.timeSlot.size() >= 1 && data.timeSlot.size() <= 60 &&
+             data.paymentMethod is string && data.paymentMethod.size() >= 1 && data.paymentMethod.size() <= 50 &&
+             (!('collectorId' in data) || (data.collectorId is string && data.collectorId.size() <= 128)) &&
+             (!('collectorName' in data) || (data.collectorName is string && data.collectorName.size() <= 120)) &&
+             data.otpVerified is bool &&
+             (!('digitalReceiptNumber' in data) || (data.digitalReceiptNumber is string && data.digitalReceiptNumber.size() <= 80)) &&
+             (!('aiConfidenceNote' in data) || (data.aiConfidenceNote is string && data.aiConfidenceNote.size() <= 500)) &&
+             (!('customerRating' in data) || (data.customerRating is int && data.customerRating >= 0 && data.customerRating <= 5));
+    }
+
+    function isValidPricingRule(data) {
+      return data.materialId is string && data.materialId.size() >= 1 && data.materialId.size() <= 80 &&
+             data.materialName is string && data.materialName.size() >= 1 && data.materialName.size() <= 120 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.grade is string && data.grade.size() >= 1 && data.grade.size() <= 80 &&
+             data.city is string && data.city.size() >= 1 && data.city.size() <= 60 &&
+             data.zone is string && data.zone.size() >= 1 && data.zone.size() <= 80 &&
+             data.marketRate is number && data.marketRate >= 0 && data.marketRate <= 1000000 &&
+             data.buyingMargin is number && data.buyingMargin >= 0 && data.buyingMargin <= 90 &&
+             data.sellingMargin is number && data.sellingMargin >= 0 && data.sellingMargin <= 90 &&
+             data.collectionCost is number && data.collectionCost >= 0 && data.collectionCost <= 100000 &&
+             data.sortingCost is number && data.sortingCost >= 0 && data.sortingCost <= 100000 &&
+             data.minPrice is number && data.minPrice >= 0 && data.minPrice <= data.maxPrice &&
+             data.maxPrice is number && data.maxPrice <= 1000000 &&
+             data.active is bool &&
+             data.updatedBy is string && data.updatedBy.size() >= 1 && data.updatedBy.size() <= 128;
+    }
+
+    function isValidHubBatch(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.batchCode is string && data.batchCode.size() >= 1 && data.batchCode.size() <= 80 &&
+             data.warehouseName is string && data.warehouseName.size() >= 1 && data.warehouseName.size() <= 120 &&
+             data.warehouseCity is string && data.warehouseCity.size() >= 1 && data.warehouseCity.size() <= 60 &&
+             data.materialName is string && data.materialName.size() >= 1 && data.materialName.size() <= 120 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.grade is string && data.grade.size() >= 1 && data.grade.size() <= 80 &&
+             data.grossWeightKg is number && data.grossWeightKg > 0 && data.grossWeightKg <= 10000000 &&
+             data.netWeightKg is number && data.netWeightKg >= 0 && data.netWeightKg <= 10000000 &&
+             data.varianceKg is number && data.varianceKg >= -1000000 && data.varianceKg <= 1000000 &&
+             data.purchaseCost is number && data.purchaseCost >= 0 &&
+             data.sortingCost is number && data.sortingCost >= 0 &&
+             data.status in ['INBOUND_PENDING', 'SORTED', 'READY_FOR_MARKETPLACE', 'DISPATCHED'];
+    }
+
+    function isValidMarketplaceLot(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.lotCode is string && data.lotCode.size() >= 1 && data.lotCode.size() <= 80 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 150 &&
+             data.materialName is string && data.materialName.size() >= 1 && data.materialName.size() <= 120 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.grade is string && data.grade.size() >= 1 && data.grade.size() <= 80 &&
+             data.weightKg is number && data.weightKg > 0 && data.weightKg <= 10000000 &&
+             data.pricePerKg is number && data.pricePerKg > 0 && data.pricePerKg <= 1000000 &&
+             data.minimumBidPerKg is number && data.minimumBidPerKg > 0 && data.minimumBidPerKg <= 1000000 &&
+             data.highestBidPerKg is number && data.highestBidPerKg >= 0 && data.highestBidPerKg <= 1000000 &&
+             (!('highestBidderUid' in data) || (data.highestBidderUid is string && data.highestBidderUid.size() <= 128)) &&
+             data.bidsCount is int && data.bidsCount >= 0 &&
+             data.location is string && data.location.size() >= 1 && data.location.size() <= 150 &&
+             data.warehouseName is string && data.warehouseName.size() >= 1 && data.warehouseName.size() <= 120 &&
+             data.status in ['AVAILABLE', 'UNDER_BID', 'SOLD', 'IN_TRANSIT'];
+    }
+
+    function isValidSupportTicket(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.userName is string && data.userName.size() >= 1 && data.userName.size() <= 100 &&
+             data.category is string && data.category.size() >= 1 && data.category.size() <= 60 &&
+             data.subject is string && data.subject.size() >= 2 && data.subject.size() <= 150 &&
+             data.message is string && data.message.size() >= 5 && data.message.size() <= 1500 &&
+             data.status in ['OPEN', 'ASSIGNED', 'IN_PROGRESS', 'WAITING', 'RESOLVED', 'CLOSED'] &&
+             (!('resolutionNotes' in data) || (data.resolutionNotes is string && data.resolutionNotes.size() <= 1000));
+    }
+
+    function isValidAuditLog(data) {
+      return data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+             data.actorRole is string && data.actorRole.size() >= 1 && data.actorRole.size() <= 60 &&
+             data.action is string && data.action.size() >= 1 && data.action.size() <= 80 &&
+             data.entity is string && data.entity.size() >= 1 && data.entity.size() <= 80 &&
+             data.entityId is string && data.entityId.size() >= 1 && data.entityId.size() <= 128 &&
+             data.details is string && data.details.size() <= 500;
+    }
+
+    // --- COLLECTION RULES ---
+
+    match /admins/{adminId} {
+      allow get: if isSignedIn() && isValidId(adminId) && (request.auth.uid == adminId || isAdmin());
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin() && isValidId(adminId);
+    }
+
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner(userId) || isAdmin());
+      allow list: if isAdmin();
+
+      // Prevent self-escalation: clients creating their own profile must use CUSTOMER role & ACTIVE status
+      allow create: if isValidId(userId) &&
+                       (isOwner(userId) || isAdmin()) &&
+                       incoming().userId == userId &&
+                       incoming().keys().hasAll(['userId', 'displayName', 'city', 'role', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'displayName', 'email', 'phone', 'city', 'zone', 'role', 'status', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidUserProfile(incoming()) &&
+                       (isAdmin() || (incoming().role == 'CUSTOMER' && incoming().status == 'ACTIVE'));
+
+      allow update: if isValidId(userId) &&
+                       (isOwner(userId) || isAdmin()) &&
+                       isValidUserProfile(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       (
+                         isAdmin() ||
+                         (
+                           incoming().role == existing().role &&
+                           incoming().status == existing().status &&
+                           incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'email', 'phone', 'city', 'zone', 'updatedAt'])
+                         )
+                       );
+
+      allow delete: if isValidId(userId) && isAdmin();
+
+      // Immutable user-scoped wallet ledger
+      match /wallet_ledger/{entryId} {
+        allow get: if isValidId(userId) && isValidId(entryId) && (isOwner(userId) || isAdmin());
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if isValidId(userId) &&
+                         isValidId(entryId) &&
+                         (isOwner(userId) || isAdmin()) &&
+                         incoming().userId == userId &&
+                         incoming().keys().hasAll(['userId', 'amount', 'type', 'category', 'referenceId', 'idempotencyKey', 'balanceAfter', 'description', 'createdAt']) &&
+                         incoming().keys().hasOnly(['userId', 'amount', 'type', 'category', 'referenceId', 'idempotencyKey', 'balanceAfter', 'description', 'createdAt']) &&
+                         isValidTimestamp(incoming().createdAt) &&
+                         isValidLedgerEntry(incoming());
+        allow update, delete: if false;
+      }
+    }
+
+    match /scrap_inventory/{itemId} {
+      allow get: if isSignedIn() && isValidId(itemId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn() &&
+                       isValidId(itemId) &&
+                       (incoming().userId == request.auth.uid || isAdmin()) &&
+                       incoming().keys().hasAll(['userId', 'materialId', 'name', 'category', 'grade', 'currentStockKg', 'minThresholdKg', 'unitPricePkr', 'warehouseLocation', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'materialId', 'name', 'urduName', 'category', 'grade', 'currentStockKg', 'minThresholdKg', 'unitPricePkr', 'warehouseLocation', 'status', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidScrapInventory(incoming());
+
+      allow update: if isSignedIn() &&
+                       isValidId(itemId) &&
+                       isValidScrapInventory(incoming()) &&
+                       (existing().userId == request.auth.uid || isAdmin()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['materialId', 'name', 'urduName', 'category', 'grade', 'currentStockKg', 'minThresholdKg', 'unitPricePkr', 'warehouseLocation', 'status', 'updatedAt']);
+
+      allow delete: if isSignedIn() && isValidId(itemId) && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    match /pickups/{pickupId} {
+      allow get: if isSignedIn() && isValidId(pickupId) && (existing().userId == request.auth.uid || existing().collectorId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || resource.data.collectorId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn() &&
+                       isValidId(pickupId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().status in ['REQUESTED', 'ASSIGNED'] &&
+                       incoming().otpVerified == false &&
+                       incoming().keys().hasAll(['userId', 'customerName', 'city', 'zone', 'address', 'itemsSummary', 'estimatedWeightKg', 'estimatedTotalPkr', 'verifiedWeightKg', 'verifiedTotalPkr', 'status', 'scheduledDate', 'timeSlot', 'paymentMethod', 'otpVerified', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'customerName', 'customerPhone', 'city', 'zone', 'address', 'itemsSummary', 'estimatedWeightKg', 'estimatedTotalPkr', 'verifiedWeightKg', 'verifiedTotalPkr', 'status', 'scheduledDate', 'timeSlot', 'paymentMethod', 'collectorId', 'collectorName', 'otpVerified', 'digitalReceiptNumber', 'aiConfidenceNote', 'customerRating', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidPickup(incoming());
+
+      allow update: if isSignedIn() &&
+                       isValidId(pickupId) &&
+                       isValidPickup(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       (
+                         isAdmin() ||
+                         (
+                           !(existing().status in ['COMPLETED', 'CANCELLED']) && (
+                             // Action: Customer confirms/cancels/rates own pickup
+                             (existing().userId == request.auth.uid &&
+                              incoming().diff(existing()).affectedKeys().hasOnly(['status', 'digitalReceiptNumber', 'customerRating', 'updatedAt'])) ||
+                             // Action: Assigned collector updates arrival/weighing/verification
+                             (existing().collectorId == request.auth.uid &&
+                              incoming().diff(existing()).affectedKeys().hasOnly(['status', 'verifiedWeightKg', 'verifiedTotalPkr', 'otpVerified', 'updatedAt']))
+                           )
+                         )
+                       );
+
+      allow delete: if isSignedIn() && isValidId(pickupId) && isAdmin();
+    }
+
+    match /pricing_rules/{ruleId} {
+      allow get: if isSignedIn() && isValidId(ruleId) && (existing().active == true || isAdmin());
+      allow list: if isSignedIn() && (resource.data.active == true || isAdmin());
+
+      allow create: if isAdmin() &&
+                       isValidId(ruleId) &&
+                       incoming().keys().hasAll(['materialId', 'materialName', 'category', 'grade', 'city', 'zone', 'marketRate', 'buyingMargin', 'sellingMargin', 'collectionCost', 'sortingCost', 'minPrice', 'maxPrice', 'active', 'updatedBy', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['materialId', 'materialName', 'category', 'grade', 'city', 'zone', 'marketRate', 'buyingMargin', 'sellingMargin', 'collectionCost', 'sortingCost', 'minPrice', 'maxPrice', 'active', 'updatedBy', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidPricingRule(incoming());
+
+      allow update: if isAdmin() &&
+                       isValidId(ruleId) &&
+                       isValidPricingRule(incoming()) &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['marketRate', 'buyingMargin', 'sellingMargin', 'collectionCost', 'sortingCost', 'minPrice', 'maxPrice', 'active', 'updatedBy', 'updatedAt']);
+
+      allow delete: if isAdmin() && isValidId(ruleId);
+    }
+
+    match /hub_batches/{batchId} {
+      allow get: if isSignedIn() && isValidId(batchId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn() &&
+                       isValidId(batchId) &&
+                       (incoming().userId == request.auth.uid || isAdmin()) &&
+                       incoming().keys().hasAll(['userId', 'batchCode', 'warehouseName', 'warehouseCity', 'materialName', 'category', 'grade', 'grossWeightKg', 'netWeightKg', 'varianceKg', 'purchaseCost', 'sortingCost', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'batchCode', 'warehouseName', 'warehouseCity', 'materialName', 'category', 'grade', 'grossWeightKg', 'netWeightKg', 'varianceKg', 'purchaseCost', 'sortingCost', 'status', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidHubBatch(incoming());
+
+      allow update: if isSignedIn() &&
+                       isValidId(batchId) &&
+                       isValidHubBatch(incoming()) &&
+                       (existing().userId == request.auth.uid || isAdmin()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['grade', 'netWeightKg', 'varianceKg', 'sortingCost', 'status', 'updatedAt']);
+
+      allow delete: if isSignedIn() && isValidId(batchId) && isAdmin();
+    }
+
+    match /marketplace_lots/{lotId} {
+      allow get: if isSignedIn() && isValidId(lotId) && (existing().status in ['AVAILABLE', 'UNDER_BID'] || existing().userId == request.auth.uid || existing().highestBidderUid == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.status in ['AVAILABLE', 'UNDER_BID'] || resource.data.userId == request.auth.uid || resource.data.highestBidderUid == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn() &&
+                       isValidId(lotId) &&
+                       (incoming().userId == request.auth.uid || isAdmin()) &&
+                       incoming().keys().hasAll(['userId', 'lotCode', 'title', 'materialName', 'category', 'grade', 'weightKg', 'pricePerKg', 'minimumBidPerKg', 'highestBidPerKg', 'bidsCount', 'location', 'warehouseName', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'lotCode', 'title', 'materialName', 'category', 'grade', 'weightKg', 'pricePerKg', 'minimumBidPerKg', 'highestBidPerKg', 'highestBidderUid', 'bidsCount', 'location', 'warehouseName', 'status', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidMarketplaceLot(incoming());
+
+      allow update: if isSignedIn() &&
+                       isValidId(lotId) &&
+                       isValidMarketplaceLot(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       (
+                         isAdmin() ||
+                         (
+                           existing().userId == request.auth.uid &&
+                           incoming().diff(existing()).affectedKeys().hasOnly(['pricePerKg', 'minimumBidPerKg', 'status', 'updatedAt'])
+                         ) ||
+                         (
+                           !(existing().status in ['SOLD', 'IN_TRANSIT']) && (
+                             // Action: Place higher bid
+                             (incoming().status == 'UNDER_BID' &&
+                              incoming().highestBidderUid == request.auth.uid &&
+                              incoming().highestBidPerKg >= existing().minimumBidPerKg &&
+                              incoming().highestBidPerKg > existing().highestBidPerKg &&
+                              incoming().bidsCount == existing().bidsCount + 1 &&
+                              incoming().diff(existing()).affectedKeys().hasOnly(['highestBidPerKg', 'highestBidderUid', 'bidsCount', 'status', 'updatedAt'])) ||
+                             // Action: Buy fixed-price lot
+                             (incoming().status == 'SOLD' &&
+                              incoming().highestBidderUid == request.auth.uid &&
+                              incoming().diff(existing()).affectedKeys().hasOnly(['highestBidderUid', 'status', 'updatedAt']))
+                           )
+                         )
+                       );
+
+      allow delete: if isSignedIn() && isValidId(lotId) && isAdmin();
+    }
+
+    match /support_tickets/{ticketId} {
+      allow get: if isSignedIn() && isValidId(ticketId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+
+      allow create: if isSignedIn() &&
+                       isValidId(ticketId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().status == 'OPEN' &&
+                       incoming().keys().hasAll(['userId', 'userName', 'category', 'subject', 'message', 'status', 'createdAt', 'updatedAt']) &&
+                       incoming().keys().hasOnly(['userId', 'userName', 'category', 'subject', 'message', 'status', 'resolutionNotes', 'createdAt', 'updatedAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       isValidSupportTicket(incoming());
+
+      allow update: if isSignedIn() &&
+                       isValidId(ticketId) &&
+                       isValidSupportTicket(incoming()) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidTimestamp(incoming().updatedAt) &&
+                       (
+                         isAdmin() ||
+                         (existing().userId == request.auth.uid &&
+                          !(existing().status in ['RESOLVED', 'CLOSED']) &&
+                          incoming().diff(existing()).affectedKeys().hasOnly(['message', 'status', 'updatedAt']))
+                       );
+
+      allow delete: if isSignedIn() && isValidId(ticketId) && isAdmin();
+    }
+
+    match /audit_logs/{logId} {
+      allow get: if isSignedIn() && isValidId(logId) && (existing().userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+                       isValidId(logId) &&
+                       incoming().userId == request.auth.uid &&
+                       incoming().keys().hasAll(['userId', 'actorRole', 'action', 'entity', 'entityId', 'details', 'createdAt']) &&
+                       incoming().keys().hasOnly(['userId', 'actorRole', 'action', 'entity', 'entityId', 'details', 'createdAt']) &&
+                       isValidTimestamp(incoming().createdAt) &&
+                       isValidAuditLog(incoming());
+      allow update, delete: if false;
+    }
+  }
+}

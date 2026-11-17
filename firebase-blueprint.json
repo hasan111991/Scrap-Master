@@ -1,0 +1,242 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated Digital Kabariya platform user profile and role metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
+        "displayName": { "type": "string", "description": "Full name of the user." },
+        "email": { "type": "string", "description": "User email address." },
+        "phone": { "type": "string", "description": "Pakistani phone number." },
+        "city": { "type": "string", "description": "Operating or residential city (e.g., Rawalpindi, Islamabad)." },
+        "zone": { "type": "string", "description": "Service zone or sector." },
+        "role": {
+          "type": "string",
+          "enum": ["CUSTOMER", "COLLECTOR", "HUB_OPERATOR", "RECYCLER", "CORPORATE_CLIENT", "ADMIN", "SUPER_ADMIN"],
+          "description": "Active RBAC role."
+        },
+        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED"], "description": "Account status." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "displayName", "city", "role", "status", "createdAt", "updatedAt"]
+    },
+    "WalletLedgerEntry": {
+      "title": "WalletLedgerEntry",
+      "description": "Immutable double-entry ledger transaction for user wallet payouts and withdrawals.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase UID." },
+        "amount": { "type": "number", "description": "Transaction amount in PKR." },
+        "type": { "type": "string", "enum": ["CREDIT", "DEBIT"], "description": "Credit or Debit." },
+        "category": { "type": "string", "description": "Transaction category such as PICKUP_PAYOUT or WITHDRAWAL." },
+        "referenceId": { "type": "string", "description": "Linked pickup or payout reference ID." },
+        "idempotencyKey": { "type": "string", "description": "Unique idempotency key preventing duplicate payouts." },
+        "balanceAfter": { "type": "number", "description": "Projected wallet balance after transaction." },
+        "description": { "type": "string", "description": "Human-readable transaction summary." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." }
+      },
+      "required": ["userId", "amount", "type", "category", "referenceId", "idempotencyKey", "balanceAfter", "description", "createdAt"]
+    },
+    "ScrapInventoryItem": {
+      "title": "ScrapInventoryItem",
+      "description": "Collection hub warehouse scrap material stock item.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Manager/owner Firebase UID." },
+        "materialId": { "type": "string", "description": "Reference material ID." },
+        "name": { "type": "string", "description": "English material name." },
+        "urduName": { "type": "string", "description": "Urdu material name." },
+        "category": { "type": "string", "description": "Scrap category enum name." },
+        "grade": { "type": "string", "description": "Quality grade classification." },
+        "currentStockKg": { "type": "number", "description": "Current stock weight in KG." },
+        "minThresholdKg": { "type": "number", "description": "Minimum low-stock alert threshold in KG." },
+        "unitPricePkr": { "type": "number", "description": "Unit valuation in PKR per KG." },
+        "warehouseLocation": { "type": "string", "description": "Warehouse location name." },
+        "status": { "type": "string", "enum": ["IN_STOCK", "LOW_STOCK", "DEPLETED", "DISPATCHED"], "description": "Stock status." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "materialId", "name", "category", "grade", "currentStockKg", "minThresholdKg", "unitPricePkr", "warehouseLocation", "status", "createdAt", "updatedAt"]
+    },
+    "PickupRequest": {
+      "title": "PickupRequest",
+      "description": "Customer doorstep scrap pickup request and verified weighing record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Customer Firebase UID." },
+        "customerName": { "type": "string", "description": "Customer display name." },
+        "customerPhone": { "type": "string", "description": "Customer contact phone." },
+        "city": { "type": "string", "description": "Pickup city." },
+        "zone": { "type": "string", "description": "Pickup zone or sector." },
+        "address": { "type": "string", "description": "Street address." },
+        "itemsSummary": { "type": "string", "description": "Summary of selected materials." },
+        "estimatedWeightKg": { "type": "number", "description": "Customer estimated total KG." },
+        "estimatedTotalPkr": { "type": "number", "description": "Advisory estimated payout in PKR." },
+        "verifiedWeightKg": { "type": "number", "description": "Physically weighed total KG." },
+        "verifiedTotalPkr": { "type": "number", "description": "Final verified payout in PKR." },
+        "status": {
+          "type": "string",
+          "enum": ["REQUESTED", "ASSIGNED", "EN_ROUTE", "ARRIVED", "WEIGHING", "CONFIRMED", "PAID", "RECEIVED_AT_HUB", "SORTED", "COMPLETED", "CANCELLED"],
+          "description": "Pickup workflow status."
+        },
+        "scheduledDate": { "type": "string", "description": "Scheduled pickup date." },
+        "timeSlot": { "type": "string", "description": "Scheduled time window." },
+        "paymentMethod": { "type": "string", "description": "Chosen payout method." },
+        "collectorId": { "type": "string", "description": "Assigned collector UID or identifier." },
+        "collectorName": { "type": "string", "description": "Assigned collector display name." },
+        "otpVerified": { "type": "boolean", "description": "Whether doorstep OTP verification succeeded." },
+        "digitalReceiptNumber": { "type": "string", "description": "Generated digital receipt reference." },
+        "aiConfidenceNote": { "type": "string", "description": "Gemini AI advisory material classification summary." },
+        "customerRating": { "type": "integer", "description": "Customer 1-5 rating after completion." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "customerName", "city", "zone", "address", "itemsSummary", "estimatedWeightKg", "estimatedTotalPkr", "verifiedWeightKg", "verifiedTotalPkr", "status", "scheduledDate", "timeSlot", "paymentMethod", "otpVerified", "createdAt", "updatedAt"]
+    },
+    "PricingRule": {
+      "title": "PricingRule",
+      "description": "Dynamic city/zone scrap pricing rule configured by Pricing Admin.",
+      "type": "object",
+      "properties": {
+        "materialId": { "type": "string", "description": "Material identifier." },
+        "materialName": { "type": "string", "description": "Material name." },
+        "category": { "type": "string", "description": "Scrap category." },
+        "grade": { "type": "string", "description": "Grade level." },
+        "city": { "type": "string", "description": "City name." },
+        "zone": { "type": "string", "description": "Zone name." },
+        "marketRate": { "type": "number", "description": "Wholesale market rate in PKR/KG." },
+        "buyingMargin": { "type": "number", "description": "Operational buying margin percentage." },
+        "sellingMargin": { "type": "number", "description": "Selling margin percentage." },
+        "collectionCost": { "type": "number", "description": "Allocated collection cost PKR/KG." },
+        "sortingCost": { "type": "number", "description": "Sorting cost PKR/KG." },
+        "minPrice": { "type": "number", "description": "Minimum floor price PKR/KG." },
+        "maxPrice": { "type": "number", "description": "Maximum ceiling price PKR/KG." },
+        "active": { "type": "boolean", "description": "Whether rule is currently active." },
+        "updatedBy": { "type": "string", "description": "Admin UID who last updated this rule." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["materialId", "materialName", "category", "grade", "city", "zone", "marketRate", "buyingMargin", "sellingMargin", "collectionCost", "sortingCost", "minPrice", "maxPrice", "active", "updatedBy", "createdAt", "updatedAt"]
+    },
+    "HubBatch": {
+      "title": "HubBatch",
+      "description": "Collection hub inbound receiving and sorting batch.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Hub operator Firebase UID." },
+        "batchCode": { "type": "string", "description": "Human-readable batch code." },
+        "warehouseName": { "type": "string", "description": "Hub warehouse name." },
+        "warehouseCity": { "type": "string", "description": "Hub city." },
+        "materialName": { "type": "string", "description": "Material name." },
+        "category": { "type": "string", "description": "Scrap category." },
+        "grade": { "type": "string", "description": "Assigned grade." },
+        "grossWeightKg": { "type": "number", "description": "Gross weighbridge weight in KG." },
+        "netWeightKg": { "type": "number", "description": "Net sorted weight in KG." },
+        "varianceKg": { "type": "number", "description": "Weight variance in KG." },
+        "purchaseCost": { "type": "number", "description": "Purchase cost in PKR." },
+        "sortingCost": { "type": "number", "description": "Sorting/baling cost in PKR." },
+        "status": { "type": "string", "enum": ["INBOUND_PENDING", "SORTED", "READY_FOR_MARKETPLACE", "DISPATCHED"], "description": "Batch status." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "batchCode", "warehouseName", "warehouseCity", "materialName", "category", "grade", "grossWeightKg", "netWeightKg", "varianceKg", "purchaseCost", "sortingCost", "status", "createdAt", "updatedAt"]
+    },
+    "MarketplaceLot": {
+      "title": "MarketplaceLot",
+      "description": "B2B wholesale scrap lot available to verified recyclers for bidding or fixed-price purchase.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Seller/operator Firebase UID." },
+        "lotCode": { "type": "string", "description": "Lot reference code." },
+        "title": { "type": "string", "description": "Listing title." },
+        "materialName": { "type": "string", "description": "Material name." },
+        "category": { "type": "string", "description": "Scrap category." },
+        "grade": { "type": "string", "description": "Sorted grade." },
+        "weightKg": { "type": "number", "description": "Total tonnage in KG." },
+        "pricePerKg": { "type": "number", "description": "Buy-now fixed price PKR/KG." },
+        "minimumBidPerKg": { "type": "number", "description": "Minimum auction bid PKR/KG." },
+        "highestBidPerKg": { "type": "number", "description": "Current highest bid PKR/KG." },
+        "highestBidderUid": { "type": "string", "description": "Firebase UID of highest bidder or buyer." },
+        "bidsCount": { "type": "integer", "description": "Total number of bids placed." },
+        "location": { "type": "string", "description": "Warehouse city and zone." },
+        "warehouseName": { "type": "string", "description": "Source warehouse." },
+        "status": { "type": "string", "enum": ["AVAILABLE", "UNDER_BID", "SOLD", "IN_TRANSIT"], "description": "Listing status." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "lotCode", "title", "materialName", "category", "grade", "weightKg", "pricePerKg", "minimumBidPerKg", "highestBidPerKg", "bidsCount", "location", "warehouseName", "status", "createdAt", "updatedAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer or collector support complaint ticket.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Reporter Firebase UID." },
+        "userName": { "type": "string", "description": "Reporter display name." },
+        "category": { "type": "string", "description": "Ticket category (WEIGHT, PAYMENT, DELAYED_PICKUP, etc.)." },
+        "subject": { "type": "string", "description": "Ticket subject." },
+        "message": { "type": "string", "description": "Detailed complaint description." },
+        "status": { "type": "string", "enum": ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING", "RESOLVED", "CLOSED"], "description": "Ticket status." },
+        "resolutionNotes": { "type": "string", "description": "Support agent resolution notes." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+      },
+      "required": ["userId", "userName", "category", "subject", "message", "status", "createdAt", "updatedAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable operational and financial audit trail entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Actor Firebase UID." },
+        "actorRole": { "type": "string", "description": "Actor role at the time of action." },
+        "action": { "type": "string", "description": "Action code." },
+        "entity": { "type": "string", "description": "Target entity type." },
+        "entityId": { "type": "string", "description": "Target document ID." },
+        "details": { "type": "string", "description": "Audit details." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." }
+      },
+      "required": ["userId", "actorRole", "action", "entity", "entityId", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles isolated by UID."
+    },
+    "/users/{userId}/wallet_ledger/{entryId}": {
+      "schema": { "$ref": "#/entities/WalletLedgerEntry" },
+      "description": "Immutable user-scoped financial ledger transactions."
+    },
+    "/scrap_inventory/{itemId}": {
+      "schema": { "$ref": "#/entities/ScrapInventoryItem" },
+      "description": "Warehouse scrap material inventory items."
+    },
+    "/pickups/{pickupId}": {
+      "schema": { "$ref": "#/entities/PickupRequest" },
+      "description": "Doorstep scrap pickup requests and verified weights."
+    },
+    "/pricing_rules/{ruleId}": {
+      "schema": { "$ref": "#/entities/PricingRule" },
+      "description": "Dynamic scrap pricing rules managed by admins."
+    },
+    "/hub_batches/{batchId}": {
+      "schema": { "$ref": "#/entities/HubBatch" },
+      "description": "Collection hub inbound and sorted inventory batches."
+    },
+    "/marketplace_lots/{lotId}": {
+      "schema": { "$ref": "#/entities/MarketplaceLot" },
+      "description": "B2B recycler marketplace scrap lots."
+    },
+    "/support_tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "Customer and collector support tickets."
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable audit logs."
+    }
+  }
+}

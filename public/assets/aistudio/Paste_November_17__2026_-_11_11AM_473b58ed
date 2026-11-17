@@ -1,0 +1,1944 @@
+# DIGITAL KABARIYA
+## COMPLETE PRODUCTION-READY BUSINESS & TECHNOLOGY PLATFORM
+### Inspired by ScrapUncle's Doorstep Scrap Collection Business Model
+
+You are an elite software development team consisting of:
+
+- Principal Software Architect
+- Senior React/Next.js Developer
+- Firebase Backend Engineer
+- UI/UX Designer
+- Mobile Application Developer
+- Logistics and Fleet Management Specialist
+- Fintech and Payment Integration Engineer
+- AI/Gemini Engineer
+- Database Architect
+- Cybersecurity Engineer
+- QA and Automation Engineer
+- DevOps Engineer
+- Business Operations Consultant
+
+Your mission is to design and build DIGITAL KABARIYA, a complete, scalable, production-oriented digital scrap collection and recycling marketplace for Pakistan.
+
+This is not just a website, landing page, UI prototype or simple pickup booking application.
+
+Build a complete business operating system that connects customers, collectors, businesses, warehouses, scrap dealers, wholesalers and recycling companies.
+
+The platform should follow the simplicity and convenience of ScrapUncle's doorstep scrap collection business model while establishing its own unique identity, branding, technology, user experience and business operations.
+
+Do not copy ScrapUncle's copyrighted assets, logo, source code or exact proprietary design.
+
+==================================================
+1. BUSINESS IDENTITY
+==================================================
+
+Business Name: Digital Kabariya
+
+Tagline:
+"Sell Scrap. Get Paid. Recycle Better."
+
+Alternative marketing line:
+"Your Scrap. Our Pickup. A Cleaner Pakistan."
+
+Country: Pakistan
+
+Initial Launch:
+Rawalpindi and Islamabad.
+
+Future Expansion:
+Lahore, Faisalabad, Karachi, Multan, Peshawar and other Pakistani cities.
+
+Currency: PKR (Rs.)
+
+Languages:
+- English
+- Urdu
+- Architecture ready for Roman Urdu support.
+
+Business Model:
+- Doorstep scrap collection
+- On-demand pickup
+- B2B waste collection
+- Scrap trading
+- Recycling marketplace
+- Corporate waste management
+- Recycler partnerships
+- Collection hub operations
+- City-based franchise/partner network
+
+Build the architecture to support multiple cities, zones, warehouses, business branches and operational teams.
+
+==================================================
+2. COMPLETE BUSINESS ECOSYSTEM
+==================================================
+
+Build the following ecosystem:
+
+HOUSEHOLDS
+SHOPS
+OFFICES
+SCHOOLS
+RESTAURANTS
+HOSPITALS
+FACTORIES
+WAREHOUSES
+CONSTRUCTION COMPANIES
+HOUSING SOCIETIES
+
+Connect them with:
+
+CUSTOMER APPLICATION
+COLLECTOR APPLICATION
+OPERATIONS DASHBOARD
+COLLECTION HUBS
+SORTING CENTERS
+SCRAP DEALERS
+WHOLESALERS
+RECYCLERS
+CORPORATE BUYERS
+FINANCE MANAGEMENT
+
+Core business workflow:
+
+Customer
+→ Select Scrap
+→ Book Pickup
+→ Collector Assignment
+→ Collector Arrival
+→ OTP Verification
+→ Physical Inspection
+→ Weighing
+→ Final Price
+→ Customer Approval
+→ Payment
+→ Digital Receipt
+→ Warehouse Receiving
+→ Sorting
+→ Inventory
+→ Recycler Sale
+→ Dispatch
+→ Settlement
+
+Support B2C, B2B and B2B2R business models.
+
+==================================================
+3. APPLICATION ARCHITECTURE
+==================================================
+
+Build these interconnected interfaces:
+
+1. Public Website
+2. Customer Web Application
+3. Customer Mobile PWA
+4. Collector Mobile Application
+5. Operations Portal
+6. Admin Dashboard
+7. Super Admin Portal
+8. Finance Portal
+9. Pricing Management Portal
+10. Inventory and Warehouse Portal
+11. Recycler/Buyer Marketplace
+12. Corporate Customer Portal
+13. Customer Support Portal
+14. Franchise/City Management Portal
+
+Use one centralized backend and a shared permission system.
+
+Each portal must have its own appropriate navigation, dashboard, access rights and workflows.
+
+==================================================
+4. PUBLIC WEBSITE
+==================================================
+
+Create a premium, professional, mobile-first public website.
+
+Pages:
+
+- Home
+- How It Works
+- Sell Scrap
+- Scrap Rates
+- Business Solutions
+- For Recyclers
+- Recycling Process
+- About Us
+- Contact
+- FAQ
+- Service Areas
+- Sustainability
+- Login/Register
+- Privacy Policy
+- Terms and Conditions
+- Payment Policy
+
+Homepage sections:
+
+1. Hero section
+2. Scrap pickup booking
+3. Scrap categories
+4. Live scrap rates
+5. Three-step process
+6. Why Digital Kabariya
+7. Household services
+8. Business services
+9. Recycling process
+10. Trust and verification
+11. Service coverage
+12. Customer testimonials
+13. FAQ
+14. Footer
+
+Hero headline:
+
+"Sell Your Scrap Online. Get Paid Instantly!"
+
+Supporting text:
+
+"Book a doorstep pickup, receive transparent scrap rates, and get paid after verified weighing."
+
+Buttons:
+- Sell Scrap Now
+- Check Scrap Rates
+- Schedule Pickup
+
+Provide mobile-first layouts and clear calls to action.
+
+Create an original logo and branding system.
+
+Design style:
+- Deep green
+- White
+- Charcoal
+- Light neutral backgrounds
+- Clean typography
+- Premium cards
+- Professional illustrations
+- Modern icons
+- Trustworthy recycling identity
+
+==================================================
+5. CUSTOMER APPLICATION
+==================================================
+
+Build a complete customer dashboard.
+
+Navigation:
+
+Home
+Sell Scrap
+My Pickups
+Scrap Rates
+Wallet
+Notifications
+Profile
+Support
+
+Customer registration:
+
+- Mobile OTP
+- Email/password
+- Google Sign-In
+
+Customer profile:
+
+- Name
+- Phone
+- Email
+- Profile photo
+- Multiple addresses
+- City
+- Area
+- Account status
+
+Customer features:
+
+- Browse scrap categories
+- Search scrap
+- View current rates
+- Select material
+- Enter estimated weight
+- Upload scrap photos
+- Estimate transaction value
+- Select address
+- Pin location
+- Select pickup date
+- Select time slot
+- Book pickup
+- Reschedule
+- Cancel according to policy
+- View collector information
+- Track pickup
+- View final weight
+- Approve final amount
+- View payments
+- Receive digital receipts
+- Review collector
+- Submit complaint
+- Referral rewards
+- Promotional offers
+- Transaction history
+
+Pickup booking workflow:
+
+Step 1: Select category.
+
+Step 2: Select materials.
+
+Step 3: Enter approximate quantity.
+
+Step 4: Upload photographs.
+
+Step 5: Display estimated value.
+
+Step 6: Enter or select pickup address.
+
+Step 7: Select date and time.
+
+Step 8: Confirm booking.
+
+Step 9: Receive pickup confirmation.
+
+Step 10: Collector assigned.
+
+Step 11: Collector arrives.
+
+Step 12: Customer verifies collector OTP.
+
+Step 13: Scrap physically inspected and weighed.
+
+Step 14: Final price calculated.
+
+Step 15: Customer confirms transaction.
+
+Step 16: Payment processed.
+
+Step 17: Digital receipt generated.
+
+The booking process must be simple enough for non-technical users.
+
+==================================================
+6. SCRAP CATEGORY MANAGEMENT
+==================================================
+
+Support configurable scrap categories.
+
+PAPER:
+- Newspaper
+- Books
+- Magazines
+- Office paper
+- Cardboard
+- Cartons
+
+METALS:
+- Iron
+- Steel
+- Copper
+- Aluminium
+- Brass
+- Other metals
+
+PLASTICS:
+- PET bottles
+- HDPE
+- Mixed plastic
+- Other plastic
+
+ELECTRONICS:
+- Computers
+- Laptops
+- CPUs
+- Mobile phones
+- Cables
+- Printers
+- Electronics
+- UPS
+- Batteries
+
+APPLIANCES:
+- Refrigerator
+- Washing machine
+- Air conditioner
+- Microwave
+- Fans
+- Other appliances
+
+OTHER:
+- Glass
+- Textile
+- Furniture
+- Construction scrap
+- Other approved recyclable materials
+
+Each category must support:
+
+- Name
+- Description
+- Image
+- Unit
+- Minimum quantity
+- Active status
+- Display order
+- Pricing configuration
+- Quality grades
+- Collection requirements
+
+Admin must be able to add, update, disable and reorder categories without changing source code.
+
+Support both per-KG and per-piece pricing.
+
+Create special handling requirements for hazardous or regulated waste. Batteries, electronics and other sensitive waste must be routed only through appropriate authorized handlers. Never mix hazardous waste with ordinary scrap inventory.
+
+==================================================
+7. SCRAP PRICING ENGINE
+==================================================
+
+Build a centralized dynamic scrap pricing engine.
+
+Never hard-code actual scrap prices in the frontend.
+
+Pricing must be configurable by:
+
+- Material
+- Category
+- Grade
+- City
+- Zone
+- Warehouse
+- Unit
+- Quantity
+- Market rate
+- Buying rate
+- Selling rate
+- Quality adjustment
+- Collection cost
+- Sorting cost
+- Operational margin
+- Effective date
+- Expiry date
+
+Example:
+
+Market rate: Rs 180/kg
+Quality adjustment: -Rs 10
+Collection allocation: Rs 5
+Operational margin: Rs 10
+
+Illustrative customer buying price:
+
+Rs 155/kg.
+
+This is an example only. Admin must configure actual prices.
+
+Pricing formula:
+
+Customer Buying Price =
+Approved Base Rate
++/- Quality Adjustment
+- Allocated Collection Cost
+- Operational Margin
+
+For each pickup:
+
+Total Amount =
+Sum of Verified Material Weight × Approved Buying Rate.
+
+Admin features:
+
+- Create rates
+- Update rates
+- Schedule rates
+- Set minimum prices
+- Set maximum prices
+- City-specific pricing
+- Zone-specific pricing
+- Grade-based pricing
+- Bulk quantity pricing
+- Price approval
+- Rate expiry
+- Price history
+- Manual override with authorization
+- Audit logs
+
+Display price disclaimers to customers.
+
+Estimated prices are not guaranteed final prices. Final payment is based on actual verified materials, physical condition and measured weight.
+
+All final price calculations must happen on the trusted backend.
+
+==================================================
+8. COLLECTOR APPLICATION
+==================================================
+
+Build a separate mobile-first collector interface.
+
+Navigation:
+
+Dashboard
+Available Jobs
+My Jobs
+Earnings
+Commissions
+Performance
+Notifications
+Profile
+Support
+
+Collector dashboard:
+
+- Today's assigned jobs
+- Available jobs
+- Accepted jobs
+- Active pickups
+- Completed pickups
+- Total KG collected
+- Today's earnings
+- Monthly earnings
+- Commission
+- Target progress
+- Customer ratings
+
+Collector workflow:
+
+1. Receive assigned job.
+2. Accept or decline within configured time.
+3. View authorized customer address.
+4. Navigate to pickup.
+5. Mark on the way.
+6. Mark arrived.
+7. Verify GPS/geofence where enabled.
+8. Request customer OTP.
+9. Validate OTP through backend.
+10. Capture before photographs.
+11. Inspect materials.
+12. Select actual materials and grades.
+13. Enter measured weights.
+14. Calculate final amount.
+15. Show customer itemized breakdown.
+16. Obtain customer approval.
+17. Complete pickup.
+18. Process payment.
+19. Generate digital receipt.
+20. Update collector commission.
+
+Collector must not:
+
+- Change official pricing rules.
+- Modify completed financial records.
+- Approve their own suspicious adjustments.
+- Access unauthorized customer information.
+- Falsify pickup verification.
+
+Support manual weighing in the initial version.
+
+==================================================
+9. SMART WEIGHING SYSTEM
+==================================================
+
+Create a dedicated weighing module.
+
+Each material record must include:
+
+- Material ID
+- Weight
+- Unit
+- Grade
+- Rate
+- Total value
+- Collector ID
+- Pickup ID
+- Timestamp
+- Location
+- Photograph references
+
+Support:
+
+- Manual weighing
+- Digital scale integration interface
+- Bluetooth scale integration readiness
+- Scale identification
+- Weight timestamp
+- GPS verification
+- Customer confirmation
+- Weight adjustment approval
+- Audit trail
+
+Do not claim that a physical scale is integrated unless a real compatible device has been configured and tested.
+
+Use verified manual entry for initial launch.
+
+Maintain original readings and correction records.
+
+==================================================
+10. OTP AND PICKUP VERIFICATION
+==================================================
+
+Implement secure OTP verification.
+
+OTP must be:
+
+- Generated server-side
+- Time limited
+- One-time use
+- Linked to a specific pickup
+- Rate limited
+- Validated server-side
+
+Record:
+
+- OTP verification status
+- Collector
+- Customer
+- Pickup
+- Verification time
+
+Never store plaintext OTP values unnecessarily.
+
+A completed pickup must have proper verification and an authorized completion event.
+
+==================================================
+11. COLLECTOR COMMISSION ENGINE
+==================================================
+
+Create configurable collector compensation.
+
+Commission types:
+
+- Fixed commission per pickup
+- Per-KG commission
+- Percentage commission
+- Performance bonus
+- Monthly target bonus
+- Corporate pickup bonus
+- Special campaign bonus
+
+Example:
+
+Fixed pickup commission = Rs 50
+
+Weight commission = Rs 0.50/kg
+
+Total Commission =
+Fixed Pickup Commission
++ Weight Commission
++ Eligible Bonuses.
+
+These are sample values.
+
+Admin can configure rules by:
+
+- Collector
+- City
+- Zone
+- Material
+- Campaign
+- Pickup type
+
+Create:
+
+commissionRules
+collectorCommissionRecords
+commissionPayouts
+
+Generate commission only once for each eligible completed pickup.
+
+Track pending, approved, payable and paid commissions.
+
+==================================================
+12. PICKUP ASSIGNMENT AND LOGISTICS
+==================================================
+
+Build a proper pickup management engine.
+
+Statuses:
+
+- Requested
+- Confirmed
+- Pending Assignment
+- Assigned
+- Accepted
+- On The Way
+- Arrived
+- OTP Verified
+- Weighing
+- Awaiting Customer Approval
+- Completed
+- Cancelled
+- Rescheduled
+- Failed
+
+Support:
+
+- Manual assignment
+- Nearest collector suggestion
+- Zone-based assignment
+- Collector availability
+- Vehicle allocation
+- Priority jobs
+- Scheduled jobs
+- Pickup time slots
+- Job reassignment
+- Cancellation reasons
+- Pickup timeline
+
+Future-ready routing service:
+
+- Multi-stop route optimization
+- Nearest collector
+- ETA calculation
+- Distance calculation
+- Service zone restrictions
+
+Keep mapping integration modular.
+
+==================================================
+13. MAPS AND LIVE TRACKING
+==================================================
+
+Integrate a configurable maps provider.
+
+Features:
+
+- Customer address pin
+- Collector GPS
+- Pickup coordinates
+- Collector route
+- ETA
+- Service zones
+- Warehouse locations
+- Geofence verification
+- Navigation
+
+Live tracking should be available only during authorized active pickup sessions.
+
+Use appropriate location permissions.
+
+Do not expose private location data unnecessarily.
+
+Provide a working manual address and map-pin fallback when map credentials are unavailable.
+
+==================================================
+14. PAYMENT SYSTEM
+==================================================
+
+Build a Pakistan-ready payment architecture.
+
+Payment methods:
+
+- Cash
+- Bank transfer
+- Easypaisa
+- JazzCash
+- Raast-compatible transfers where supported
+- Configurable online payment gateway
+
+Support customer payout and corporate settlement.
+
+Payment workflow:
+
+Final Amount Approved
+→ Payment Initiated
+→ Provider/Manual Verification
+→ Payment Confirmed
+→ Receipt Generated.
+
+Payment statuses:
+
+- Pending
+- Processing
+- Paid
+- Failed
+- Refunded
+- Cancelled
+
+Initial launch must support cash and manually verified bank/mobile wallet payouts.
+
+Create provider abstraction so future integrations can be added without rewriting the application.
+
+Never fabricate a payment gateway integration.
+
+Never trust a client-side payment-success message.
+
+Verify payment through backend/provider confirmation or authorized finance approval.
+
+Use idempotency to prevent duplicate payments.
+
+==================================================
+15. DIGITAL WALLET AND FINANCIAL LEDGER
+==================================================
+
+Customer wallet:
+
+- Available balance
+- Pending balance
+- Withdrawable balance
+- Transaction history
+
+Collector wallet:
+
+- Earned
+- Pending
+- Approved
+- Paid
+- Withdrawn
+
+Admin financial dashboard:
+
+- Total customer payouts
+- Total collector payable
+- Pending payments
+- Verified payments
+- Refunds
+- Receivables
+- Payables
+
+Every financial change must generate an immutable ledger transaction.
+
+Never allow client-side direct wallet balance editing.
+
+Use backend transaction processing.
+
+Maintain transaction references and reconciliation status.
+
+==================================================
+16. ADMIN DASHBOARD
+==================================================
+
+Create a premium enterprise admin portal.
+
+Admin URL must not appear in public navigation or public sitemap.
+
+Modules:
+
+DASHBOARD
+- Total customers
+- Active collectors
+- Today's pickups
+- Pending pickups
+- Completed pickups
+- Total KG
+- Scrap purchase amount
+- Scrap selling amount
+- Gross margin
+- Contribution margin
+- Operating expenses
+- Pending payments
+- Active zones
+- Inventory value
+
+CUSTOMER MANAGEMENT
+- Customer profiles
+- Contact information
+- Addresses
+- Pickup history
+- Payment history
+- Complaints
+- Account status
+
+COLLECTOR MANAGEMENT
+- Collector registration
+- Document verification
+- Approval
+- Service zones
+- Vehicle assignment
+- Availability
+- Earnings
+- Commission
+- Performance
+- Suspension
+
+PICKUP MANAGEMENT
+- Booking list
+- Pickup details
+- Assignment
+- Rescheduling
+- Cancellation
+- Tracking
+- Weight verification
+- Payment status
+- Pickup history
+
+PRICING MANAGEMENT
+- Categories
+- Rates
+- Quality grades
+- Cities
+- Zones
+- Pricing rules
+- Approvals
+- Price history
+
+PAYMENT MANAGEMENT
+- Customer payouts
+- Bank transfers
+- Cash settlements
+- Collector payments
+- Refunds
+- Reconciliation
+
+INVENTORY MANAGEMENT
+- Warehouses
+- Material batches
+- Inbound stock
+- Outbound stock
+- Sorting
+- Stock transfers
+- Adjustments
+- Losses
+
+BUYER MANAGEMENT
+- Recycler accounts
+- Buyer verification
+- Orders
+- Bids
+- Payments
+- Delivery
+
+CORPORATE MANAGEMENT
+- Business clients
+- Branches
+- Contracts
+- Monthly statements
+- Invoices
+
+REPORTS
+- Daily
+- Weekly
+- Monthly
+- Yearly
+- Material profitability
+- Collector productivity
+- Zone profitability
+- Financial performance
+
+SYSTEM SETTINGS
+- Branding
+- Cities
+- Service areas
+- Time slots
+- Pricing
+- Payment methods
+- Notifications
+- Commission rules
+- Operational limits
+
+==================================================
+17. ROLE-BASED ACCESS CONTROL
+==================================================
+
+Implement least-privilege access.
+
+Roles:
+
+- super_admin
+- admin
+- operations_manager
+- finance_manager
+- pricing_manager
+- inventory_manager
+- sales_manager
+- support_agent
+- hub_manager
+- hub_operator
+- collector
+- recycler
+- corporate_admin
+- corporate_staff
+- customer
+
+Permission requirements:
+
+Super Admin:
+Complete system control.
+
+Admin:
+Authorized administrative operations.
+
+Operations:
+Pickup and collector management.
+
+Finance:
+Financial records, payments and settlements.
+
+Pricing:
+Scrap rates and pricing rules.
+
+Inventory:
+Warehouse and stock management.
+
+Collector:
+Own profile, assigned jobs and authorized earnings.
+
+Recycler:
+Marketplace, own orders and bids.
+
+Corporate:
+Own company and branch data.
+
+Customer:
+Own profile, pickups, receipts and payments.
+
+Enforce authorization in backend and Firestore rules.
+
+Do not rely solely on frontend route hiding.
+
+==================================================
+18. COLLECTION HUB AND WAREHOUSE
+==================================================
+
+Build a complete optional warehouse management module.
+
+Workflow:
+
+Collector Delivery
+→ Inbound Weighing
+→ Verification
+→ Sorting
+→ Grading
+→ Inventory Batch
+→ Storage
+→ Buyer Sale
+→ Dispatch.
+
+Track:
+
+- Batch ID
+- Source pickup
+- Material
+- Grade
+- Gross weight
+- Net weight
+- Purchase cost
+- Sorting cost
+- Warehouse
+- Current quantity
+- Reserved quantity
+- Sold quantity
+- Loss
+- Status
+
+Features:
+
+- Inbound weighing
+- Outbound weighing
+- Sorting
+- Stock transfers
+- Inventory adjustments
+- Warehouse management
+- Stock reconciliation
+- Batch tracking
+- Profit calculation
+- Dispatch records
+
+Prevent negative stock.
+
+Every stock modification must create an audit record.
+
+==================================================
+19. RECYCLER AND SCRAP BUYER MARKETPLACE
+==================================================
+
+Create a separate buyer portal.
+
+Buyer can:
+
+- Register
+- Submit verification documents
+- Browse available scrap
+- View material grades
+- View quantity
+- View location
+- Place bids
+- Purchase fixed-price lots
+- Create bulk orders
+- Download invoices
+- Track dispatch
+- View payment status
+
+Support:
+
+- Fixed price
+- Auction
+- Bulk order
+- Purchase order
+- Negotiated business contracts
+
+Admin can approve buyers and high-value transactions.
+
+Recycler marketplace is a phase-two feature but its architecture must be planned from the beginning.
+
+==================================================
+20. CORPORATE BUSINESS PORTAL
+==================================================
+
+Build professional waste management services for:
+
+- Offices
+- Schools
+- Restaurants
+- Hospitals
+- Factories
+- Shops
+- Warehouses
+- Housing societies
+- Construction companies
+
+Corporate features:
+
+- Company registration
+- Business verification
+- Multiple branches
+- Staff accounts
+- Scheduled pickups
+- Recurring pickups
+- Bulk waste collection
+- Contract management
+- Custom pricing
+- Monthly invoices
+- Payment history
+- Waste reports
+- Recycling reports
+- Account manager
+
+Create corporate dashboards with:
+
+Total Waste Collected
+Total Recycled
+Pickup History
+Branch Performance
+Monthly Transactions
+Estimated Recycling Value.
+
+Do not invent environmental impact figures. Clearly label estimates and explain their methodology.
+
+==================================================
+21. FINANCIAL MANAGEMENT AND PROFIT ENGINE
+==================================================
+
+For every pickup, calculate:
+
+- Scrap buying cost
+- Customer payout
+- Collector commission
+- Fuel allocation
+- Transportation
+- Sorting cost
+- Other direct cost
+- Expected selling value
+- Actual selling value
+- Gross margin
+- Contribution margin
+
+Formulas:
+
+Gross Margin =
+Actual Selling Value - Scrap Purchase Cost.
+
+Contribution Margin =
+Gross Margin - Direct Collection and Processing Costs.
+
+Net Operating Profit =
+Contribution Margin - Operating Expenses.
+
+Provide profitability reports by:
+
+- Pickup
+- Material
+- Collector
+- Zone
+- Warehouse
+- City
+- Corporate client
+
+Never confuse total transaction volume with actual revenue or profit.
+
+==================================================
+22. CUSTOMER SUPPORT
+==================================================
+
+Create a complete support system.
+
+Features:
+
+- Contact form
+- Phone support
+- WhatsApp integration link
+- Complaint tickets
+- Ticket assignment
+- Internal notes
+- Resolution tracking
+- Customer feedback
+
+Ticket types:
+
+- Delayed pickup
+- Wrong price
+- Weight dispute
+- Collector behaviour
+- Payment issue
+- Cancellation
+- Technical issue
+- Other
+
+Ticket statuses:
+
+Open
+Assigned
+In Progress
+Waiting
+Resolved
+Closed
+
+==================================================
+23. NOTIFICATION ENGINE
+==================================================
+
+Use Firebase Cloud Messaging for supported push notifications.
+
+Events:
+
+- Registration
+- Booking confirmation
+- Collector assignment
+- Collector acceptance
+- Collector arriving
+- OTP verification
+- Pickup completion
+- Payment confirmation
+- Commission approval
+- Payment settlement
+- Order creation
+- Order dispatch
+- Complaint update
+- Promotions
+
+Design configurable SMS and WhatsApp integrations.
+
+Do not claim external delivery unless provider credentials and webhook verification are configured.
+
+==================================================
+24. AI FEATURES
+==================================================
+
+Integrate Gemini API through secure backend functions where appropriate.
+
+AI SCRAP CLASSIFICATION:
+
+Customer uploads an image.
+
+AI estimates:
+
+- Possible material
+- Material category
+- Visible quality
+- Classification confidence
+
+Clearly state:
+
+"AI classification is an estimate. Final material and price are confirmed during physical inspection."
+
+AI CUSTOMER ASSISTANT:
+
+- Explain pickup process
+- Explain pricing
+- Help create bookings
+- Answer FAQs
+- Escalate complaints
+
+AI BUSINESS ANALYTICS:
+
+- Scrap demand forecast
+- High-performing zones
+- Material trends
+- Collector performance summaries
+- Inventory trends
+
+AI FRAUD DETECTION:
+
+Flag suspicious:
+
+- Weight discrepancies
+- Duplicate pickups
+- Unusual price changes
+- GPS anomalies
+- Unusual cancellations
+- Collector/customer transaction patterns
+
+AI must flag for human review, not independently penalize customers or collectors.
+
+==================================================
+25. EID AND SEASONAL COLLECTION MODULE
+==================================================
+
+Create configurable seasonal campaigns.
+
+Example:
+
+Eid Waste Collection Campaign.
+
+Separate categories:
+
+- Organic waste
+- Animal by-products
+- Plastic
+- Cardboard
+- General waste
+
+Do not mix organic or animal waste with ordinary recyclable inventory.
+
+Use appropriate approved collection and disposal partners.
+
+Support campaign-specific:
+
+- Zones
+- Schedules
+- Staff
+- Pricing
+- Vehicles
+- Reports
+- Notifications
+
+==================================================
+26. REFERRALS AND PROMOTIONS
+==================================================
+
+Build:
+
+Referral codes
+Customer rewards
+Promotional offers
+Pickup fee discounts
+Fixed bonuses
+Percentage discounts
+Campaigns
+Usage limits
+
+Admin controls:
+
+- Start date
+- End date
+- Eligible cities
+- Eligible zones
+- Material categories
+- Minimum transaction
+- Maximum reward
+- Per-customer limit
+- Campaign status
+
+Prevent referral abuse and duplicate reward processing.
+
+==================================================
+27. FIREBASE BACKEND ARCHITECTURE
+==================================================
+
+Use Firebase as the primary backend.
+
+Required services:
+
+Firebase Authentication
+Cloud Firestore
+Firebase Storage
+Cloud Functions
+Firebase Cloud Messaging
+Firebase App Check
+Firebase Analytics
+
+Use the existing Firebase project if configured.
+
+Never replace an existing Firebase project or configuration without explicit permission.
+
+If configuration is unavailable, explain the required setup.
+
+Firestore collections:
+
+users
+customers
+collectors
+admins
+roles
+permissions
+addresses
+cities
+serviceAreas
+serviceZones
+materials
+materialCategories
+pricingRules
+priceHistory
+pickupRequests
+pickupAssignments
+pickupItems
+pickupEvents
+payments
+paymentMethods
+transactions
+wallets
+walletTransactions
+ledgerEntries
+collectorCommissions
+commissionRules
+commissionPayouts
+vehicles
+vehicleTracking
+warehouses
+inventoryBatches
+inventoryTransactions
+sortingRecords
+buyers
+buyerOrders
+bids
+corporateClients
+corporateBranches
+corporateContracts
+invoices
+notifications
+reviews
+complaints
+promoCodes
+referrals
+auditLogs
+expenses
+settings
+
+Use consistent document naming, indexes and server timestamps.
+
+Avoid unnecessary document duplication.
+
+Use transactions or batched writes for related business operations.
+
+==================================================
+28. IMPORTANT DATABASE DOCUMENTS
+==================================================
+
+USERS:
+
+uid
+name
+email
+phone
+role
+status
+photoURL
+cityId
+createdAt
+updatedAt
+
+PICKUP REQUEST:
+
+pickupId
+customerId
+addressId
+cityId
+zoneId
+materials
+estimatedWeight
+estimatedValue
+finalWeight
+finalAmount
+collectorId
+status
+scheduledDate
+timeSlot
+latitude
+longitude
+photos
+createdAt
+completedAt
+
+PRICING RULE:
+
+materialId
+cityId
+zoneId
+grade
+unit
+marketRate
+buyingPrice
+sellingPrice
+minimumPrice
+maximumPrice
+marginType
+marginValue
+effectiveFrom
+effectiveUntil
+status
+updatedBy
+updatedAt
+
+PAYMENT:
+
+paymentId
+pickupId
+customerId
+amount
+method
+provider
+reference
+status
+verifiedBy
+verifiedAt
+createdAt
+
+COMMISSION:
+
+commissionId
+collectorId
+pickupId
+fixedAmount
+weightAmount
+bonusAmount
+totalAmount
+status
+createdAt
+paidAt
+
+INVENTORY BATCH:
+
+batchId
+sourcePickupIds
+materialId
+grade
+grossWeight
+netWeight
+purchaseCost
+sortingCost
+warehouseId
+availableQuantity
+reservedQuantity
+soldQuantity
+status
+createdAt
+
+Adapt the exact schema to the implementation, but preserve these business requirements.
+
+==================================================
+29. SECURITY AND DATA PROTECTION
+==================================================
+
+Implement:
+
+- Strict Firebase Security Rules
+- Role-based access
+- Firebase App Check
+- Server-side validation
+- Input sanitization
+- Secure file uploads
+- OTP rate limiting
+- Payment verification
+- Idempotency
+- Audit logs
+- Least-privilege access
+- Sensitive data minimization
+- Secure secrets management
+
+Never expose:
+
+- Firebase service account keys
+- Payment provider secrets
+- Private API keys
+- Admin credentials
+
+in public frontend code.
+
+Use environment variables and secure server-side configuration.
+
+Use soft deletion for important business records where appropriate.
+
+Maintain immutable financial history.
+
+==================================================
+30. ANALYTICS AND REPORTING
+==================================================
+
+Create dashboards:
+
+DAILY
+WEEKLY
+MONTHLY
+YEARLY
+
+Metrics:
+
+- Pickups
+- Customers
+- Collectors
+- KG collected
+- Material mix
+- Purchase amount
+- Selling amount
+- Gross margin
+- Contribution margin
+- Operating expenses
+- Net profit
+- Commission
+- Inventory turnover
+- Customer retention
+- B2B performance
+- Zone performance
+
+Support CSV/Excel/PDF export where practical.
+
+==================================================
+31. MULTI-CITY AND FRANCHISE ARCHITECTURE
+==================================================
+
+Prepare for national expansion.
+
+Each city should have:
+
+- City admin
+- Service zones
+- Collectors
+- Vehicles
+- Warehouse
+- Pricing rules
+- Buyers
+- Corporate customers
+- Reports
+
+Super Admin can:
+
+- Create cities
+- Activate/deactivate cities
+- Create zones
+- Assign managers
+- Set city pricing
+- View consolidated reports
+- Configure franchise/partner access
+
+Keep financial records properly separated by city and legal entity where applicable.
+
+==================================================
+32. UI/UX AND RESPONSIVENESS
+==================================================
+
+The entire application must work on:
+
+- iPhone
+- Android
+- Tablets
+- Desktop
+
+Design principles:
+
+- Mobile-first
+- Fast loading
+- Accessible
+- Simple navigation
+- Clear buttons
+- Minimal clutter
+- Consistent spacing
+- Premium dashboard cards
+- Clean forms
+- Readable tables
+- Responsive charts
+- Loading states
+- Empty states
+- Error states
+- Success feedback
+
+Customer application should feel effortless.
+
+Collector application should be optimized for low-cost Android devices and one-handed use.
+
+Admin application should feel like a professional enterprise business system.
+
+Support Urdu and English architecture.
+
+==================================================
+33. TECHNICAL STACK
+==================================================
+
+Preferred technology:
+
+Frontend:
+React + TypeScript.
+
+Framework:
+Next.js or an appropriate React architecture.
+
+Styling:
+Tailwind CSS.
+
+Backend:
+Firebase.
+
+Database:
+Cloud Firestore.
+
+Server:
+Cloud Functions.
+
+Storage:
+Firebase Storage.
+
+Authentication:
+Firebase Authentication.
+
+Notifications:
+Firebase Cloud Messaging.
+
+AI:
+Gemini API through secure backend integration.
+
+Maps:
+Google Maps or a compatible provider.
+
+Mobile:
+Responsive PWA initially.
+
+Future:
+React Native or Flutter if native mobile features become necessary.
+
+Use modular architecture and reusable components.
+
+Separate:
+
+- UI
+- Business logic
+- Firebase services
+- Authentication
+- Authorization
+- Pricing
+- Commission
+- Payments
+- Inventory
+- Logistics
+- Notifications
+- AI
+- Analytics
+
+==================================================
+34. TESTING AND QUALITY ASSURANCE
+==================================================
+
+Perform systematic testing.
+
+Authentication:
+- Signup
+- Login
+- OTP
+- Password recovery
+- Role access
+
+Pickup:
+- Booking
+- Assignment
+- Acceptance
+- Arrival
+- Verification
+- Weighing
+- Confirmation
+- Completion
+- Cancellation
+
+Pricing:
+- Material rate
+- Grade adjustment
+- City adjustment
+- Weight calculation
+- Multiple materials
+
+Finance:
+- Customer payout
+- Collector commission
+- Ledger
+- Refund
+- Reconciliation
+- Duplicate prevention
+
+Inventory:
+- Inbound
+- Sorting
+- Transfer
+- Sale
+- Stock adjustment
+- Negative stock prevention
+
+Security:
+- Unauthorized access
+- Cross-customer data
+- Collector restrictions
+- Admin restrictions
+- File access
+
+UI:
+- Mobile responsiveness
+- Desktop layout
+- Forms
+- Navigation
+- Buttons
+- Charts
+- Modals
+- Empty states
+
+Fix all critical issues before declaring a phase complete.
+
+==================================================
+35. DEVELOPMENT PHASES
+==================================================
+
+Build the complete project in controlled phases.
+
+PHASE 1 — LAUNCH MVP
+
+Build:
+
+- Branding
+- Public website
+- Customer application
+- Authentication
+- Customer profiles
+- Scrap categories
+- Dynamic scrap rates
+- Pickup booking
+- Collector application
+- Admin dashboard
+- Collector assignment
+- OTP verification
+- Manual weighing
+- Customer approval
+- Cash/bank/mobile-wallet payment recording
+- Digital receipts
+- Firebase persistence
+- Security Rules
+
+PHASE 2 — OPERATIONAL MANAGEMENT
+
+Build:
+
+- Live tracking
+- Notifications
+- Commission engine
+- Finance portal
+- Expenses
+- Advanced reports
+- Corporate customer portal
+- Recurring bookings
+
+PHASE 3 — RECYCLING MARKETPLACE
+
+Build:
+
+- Warehouse
+- Sorting
+- Inventory
+- Batch management
+- Recycler portal
+- Buyer marketplace
+- Bidding
+- Bulk orders
+- Dispatch
+- Corporate recycling reports
+
+PHASE 4 — ADVANCED AUTOMATION
+
+Build:
+
+- Digital weighing hardware
+- AI scrap classification
+- AI analytics
+- Route optimization
+- Fraud monitoring
+- Advanced forecasting
+- Multi-city operations
+- Franchise management
+
+Keep the application operational after each phase.
+
+Do not build fake integrations to simulate completion.
+
+==================================================
+36. DEMO AND PRODUCTION ENVIRONMENT
+==================================================
+
+Create separate environments:
+
+Development
+Staging
+Production
+
+Demo data must be clearly identified and must never contaminate real customer or financial records.
+
+Never hard-code production passwords.
+
+Admin users must be provisioned securely.
+
+Do not expose admin login links in the public website.
+
+==================================================
+37. FINAL IMPLEMENTATION INSTRUCTIONS
+==================================================
+
+Before writing code:
+
+1. Inspect the project structure.
+2. Check available Firebase configuration.
+3. Identify existing dependencies.
+4. Design the architecture.
+5. Plan Firestore collections and security.
+6. Create the design system.
+7. Implement the core business workflows.
+
+If starting from a blank project, initialize the complete application architecture.
+
+If an existing project is supplied, preserve useful working components and inspect before modifying.
+
+Do not silently delete existing data.
+
+Do not replace Firebase credentials.
+
+Do not invent payment integrations.
+
+Do not expose API secrets.
+
+Do not use frontend localStorage as the primary permanent database.
+
+Do not hard-code prices.
+
+Do not create fake production customers or transactions.
+
+Every form must validate and save properly.
+
+Every important button must perform a real action.
+
+Every important operation must have loading, success and error states.
+
+Create reusable services and clean maintainable code.
+
+Do not stop after generating the homepage.
+
+Implement the actual working application progressively.
+
+==================================================
+38. FINAL ACCEPTANCE CRITERIA
+==================================================
+
+The project is not complete until:
+
+1. Public website works.
+2. Customers can register and log in.
+3. Customers can view dynamic scrap prices.
+4. Customers can create pickup bookings.
+5. Admin can view and manage bookings.
+6. Admin can assign collectors.
+7. Collectors can access assigned jobs.
+8. OTP verification works.
+9. Verified weights can be recorded.
+10. Final amounts calculate correctly.
+11. Customers can approve transaction amounts.
+12. Payments can be recorded and verified.
+13. Digital receipts are generated.
+14. Collector commissions calculate correctly.
+15. Financial ledgers are consistent.
+16. Customer and collector permissions work.
+17. Firebase data persists correctly.
+18. Mobile application is responsive.
+19. Admin dashboard is protected.
+20. Critical security and business workflows pass testing.
+
+DELIVER THE RESULT:
+
+A complete, original, production-oriented DIGITAL KABARIYA platform inspired by the convenience of ScrapUncle, designed for Pakistan and capable of growing from one city into a national scrap collection and recycling network.
+
+The priority is a real working business platform, not merely a beautiful interface.
