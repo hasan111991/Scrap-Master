@@ -4,15 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.firebase.configureAppCheck
-import com.example.ui.DigitalKabariyaApp
+import com.example.model.PortalRoute
+import com.example.ui.CollectionHubApp
+import com.example.ui.theme.CollectionHubTheme
 import com.example.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +19,15 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     configureAppCheck(this, intent)
     enableEdgeToEdge()
+    val initialRoute = when (intent?.data?.host?.lowercase()) {
+      "collector" -> PortalRoute.COLLECTOR_PORTAL
+      "hub-admin" -> PortalRoute.ADMIN_PORTAL
+      "public" -> PortalRoute.PUBLIC_HOME
+      else -> PortalRoute.CUSTOMER_PORTAL
+    }
     setContent {
-      MyApplicationTheme {
-        DigitalKabariyaApp()
+      CollectionHubTheme {
+        CollectionHubApp(initialRoute = initialRoute)
       }
     }
   }

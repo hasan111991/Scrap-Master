@@ -1,16 +1,16 @@
 {
-  "name": "DIGITAL KABARIYA — Pakistan Recycling Ecosystem",
-  "short_name": "Kabariya PK",
-  "description": "Sell Scrap. Get Paid. Recycle Better. Complete Pakistan-first digital scrap collection, hub inventory, collector logistics, and B2B recycler marketplace.",
+  "name": "Collection Hub — Scrap Collection Marketplace",
+  "short_name": "Collection Hub",
+  "description": "Your Scrap. Your Collector. Your Collection Hub. Connecting scrap sellers in Rawalpindi & Islamabad with local kabari collectors.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f8fafc",
-  "theme_color": "#064e3b",
+  "background_color": "#ffffff",
+  "theme_color": "#14532d",
   "orientation": "any",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%23064e3b'/%3E%3Ccircle cx='96' cy='96' r='64' fill='%23059669'/%3E%3Ctext x='96' y='118' font-size='84' text-anchor='middle' fill='white'%3E%E2%99%BB%EF%B8%8F%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%2314532d'/%3E%3Ccircle cx='96' cy='96' r='56' fill='none' stroke='%23ffffff' stroke-width='16' stroke-dasharray='240 80' stroke-linecap='round'/%3E%3Cpolygon points='96,56 124,96 96,136 68,96' fill='%23dcfce7'/%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"

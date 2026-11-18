@@ -8,10 +8,11 @@ const fs = require("node:fs");
 
 let testEnv;
 const PROJECT_ID = process.env.GCP_PROJECT || "demo-no-project";
-const ALICE_UID = "alice_123";
-const BOB_UID = "bob_456";
-const COLLECTOR_UID = "collector_789";
-const ADMIN_UID = "admin_001";
+const CUSTOMER_UID = "cust_alice_01";
+const OTHER_CUST_UID = "cust_bob_02";
+const COLLECTOR_1_UID = "col_rashid_01";
+const COLLECTOR_2_UID = "col_usman_02";
+const ADMIN_UID = "admin_hasan_01";
 
 const [emulatorHost, emulatorPortStr] = (
   process.env.FIRESTORE_EMULATOR_HOST || "127.0.0.1:8085"
@@ -46,399 +47,429 @@ function pastDate(msOffset = 2000) {
   return new Date(Date.now() - msOffset);
 }
 
-test("Unauthenticated user: cannot read or write any collection", async () => {
-  const unauthDb = testEnv.unauthenticatedContext().firestore();
-  await assertFails(unauthDb.collection("scrap_inventory").get());
-  await assertFails(unauthDb.collection("pickups").get());
-  await assertFails(unauthDb.collection("pricing_rules").get());
-  await assertFails(
-    unauthDb.collection("scrap_inventory").doc("inv_1").set({
-      userId: ALICE_UID,
-      materialId: "mat_copper_01",
-      name: "Copper",
-      category: "COPPER_BRASS",
-      grade: "Standard A",
-      currentStockKg: 50,
-      minThresholdKg: 20,
-      unitPricePkr: 2150,
-      warehouseLocation: "Rawalpindi Hub",
-      status: "IN_STOCK",
-      createdAt: pastDate(),
-      updatedAt: pastDate(),
-    })
-  );
-});
-
-test("Users collection: prevents self-escalation, ghost fields, and cross-user PII reads", async () => {
-  const aliceDb = testEnv.authenticatedContext(ALICE_UID).firestore();
-  const bobDb = testEnv.authenticatedContext(BOB_UID).firestore();
-  const now = pastDate();
-
-  // Self-create as CUSTOMER succeeds
-  await assertSucceeds(
-    aliceDb.collection("users").doc(ALICE_UID).set({
-      userId: ALICE_UID,
-      displayName: "Ali Raza",
-      city: "Rawalpindi",
-      zone: "Chaklala Scheme III",
-      role: "CUSTOMER",
-      status: "ACTIVE",
-      createdAt: now,
-      updatedAt: now,
-    })
-  );
-
-  // Self-escalation to ADMIN fails
-  await assertFails(
-    bobDb.collection("users").doc(BOB_UID).set({
-      userId: BOB_UID,
-      displayName: "Bob Hacker",
-      city: "Islamabad",
-      role: "ADMIN",
-      status: "ACTIVE",
-      createdAt: now,
-      updatedAt: now,
-    })
-  );
-
-  // Role escalation via update fails
-  await assertFails(
-    aliceDb.collection("users").doc(ALICE_UID).update({
-      role: "SUPER_ADMIN",
-      updatedAt: pastDate(500),
-    })
-  );
-
-  // Cross-user PII read fails
-  await assertFails(bobDb.collection("users").doc(ALICE_UID).get());
-});
-
-test("ScrapInventory: Kotlin payload create, partial update, query filter, and cross-user isolation", async () => {
-  const aliceDb = testEnv.authenticatedContext(ALICE_UID).firestore();
-  const bobDb = testEnv.authenticatedContext(BOB_UID).firestore();
-  const created = pastDate(5000);
-
-  // Create without @DocumentId "id" field succeeds
-  await assertSucceeds(
-    aliceDb.collection("scrap_inventory").doc("inv_copper_01").set({
-      userId: ALICE_UID,
-      materialId: "mat_copper_01",
-      name: "Pure Copper Wire",
-      urduName: "تانبا وائر",
-      category: "COPPER_BRASS",
-      grade: "Grade A",
-      currentStockKg: 120.5,
-      minThresholdKg: 50.0,
-      unitPricePkr: 2150.0,
-      warehouseLocation: "Rawalpindi Hub I-10",
-      status: "IN_STOCK",
-      createdAt: created,
-      updatedAt: created,
-    })
-  );
-
-  // Reject ghost field ("id" or "isVerified")
-  await assertFails(
-    aliceDb.collection("scrap_inventory").doc("inv_bad").set({
-      id: "inv_bad",
-      userId: ALICE_UID,
-      materialId: "mat_iron_01",
-      name: "Iron",
-      category: "IRON_STEEL",
-      grade: "Standard A",
-      currentStockKg: 10,
-      minThresholdKg: 5,
-      unitPricePkr: 145,
-      warehouseLocation: "Hub",
-      status: "IN_STOCK",
-      createdAt: created,
-      updatedAt: created,
-    })
-  );
-
-  // Reject tampered future timestamp
-  await assertFails(
-    aliceDb.collection("scrap_inventory").doc("inv_future").set({
-      userId: ALICE_UID,
-      materialId: "mat_iron_01",
-      name: "Iron",
-      category: "IRON_STEEL",
-      grade: "Standard A",
-      currentStockKg: 10,
-      minThresholdKg: 5,
-      unitPricePkr: 145,
-      warehouseLocation: "Hub",
-      status: "IN_STOCK",
-      createdAt: new Date(Date.now() + 60000),
-      updatedAt: new Date(Date.now() + 60000),
-    })
-  );
-
-  // Partial update on stock succeeds
-  await assertSucceeds(
-    aliceDb.collection("scrap_inventory").doc("inv_copper_01").update({
-      currentStockKg: 35.0,
-      status: "LOW_STOCK",
-      updatedAt: pastDate(1000),
-    })
-  );
-
-  // Filtered query matching Kotlin repository succeeds; unfiltered fails
-  await assertSucceeds(
-    aliceDb.collection("scrap_inventory").where("userId", "==", ALICE_UID).get()
-  );
-  await assertFails(aliceDb.collection("scrap_inventory").get());
-
-  // Bob cannot read or mutate Alice's inventory
-  await assertFails(bobDb.collection("scrap_inventory").doc("inv_copper_01").get());
-  await assertFails(
-    bobDb.collection("scrap_inventory").doc("inv_copper_01").update({
-      currentStockKg: 0,
-      updatedAt: pastDate(500),
-    })
-  );
-});
-
-test("Pickups workflow: customer create, collector weigh/verify, customer confirm, terminal lock", async () => {
-  const aliceDb = testEnv.authenticatedContext(ALICE_UID).firestore();
-  const collectorDb = testEnv.authenticatedContext(COLLECTOR_UID).firestore();
-  const bobDb = testEnv.authenticatedContext(BOB_UID).firestore();
-  const created = pastDate(10000);
-
-  await assertSucceeds(
-    aliceDb.collection("pickups").doc("PKP_9001").set({
-      userId: ALICE_UID,
-      customerName: "Ali Raza",
-      customerPhone: "+92 300 1234567",
-      city: "Islamabad",
-      zone: "F-10 Markaz",
-      address: "House 14, Street 8, F-10/3, Islamabad",
-      itemsSummary: "Iron (40 kg), Copper (5 kg)",
-      estimatedWeightKg: 45,
-      estimatedTotalPkr: 16550,
-      verifiedWeightKg: 0,
-      verifiedTotalPkr: 0,
-      status: "ASSIGNED",
-      scheduledDate: "Today",
-      timeSlot: "02:00 PM - 04:00 PM",
-      paymentMethod: "RAAST",
-      collectorId: COLLECTOR_UID,
-      collectorName: "Rashid Khan",
-      otpVerified: false,
-      createdAt: created,
-      updatedAt: created,
-    })
-  );
-
-  // Unrelated Bob cannot read or update
-  await assertFails(bobDb.collection("pickups").doc("PKP_9001").get());
-  await assertSucceeds(
-    aliceDb.collection("pickups").where("userId", "==", ALICE_UID).get()
-  );
-  await assertSucceeds(
-    collectorDb.collection("pickups").where("collectorId", "==", COLLECTOR_UID).get()
-  );
-
-  // Assigned collector records verified weight + OTP
-  await assertSucceeds(
-    collectorDb.collection("pickups").doc("PKP_9001").update({
-      status: "CONFIRMED",
-      verifiedWeightKg: 47.5,
-      verifiedTotalPkr: 17200,
-      otpVerified: true,
-      updatedAt: pastDate(2000),
-    })
-  );
-
-  // Customer confirms payment & receipt
-  await assertSucceeds(
-    aliceDb.collection("pickups").doc("PKP_9001").update({
-      status: "COMPLETED",
-      digitalReceiptNumber: "RCPT-ISB-9001",
-      customerRating: 5,
-      updatedAt: pastDate(1000),
-    })
-  );
-
-  // Terminal state lock: neither customer nor collector can mutate COMPLETED pickup
-  await assertFails(
-    collectorDb.collection("pickups").doc("PKP_9001").update({
-      verifiedTotalPkr: 999999,
-      updatedAt: pastDate(500),
-    })
-  );
-});
-
-test("Pricing rules & Wallet ledger immutability & Marketplace bidding", async () => {
+async function seedAdminDoc(uid = ADMIN_UID) {
   await testEnv.withSecurityRulesDisabled(async (ctx) => {
-    const db = ctx.firestore();
-    await db.collection("admins").doc(ADMIN_UID).set({ active: true });
-    await db.collection("pricing_rules").doc("pr_copper_isb").set({
-      materialId: "mat_copper_01",
-      materialName: "Pure Copper Wire",
-      category: "COPPER_BRASS",
-      grade: "A-Grade",
-      city: "Islamabad",
-      zone: "I-10 Industrial",
-      marketRate: 2300,
-      buyingMargin: 6,
-      sellingMargin: 10,
-      collectionCost: 15,
-      sortingCost: 5,
-      minPrice: 1900,
-      maxPrice: 2400,
-      active: true,
-      updatedBy: ADMIN_UID,
-      createdAt: pastDate(10000),
-      updatedAt: pastDate(10000),
-    });
-    await db.collection("marketplace_lots").doc("LOT_101").set({
-      userId: ADMIN_UID,
-      lotCode: "LOT-101",
-      title: "Sorted Millberry Copper",
-      materialName: "Pure Copper Wire",
-      category: "COPPER_BRASS",
-      grade: "99% Pure",
-      weightKg: 1000,
-      pricePerKg: 2450,
-      minimumBidPerKg: 2350,
-      highestBidPerKg: 2360,
-      bidsCount: 1,
-      location: "I-10 Hub, Islamabad",
-      warehouseName: "Islamabad Central Hub",
-      status: "AVAILABLE",
-      createdAt: pastDate(10000),
-      updatedAt: pastDate(10000),
+    await ctx.firestore().collection("admins").doc(uid).set({
+      uid,
+      email: "admin@collectionhub.pk",
+      role: "admin",
+      createdAt: pastDate(),
     });
   });
+}
 
-  const aliceDb = testEnv.authenticatedContext(ALICE_UID).firestore();
-  const adminDb = testEnv.authenticatedContext(ADMIN_UID).firestore();
+async function seedApprovedCollector(uid = COLLECTOR_1_UID) {
+  const now = pastDate();
+  await testEnv.withSecurityRulesDisabled(async (ctx) => {
+    await ctx.firestore().collection("collectors").doc(uid).set({
+      collectorId: uid,
+      userId: uid,
+      fullName: "Rashid Scrap Traders",
+      shopOrBusinessName: "Rashid Kabari Center",
+      phone: "+92 333 5551122",
+      city: "Rawalpindi",
+      serviceAreas: ["Chaklala Scheme III", "Saddar"],
+      acceptedCategories: ["Iron", "Copper", "Cardboard"],
+      vehicleType: "Loader Pickup",
+      availabilityOnline: true,
+      approvalStatus: "approved",
+      radiusKm: 5,
+      completedPickupsCount: 0,
+      totalEarningsPkr: 0,
+      commissionDuePkr: 0,
+      createdAt: now,
+      updatedAt: now,
+    });
+  });
+}
 
-  // Active pricing rules list succeeds with filter; non-admin cannot mutate pricing rules
+test("Unauthenticated users: denied across all Collection Hub collections", async () => {
+  const unauthDb = testEnv.unauthenticatedContext().firestore();
+  await assertFails(unauthDb.collection("bookings").get());
+  await assertFails(unauthDb.collection("pickup_pool").get());
+  await assertFails(unauthDb.collection("collectors").get());
+  await assertFails(unauthDb.collection("scrap_prices").get());
+  await assertFails(unauthDb.collection("users").doc(CUSTOMER_UID).get());
+});
+
+test("Users collection: prevents self-escalation to admin & cross-user PII read", async () => {
+  const custDb = testEnv.authenticatedContext(CUSTOMER_UID).firestore();
+  const otherDb = testEnv.authenticatedContext(OTHER_CUST_UID).firestore();
+  const now = pastDate();
+
+  // Valid customer create
   await assertSucceeds(
-    aliceDb.collection("pricing_rules").where("active", "==", true).get()
+    custDb.collection("users").doc(CUSTOMER_UID).set({
+      userId: CUSTOMER_UID,
+      displayName: "Sana Tariq",
+      city: "Rawalpindi",
+      area: "Bahria Town Phase 7",
+      role: "customer",
+      status: "active",
+      createdAt: now,
+      updatedAt: now,
+    })
   );
+
+  // Self-escalation to admin on create MUST FAIL
   await assertFails(
-    aliceDb.collection("pricing_rules").doc("pr_copper_isb").update({
-      marketRate: 9999,
+    otherDb.collection("users").doc(OTHER_CUST_UID).set({
+      userId: OTHER_CUST_UID,
+      displayName: "Attacker",
+      city: "Islamabad",
+      role: "admin",
+      status: "active",
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Self-escalation via update MUST FAIL
+  await assertFails(
+    custDb.collection("users").doc(CUSTOMER_UID).update({
+      role: "admin",
       updatedAt: pastDate(500),
     })
   );
+
+  // Cross-user read MUST FAIL
+  await assertFails(otherDb.collection("users").doc(CUSTOMER_UID).get());
+});
+
+test("Collector registration: enforces pending_approval and blocks unapproved pool locking", async () => {
+  const colDb = testEnv.authenticatedContext(COLLECTOR_1_UID).firestore();
+  const now = pastDate();
+
+  // Cannot self-register directly as approved
+  await assertFails(
+    colDb.collection("collectors").doc(COLLECTOR_1_UID).set({
+      collectorId: COLLECTOR_1_UID,
+      userId: COLLECTOR_1_UID,
+      fullName: "Usman Kabari",
+      shopOrBusinessName: "Usman Traders",
+      phone: "+92 300 1234567",
+      city: "Islamabad",
+      serviceAreas: ["F-10 Markaz"],
+      acceptedCategories: ["Iron", "Paper"],
+      vehicleType: "Suzuki Pickup",
+      availabilityOnline: true,
+      approvalStatus: "approved",
+      radiusKm: 5,
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Valid pending_approval + offline registration succeeds
   await assertSucceeds(
-    adminDb.collection("pricing_rules").doc("pr_copper_isb").update({
-      marketRate: 2320,
-      updatedBy: ADMIN_UID,
+    colDb.collection("collectors").doc(COLLECTOR_1_UID).set({
+      collectorId: COLLECTOR_1_UID,
+      userId: COLLECTOR_1_UID,
+      fullName: "Usman Kabari",
+      shopOrBusinessName: "Usman Traders",
+      phone: "+92 300 1234567",
+      city: "Islamabad",
+      serviceAreas: ["F-10 Markaz"],
+      acceptedCategories: ["Iron", "Paper"],
+      vehicleType: "Suzuki Pickup",
+      availabilityOnline: false,
+      approvalStatus: "pending_approval",
+      radiusKm: 5,
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Pending collector cannot toggle availabilityOnline to true before admin approves
+  await assertFails(
+    colDb.collection("collectors").doc(COLLECTOR_1_UID).update({
+      availabilityOnline: true,
       updatedAt: pastDate(500),
     })
   );
 
-  // Immutable wallet ledger
-  await assertSucceeds(
-    aliceDb
-      .collection("users")
-      .doc(ALICE_UID)
-      .collection("wallet_ledger")
-      .doc("tx_001")
-      .set({
-        userId: ALICE_UID,
-        amount: 2500,
-        type: "CREDIT",
-        category: "PICKUP_PAYOUT",
-        referenceId: "PKP_9001",
-        idempotencyKey: "IDEMP_001",
-        balanceAfter: 2500,
-        description: "Payout for pickup PKP_9001",
-        createdAt: pastDate(1000),
-      })
-  );
+  // Pending collector cannot approve themselves
   await assertFails(
-    aliceDb
-      .collection("users")
-      .doc(ALICE_UID)
-      .collection("wallet_ledger")
-      .doc("tx_001")
-      .update({ amount: 500000 })
-  );
-
-  // Marketplace bid succeeds when strictly higher than highestBidPerKg
-  await assertSucceeds(
-    aliceDb.collection("marketplace_lots").doc("LOT_101").update({
-      highestBidPerKg: 2390,
-      highestBidderUid: ALICE_UID,
-      bidsCount: 2,
-      status: "UNDER_BID",
+    colDb.collection("collectors").doc(COLLECTOR_1_UID).update({
+      approvalStatus: "approved",
       updatedAt: pastDate(500),
-    })
-  );
-  // Lower bid rejected
-  await assertFails(
-    aliceDb.collection("marketplace_lots").doc("LOT_101").update({
-      highestBidPerKg: 2350,
-      highestBidderUid: ALICE_UID,
-      bidsCount: 3,
-      status: "UNDER_BID",
-      updatedAt: pastDate(400),
     })
   );
 });
 
-test("Admin email spoofing: unverified email matching admin fails; verified admin email succeeds", async () => {
-  const spoofedDb = testEnv
+test("Atomic booking creation, PII isolation, first-accept lock, and 10-step completion lifecycle", async () => {
+  await seedApprovedCollector(COLLECTOR_1_UID);
+  await seedApprovedCollector(COLLECTOR_2_UID);
+  await seedAdminDoc(ADMIN_UID);
+
+  const custDb = testEnv.authenticatedContext(CUSTOMER_UID).firestore();
+  const col1Db = testEnv.authenticatedContext(COLLECTOR_1_UID).firestore();
+  const col2Db = testEnv.authenticatedContext(COLLECTOR_2_UID).firestore();
+  const bookingId = "bk_test_001";
+  const created = pastDate(5000);
+
+  // Customer creates booking + pickup_pool atomically in a batch
+  const createBatch = custDb.batch();
+  createBatch.set(custDb.collection("bookings").doc(bookingId), {
+    customerId: CUSTOMER_UID,
+    customerName: "Ayesha Khan",
+    customerPhone: "+92 312 9876543",
+    city: "Rawalpindi",
+    area: "Chaklala Scheme III",
+    fullAddress: "House 14-B, Street 6, Chaklala Scheme III, Rawalpindi",
+    categories: ["Iron", "Cardboard"],
+    itemsSummary: "Iron (20 kg), Cardboard (15 kg)",
+    unitType: "KG",
+    estimatedWeightKg: 35,
+    estimatedMinPkr: 3200,
+    estimatedMaxPkr: 4100,
+    preferredDate: "Tomorrow",
+    preferredTimeSlot: "02:00 PM - 04:00 PM",
+    paymentMethod: "Cash",
+    status: "searching",
+    otpCode: "4821",
+    otpVerified: false,
+    verifiedWeightKg: 0,
+    finalAmountPkr: 0,
+    customerConfirmed: false,
+    paymentConfirmedByCustomer: false,
+    matchingRadiusKm: 5,
+    createdAt: created,
+    updatedAt: created,
+  });
+  createBatch.set(custDb.collection("pickup_pool").doc(bookingId), {
+    bookingId,
+    customerId: CUSTOMER_UID,
+    city: "Rawalpindi",
+    area: "Chaklala Scheme III",
+    categories: ["Iron", "Cardboard"],
+    itemsSummary: "Iron & Cardboard (~35 kg)",
+    unitType: "KG",
+    estimatedQuantityLabel: "35 KG",
+    preferredDate: "Tomorrow",
+    preferredTimeSlot: "02:00 PM - 04:00 PM",
+    status: "searching",
+    radiusKm: 5,
+    createdAt: created,
+    updatedAt: created,
+  });
+  await assertSucceeds(createBatch.commit());
+
+  // PII check: Collector 1 can list open pickup_pool (no address/phone)
+  await assertSucceeds(
+    col1Db.collection("pickup_pool").where("status", "==", "searching").get()
+  );
+
+  // PII check: Collector 1 CANNOT read full private booking document BEFORE winning lock!
+  await assertFails(col1Db.collection("bookings").doc(bookingId).get());
+
+  // Collector 1 wins atomic accept transaction (updates pickup_pool + bookings together)
+  const acceptTime = pastDate(2000);
+  const acceptBatch1 = col1Db.batch();
+  acceptBatch1.update(col1Db.collection("pickup_pool").doc(bookingId), {
+    status: "locked",
+    assignedCollectorId: COLLECTOR_1_UID,
+    updatedAt: acceptTime,
+  });
+  acceptBatch1.update(col1Db.collection("bookings").doc(bookingId), {
+    status: "assigned",
+    assignedCollectorId: COLLECTOR_1_UID,
+    assignedCollectorName: "Rashid Scrap Traders",
+    assignedCollectorPhone: "+92 333 5551122",
+    assignedAt: acceptTime,
+    updatedAt: acceptTime,
+  });
+  await assertSucceeds(acceptBatch1.commit());
+
+  // Race condition check: Collector 2 tries to accept the same booking -> MUST FAIL!
+  const acceptBatch2 = col2Db.batch();
+  acceptBatch2.update(col2Db.collection("pickup_pool").doc(bookingId), {
+    status: "locked",
+    assignedCollectorId: COLLECTOR_2_UID,
+    updatedAt: pastDate(1000),
+  });
+  acceptBatch2.update(col2Db.collection("bookings").doc(bookingId), {
+    status: "assigned",
+    assignedCollectorId: COLLECTOR_2_UID,
+    assignedCollectorName: "Usman Kabari",
+    assignedCollectorPhone: "+92 300 0000000",
+    assignedAt: pastDate(1000),
+    updatedAt: pastDate(1000),
+  });
+  await assertFails(acceptBatch2.commit());
+
+  // Now Collector 1 CAN read full booking (address & phone revealed only to winner)
+  await assertSucceeds(col1Db.collection("bookings").doc(bookingId).get());
+  // Collector 2 still CANNOT read Collector 1's assigned booking
+  await assertFails(col2Db.collection("bookings").doc(bookingId).get());
+
+  // Collector 1 progresses workflow: on_the_way -> arrived -> weight_price_confirmation
+  await assertSucceeds(
+    col1Db.collection("bookings").doc(bookingId).update({
+      status: "on_the_way",
+      updatedAt: pastDate(900),
+    })
+  );
+  await assertSucceeds(
+    col1Db.collection("bookings").doc(bookingId).update({
+      status: "arrived",
+      otpVerified: true,
+      updatedAt: pastDate(800),
+    })
+  );
+  await assertSucceeds(
+    col1Db.collection("bookings").doc(bookingId).update({
+      status: "weight_price_confirmation",
+      verifiedWeightKg: 38.5,
+      finalAmountPkr: 3850,
+      collectorNotes: "Clean heavy iron and dry cartons",
+      updatedAt: pastDate(700),
+    })
+  );
+
+  // Customer confirms weight/price and payment received -> completed
+  await assertSucceeds(
+    custDb.collection("bookings").doc(bookingId).update({
+      status: "completed",
+      customerConfirmed: true,
+      paymentConfirmedByCustomer: true,
+      rating: 5,
+      review: "Punctual and accurate digital scale",
+      updatedAt: pastDate(500),
+    })
+  );
+
+  // Terminal State Lock: Collector cannot alter finalAmountPkr after completed
+  await assertFails(
+    col1Db.collection("bookings").doc(bookingId).update({
+      finalAmountPkr: 9999,
+      updatedAt: pastDate(100),
+    })
+  );
+});
+
+test("Admin-only controls, email verification guard, and commission settlements", async () => {
+  await seedAdminDoc(ADMIN_UID);
+  const adminDb = testEnv.authenticatedContext(ADMIN_UID).firestore();
+  const custDb = testEnv.authenticatedContext(CUSTOMER_UID).firestore();
+  const spoofedEmailAdminDb = testEnv
     .authenticatedContext("spoof_uid", {
       email: "hasanaamir815@gmail.com",
       email_verified: false,
     })
     .firestore();
+  const now = pastDate();
 
-  const verifiedAdminDb = testEnv
-    .authenticatedContext("real_admin_uid", {
-      email: "hasanaamir815@gmail.com",
-      email_verified: true,
-    })
-    .firestore();
-
+  // Customer & unverified admin email CANNOT write scrap_prices
   await assertFails(
-    spoofedDb.collection("pricing_rules").doc("pr_spoof").set({
-      materialId: "mat_iron_01",
-      materialName: "Iron",
-      category: "IRON_STEEL",
-      grade: "A",
+    custDb.collection("scrap_prices").doc("price_iron").set({
+      categoryId: "iron",
+      categoryName: "Iron",
+      unit: "KG",
+      minEstimatedPkr: 130,
+      maxEstimatedPkr: 155,
+      indicative: true,
       city: "Rawalpindi",
-      zone: "Saddar",
-      marketRate: 160,
-      buyingMargin: 5,
-      sellingMargin: 8,
-      collectionCost: 4,
-      sortingCost: 2,
-      minPrice: 120,
-      maxPrice: 170,
+      active: true,
+      updatedBy: CUSTOMER_UID,
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+  await assertFails(
+    spoofedEmailAdminDb.collection("scrap_prices").doc("price_iron").set({
+      categoryId: "iron",
+      categoryName: "Iron",
+      unit: "KG",
+      minEstimatedPkr: 130,
+      maxEstimatedPkr: 155,
+      indicative: true,
+      city: "Rawalpindi",
       active: true,
       updatedBy: "spoof_uid",
-      createdAt: pastDate(),
-      updatedAt: pastDate(),
+      createdAt: now,
+      updatedAt: now,
     })
   );
 
+  // Verified Admin CAN manage indicative prices
   await assertSucceeds(
-    verifiedAdminDb.collection("pricing_rules").doc("pr_real").set({
-      materialId: "mat_iron_01",
-      materialName: "Iron",
-      category: "IRON_STEEL",
-      grade: "A",
+    adminDb.collection("scrap_prices").doc("price_iron").set({
+      categoryId: "iron",
+      categoryName: "Iron",
+      unit: "KG",
+      minEstimatedPkr: 130,
+      maxEstimatedPkr: 155,
+      indicative: true,
       city: "Rawalpindi",
-      zone: "Saddar",
-      marketRate: 160,
-      buyingMargin: 5,
-      sellingMargin: 8,
-      collectionCost: 4,
-      sortingCost: 2,
-      minPrice: 120,
-      maxPrice: 170,
       active: true,
-      updatedBy: "real_admin_uid",
-      createdAt: pastDate(),
-      updatedAt: pastDate(),
+      updatedBy: ADMIN_UID,
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Manual payment screenshot/note cannot be created as verified by non-admin
+  await assertFails(
+    custDb.collection("payments").doc("pay_1").set({
+      bookingId: "bk_test_001",
+      customerId: CUSTOMER_UID,
+      collectorId: COLLECTOR_1_UID,
+      method: "Easypaisa",
+      amountPkr: 3850,
+      submittedByUid: CUSTOMER_UID,
+      referenceNumber: "EP-99182",
+      proofNote: "Screenshot attached",
+      customerConfirmed: true,
+      verificationStatus: "verified",
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Valid pending_verification manual payment succeeds
+  await assertSucceeds(
+    custDb.collection("payments").doc("pay_1").set({
+      bookingId: "bk_test_001",
+      customerId: CUSTOMER_UID,
+      collectorId: COLLECTOR_1_UID,
+      method: "Easypaisa",
+      amountPkr: 3850,
+      submittedByUid: CUSTOMER_UID,
+      referenceNumber: "EP-99182",
+      proofNote: "Collector paid via Easypaisa",
+      customerConfirmed: true,
+      verificationStatus: "pending_verification",
+      createdAt: now,
+      updatedAt: now,
+    })
+  );
+
+  // Commission settlement is strictly Admin-only and immutable
+  await assertFails(
+    custDb.collection("commission_settlements").doc("set_1").set({
+      collectorId: COLLECTOR_1_UID,
+      collectorName: "Rashid",
+      periodLabel: "Week 1",
+      totalAmountPkr: 385,
+      commissionIds: ["comm_bk_test_001"],
+      paymentMethod: "Bank Transfer",
+      referenceNote: "TXN-1",
+      recordedByAdminUid: CUSTOMER_UID,
+      createdAt: now,
+    })
+  );
+  await assertSucceeds(
+    adminDb.collection("commission_settlements").doc("set_1").set({
+      collectorId: COLLECTOR_1_UID,
+      collectorName: "Rashid",
+      periodLabel: "Week 1",
+      totalAmountPkr: 385,
+      commissionIds: ["comm_bk_test_001"],
+      paymentMethod: "Bank Transfer",
+      referenceNote: "HBL Ref 88123",
+      recordedByAdminUid: ADMIN_UID,
+      createdAt: now,
     })
   );
 });

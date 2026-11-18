@@ -1,4 +1,4 @@
-const CACHE_NAME = 'digital-kabariya-pwa-v1';
+const CACHE_NAME = 'collection-hub-pwa-v1';
 const ASSETS = ['./', './index.html', './manifest.webmanifest'];
 
 self.addEventListener('install', (event) => {

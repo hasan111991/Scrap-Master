@@ -11,57 +11,62 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = EmeraldGreenLight,
-    onPrimary = Color(0xFF022C22),
-    primaryContainer = EmeraldGreenDark,
-    onPrimaryContainer = EmeraldContainer,
-    secondary = AmberGoldSecondary,
-    onSecondary = Color.Black,
+private val HubDarkColorScheme = darkColorScheme(
+    primary = HubGreenLight,
+    onPrimary = Color(0xFF052E16),
+    primaryContainer = HubGreenPrimary,
+    onPrimaryContainer = HubGreenContainer,
+    secondary = HubAmberSecondary,
+    onSecondary = Color.White,
     secondaryContainer = Color(0xFF78350F),
-    onSecondaryContainer = AmberGoldContainer,
-    tertiary = SkyBlueTertiary,
-    background = SurfaceDark,
-    surface = CardBackgroundDark,
-    onBackground = TextPrimaryDark,
-    onSurface = TextPrimaryDark,
-    outline = BorderDark,
+    onSecondaryContainer = HubAmberContainer,
+    tertiary = HubTealTertiary,
+    background = HubSurfaceDark,
+    surface = HubCardDark,
+    onBackground = HubTextPrimaryDark,
+    onSurface = HubTextPrimaryDark,
+    onSurfaceVariant = HubTextSecondaryDark,
+    outline = HubBorderDark,
     error = ErrorRed,
     errorContainer = Color(0xFF7F1D1D)
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = EmeraldGreenPrimary,
+private val HubLightColorScheme = lightColorScheme(
+    primary = HubGreenPrimary,
     onPrimary = Color.White,
-    primaryContainer = EmeraldContainer,
-    onPrimaryContainer = OnEmeraldContainer,
-    secondary = AmberGoldSecondary,
+    primaryContainer = HubGreenContainer,
+    onPrimaryContainer = OnHubGreenContainer,
+    secondary = HubGreenMid,
     onSecondary = Color.White,
-    secondaryContainer = AmberGoldContainer,
-    onSecondaryContainer = OnAmberGoldContainer,
-    tertiary = SkyBlueTertiary,
-    background = SurfaceLight,
-    surface = CardBackgroundLight,
-    onBackground = TextPrimaryLight,
-    onSurface = TextPrimaryLight,
-    outline = BorderLight,
+    secondaryContainer = HubGreenSoftBg,
+    onSecondaryContainer = HubGreenPrimary,
+    tertiary = HubTealTertiary,
+    tertiaryContainer = HubTealContainer,
+    onTertiaryContainer = OnHubTealContainer,
+    background = HubSurfaceLight,
+    surface = HubCardLight,
+    surfaceVariant = HubBackgroundLight,
+    onBackground = HubTextPrimaryLight,
+    onSurface = HubTextPrimaryLight,
+    onSurfaceVariant = HubTextSecondaryLight,
+    outline = HubBorderLight,
     error = ErrorRed,
     errorContainer = ErrorContainer
 )
 
 @Composable
-fun MyApplicationTheme(
+fun CollectionHubTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false, // Use our Pakistan emerald branding
-    content: @Composable () -> Unit,
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> HubDarkColorScheme
+        else -> HubLightColorScheme
     }
 
     MaterialTheme(
@@ -70,3 +75,10 @@ fun MyApplicationTheme(
         content = content
     )
 }
+
+@Composable
+fun MyApplicationTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
+) = CollectionHubTheme(darkTheme = darkTheme, dynamicColor = dynamicColor, content = content)

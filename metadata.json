@@ -1,6 +1,6 @@
 {
-  "name": "Digital Kabariya",
-  "description": "Pakistan-first digital scrap collection, recycling, inventory, logistics, and B2B marketplace ecosystem.",
+  "name": "Collection Hub",
+  "description": "Collection Hub — Digital scrap collection marketplace connecting customers with local collectors in Rawalpindi & Islamabad.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

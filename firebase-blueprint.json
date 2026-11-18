@@ -1,242 +1,405 @@
 {
   "entities": {
-    "UserProfile": {
-      "title": "UserProfile",
-      "description": "Authenticated Digital Kabariya platform user profile and role metadata.",
+    "UserAccount": {
+      "title": "UserAccount",
+      "description": "Authenticated user profile and authorized role assignment.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Firebase Auth UID of the user." },
-        "displayName": { "type": "string", "description": "Full name of the user." },
-        "email": { "type": "string", "description": "User email address." },
-        "phone": { "type": "string", "description": "Pakistani phone number." },
-        "city": { "type": "string", "description": "Operating or residential city (e.g., Rawalpindi, Islamabad)." },
-        "zone": { "type": "string", "description": "Service zone or sector." },
-        "role": {
-          "type": "string",
-          "enum": ["CUSTOMER", "COLLECTOR", "HUB_OPERATOR", "RECYCLER", "CORPORATE_CLIENT", "ADMIN", "SUPER_ADMIN"],
-          "description": "Active RBAC role."
-        },
-        "status": { "type": "string", "enum": ["ACTIVE", "SUSPENDED"], "description": "Account status." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "userId": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "area": { "type": "string" },
+        "defaultAddress": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "collector", "admin"] },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["userId", "displayName", "city", "role", "status", "createdAt", "updatedAt"]
     },
-    "WalletLedgerEntry": {
-      "title": "WalletLedgerEntry",
-      "description": "Immutable double-entry ledger transaction for user wallet payouts and withdrawals.",
+    "CustomerProfile": {
+      "title": "CustomerProfile",
+      "description": "Customer account metadata and booking counters.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Owner Firebase UID." },
-        "amount": { "type": "number", "description": "Transaction amount in PKR." },
-        "type": { "type": "string", "enum": ["CREDIT", "DEBIT"], "description": "Credit or Debit." },
-        "category": { "type": "string", "description": "Transaction category such as PICKUP_PAYOUT or WITHDRAWAL." },
-        "referenceId": { "type": "string", "description": "Linked pickup or payout reference ID." },
-        "idempotencyKey": { "type": "string", "description": "Unique idempotency key preventing duplicate payouts." },
-        "balanceAfter": { "type": "number", "description": "Projected wallet balance after transaction." },
-        "description": { "type": "string", "description": "Human-readable transaction summary." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." }
+        "customerId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "area": { "type": "string" },
+        "defaultAddress": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "suspended"] },
+        "totalBookings": { "type": "integer" },
+        "totalCompletedKg": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "amount", "type", "category", "referenceId", "idempotencyKey", "balanceAfter", "description", "createdAt"]
+      "required": ["customerId", "name", "city", "area", "status", "createdAt", "updatedAt"]
     },
-    "ScrapInventoryItem": {
-      "title": "ScrapInventoryItem",
-      "description": "Collection hub warehouse scrap material stock item.",
+    "CollectorProfile": {
+      "title": "CollectorProfile",
+      "description": "Local kabari shop, dealer, or independent collector registration and approval record.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Manager/owner Firebase UID." },
-        "materialId": { "type": "string", "description": "Reference material ID." },
-        "name": { "type": "string", "description": "English material name." },
-        "urduName": { "type": "string", "description": "Urdu material name." },
-        "category": { "type": "string", "description": "Scrap category enum name." },
-        "grade": { "type": "string", "description": "Quality grade classification." },
-        "currentStockKg": { "type": "number", "description": "Current stock weight in KG." },
-        "minThresholdKg": { "type": "number", "description": "Minimum low-stock alert threshold in KG." },
-        "unitPricePkr": { "type": "number", "description": "Unit valuation in PKR per KG." },
-        "warehouseLocation": { "type": "string", "description": "Warehouse location name." },
-        "status": { "type": "string", "enum": ["IN_STOCK", "LOW_STOCK", "DEPLETED", "DISPATCHED"], "description": "Stock status." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "collectorId": { "type": "string" },
+        "userId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "shopOrBusinessName": { "type": "string" },
+        "phone": { "type": "string" },
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "serviceAreas": { "type": "array", "description": "Matched service areas up to 20" },
+        "acceptedCategories": { "type": "array", "description": "Handled scrap category IDs up to 12" },
+        "vehicleType": { "type": "string" },
+        "address": { "type": "string" },
+        "cnicLast4": { "type": "string" },
+        "availabilityOnline": { "type": "boolean" },
+        "approvalStatus": { "type": "string", "enum": ["pending_approval", "approved", "rejected", "suspended"] },
+        "rejectionReason": { "type": "string" },
+        "radiusKm": { "type": "number" },
+        "completedPickupsCount": { "type": "integer" },
+        "totalEarningsPkr": { "type": "number" },
+        "commissionDuePkr": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "materialId", "name", "category", "grade", "currentStockKg", "minThresholdKg", "unitPricePkr", "warehouseLocation", "status", "createdAt", "updatedAt"]
+      "required": ["collectorId", "userId", "fullName", "shopOrBusinessName", "phone", "city", "serviceAreas", "acceptedCategories", "vehicleType", "availabilityOnline", "approvalStatus", "radiusKm", "createdAt", "updatedAt"]
     },
-    "PickupRequest": {
-      "title": "PickupRequest",
-      "description": "Customer doorstep scrap pickup request and verified weighing record.",
+    "ScrapCategoryDoc": {
+      "title": "ScrapCategoryDoc",
+      "description": "Scrap material category managed by Collection Hub admins.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Customer Firebase UID." },
-        "customerName": { "type": "string", "description": "Customer display name." },
-        "customerPhone": { "type": "string", "description": "Customer contact phone." },
-        "city": { "type": "string", "description": "Pickup city." },
-        "zone": { "type": "string", "description": "Pickup zone or sector." },
-        "address": { "type": "string", "description": "Street address." },
-        "itemsSummary": { "type": "string", "description": "Summary of selected materials." },
-        "estimatedWeightKg": { "type": "number", "description": "Customer estimated total KG." },
-        "estimatedTotalPkr": { "type": "number", "description": "Advisory estimated payout in PKR." },
-        "verifiedWeightKg": { "type": "number", "description": "Physically weighed total KG." },
-        "verifiedTotalPkr": { "type": "number", "description": "Final verified payout in PKR." },
-        "status": {
-          "type": "string",
-          "enum": ["REQUESTED", "ASSIGNED", "EN_ROUTE", "ARRIVED", "WEIGHING", "CONFIRMED", "PAID", "RECEIVED_AT_HUB", "SORTED", "COMPLETED", "CANCELLED"],
-          "description": "Pickup workflow status."
-        },
-        "scheduledDate": { "type": "string", "description": "Scheduled pickup date." },
-        "timeSlot": { "type": "string", "description": "Scheduled time window." },
-        "paymentMethod": { "type": "string", "description": "Chosen payout method." },
-        "collectorId": { "type": "string", "description": "Assigned collector UID or identifier." },
-        "collectorName": { "type": "string", "description": "Assigned collector display name." },
-        "otpVerified": { "type": "boolean", "description": "Whether doorstep OTP verification succeeded." },
-        "digitalReceiptNumber": { "type": "string", "description": "Generated digital receipt reference." },
-        "aiConfidenceNote": { "type": "string", "description": "Gemini AI advisory material classification summary." },
-        "customerRating": { "type": "integer", "description": "Customer 1-5 rating after completion." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "name": { "type": "string" },
+        "urduName": { "type": "string" },
+        "description": { "type": "string" },
+        "unitOptions": { "type": "array" },
+        "isActive": { "type": "boolean" },
+        "sortOrder": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "customerName", "city", "zone", "address", "itemsSummary", "estimatedWeightKg", "estimatedTotalPkr", "verifiedWeightKg", "verifiedTotalPkr", "status", "scheduledDate", "timeSlot", "paymentMethod", "otpVerified", "createdAt", "updatedAt"]
+      "required": ["name", "urduName", "description", "unitOptions", "isActive", "sortOrder", "createdAt", "updatedAt"]
     },
-    "PricingRule": {
-      "title": "PricingRule",
-      "description": "Dynamic city/zone scrap pricing rule configured by Pricing Admin.",
+    "ScrapPriceDoc": {
+      "title": "ScrapPriceDoc",
+      "description": "Dynamic indicative estimated price range per category managed in Admin Portal.",
       "type": "object",
       "properties": {
-        "materialId": { "type": "string", "description": "Material identifier." },
-        "materialName": { "type": "string", "description": "Material name." },
-        "category": { "type": "string", "description": "Scrap category." },
-        "grade": { "type": "string", "description": "Grade level." },
-        "city": { "type": "string", "description": "City name." },
-        "zone": { "type": "string", "description": "Zone name." },
-        "marketRate": { "type": "number", "description": "Wholesale market rate in PKR/KG." },
-        "buyingMargin": { "type": "number", "description": "Operational buying margin percentage." },
-        "sellingMargin": { "type": "number", "description": "Selling margin percentage." },
-        "collectionCost": { "type": "number", "description": "Allocated collection cost PKR/KG." },
-        "sortingCost": { "type": "number", "description": "Sorting cost PKR/KG." },
-        "minPrice": { "type": "number", "description": "Minimum floor price PKR/KG." },
-        "maxPrice": { "type": "number", "description": "Maximum ceiling price PKR/KG." },
-        "active": { "type": "boolean", "description": "Whether rule is currently active." },
-        "updatedBy": { "type": "string", "description": "Admin UID who last updated this rule." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "categoryId": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "unit": { "type": "string", "enum": ["KG", "Piece", "Bag", "Bulk"] },
+        "minEstimatedPkr": { "type": "number" },
+        "maxEstimatedPkr": { "type": "number" },
+        "isIndicative": { "type": "boolean" },
+        "city": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "updatedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["materialId", "materialName", "category", "grade", "city", "zone", "marketRate", "buyingMargin", "sellingMargin", "collectionCost", "sortingCost", "minPrice", "maxPrice", "active", "updatedBy", "createdAt", "updatedAt"]
+      "required": ["categoryId", "categoryName", "unit", "minEstimatedPkr", "maxEstimatedPkr", "isIndicative", "city", "isActive", "updatedBy", "createdAt", "updatedAt"]
     },
-    "HubBatch": {
-      "title": "HubBatch",
-      "description": "Collection hub inbound receiving and sorting batch.",
+    "Booking": {
+      "title": "Booking",
+      "description": "Private customer pickup booking with full address and transaction lifecycle state.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Hub operator Firebase UID." },
-        "batchCode": { "type": "string", "description": "Human-readable batch code." },
-        "warehouseName": { "type": "string", "description": "Hub warehouse name." },
-        "warehouseCity": { "type": "string", "description": "Hub city." },
-        "materialName": { "type": "string", "description": "Material name." },
-        "category": { "type": "string", "description": "Scrap category." },
-        "grade": { "type": "string", "description": "Assigned grade." },
-        "grossWeightKg": { "type": "number", "description": "Gross weighbridge weight in KG." },
-        "netWeightKg": { "type": "number", "description": "Net sorted weight in KG." },
-        "varianceKg": { "type": "number", "description": "Weight variance in KG." },
-        "purchaseCost": { "type": "number", "description": "Purchase cost in PKR." },
-        "sortingCost": { "type": "number", "description": "Sorting/baling cost in PKR." },
-        "status": { "type": "string", "enum": ["INBOUND_PENDING", "SORTED", "READY_FOR_MARKETPLACE", "DISPATCHED"], "description": "Batch status." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "area": { "type": "string" },
+        "fullAddress": { "type": "string" },
+        "categories": { "type": "array" },
+        "itemsSummary": { "type": "string" },
+        "unitType": { "type": "string", "enum": ["KG", "Piece", "Bag", "Bulk"] },
+        "estimatedWeightKg": { "type": "number" },
+        "estimatedMinPkr": { "type": "number" },
+        "estimatedMaxPkr": { "type": "number" },
+        "preferredDate": { "type": "string" },
+        "preferredTimeSlot": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "Easypaisa", "Bank Transfer"] },
+        "photoUri": { "type": "string" },
+        "notes": { "type": "string" },
+        "status": { "type": "string", "enum": ["searching", "assigned", "on_the_way", "arrived", "weight_price_confirmation", "completed", "cancelled"] },
+        "otpCode": { "type": "string" },
+        "otpVerified": { "type": "boolean" },
+        "verifiedWeightKg": { "type": "number" },
+        "finalAmountPkr": { "type": "number" },
+        "customerConfirmed": { "type": "boolean" },
+        "paymentConfirmedByCustomer": { "type": "boolean" },
+        "assignedCollectorId": { "type": "string" },
+        "assignedCollectorName": { "type": "string" },
+        "assignedCollectorPhone": { "type": "string" },
+        "collectorNotes": { "type": "string" },
+        "rating": { "type": "integer" },
+        "review": { "type": "string" },
+        "cancellationReason": { "type": "string" },
+        "matchingRadiusKm": { "type": "number" },
+        "assignedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "batchCode", "warehouseName", "warehouseCity", "materialName", "category", "grade", "grossWeightKg", "netWeightKg", "varianceKg", "purchaseCost", "sortingCost", "status", "createdAt", "updatedAt"]
+      "required": ["customerId", "customerName", "customerPhone", "city", "area", "fullAddress", "categories", "itemsSummary", "unitType", "estimatedWeightKg", "estimatedMinPkr", "estimatedMaxPkr", "preferredDate", "preferredTimeSlot", "paymentMethod", "status", "otpCode", "otpVerified", "verifiedWeightKg", "finalAmountPkr", "customerConfirmed", "paymentConfirmedByCustomer", "matchingRadiusKm", "createdAt", "updatedAt"]
     },
-    "MarketplaceLot": {
-      "title": "MarketplaceLot",
-      "description": "B2B wholesale scrap lot available to verified recyclers for bidding or fixed-price purchase.",
+    "PickupPoolItem": {
+      "title": "PickupPoolItem",
+      "description": "Sanitized open pickup pool entry hiding exact address/phone until atomic collector lock.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Seller/operator Firebase UID." },
-        "lotCode": { "type": "string", "description": "Lot reference code." },
-        "title": { "type": "string", "description": "Listing title." },
-        "materialName": { "type": "string", "description": "Material name." },
-        "category": { "type": "string", "description": "Scrap category." },
-        "grade": { "type": "string", "description": "Sorted grade." },
-        "weightKg": { "type": "number", "description": "Total tonnage in KG." },
-        "pricePerKg": { "type": "number", "description": "Buy-now fixed price PKR/KG." },
-        "minimumBidPerKg": { "type": "number", "description": "Minimum auction bid PKR/KG." },
-        "highestBidPerKg": { "type": "number", "description": "Current highest bid PKR/KG." },
-        "highestBidderUid": { "type": "string", "description": "Firebase UID of highest bidder or buyer." },
-        "bidsCount": { "type": "integer", "description": "Total number of bids placed." },
-        "location": { "type": "string", "description": "Warehouse city and zone." },
-        "warehouseName": { "type": "string", "description": "Source warehouse." },
-        "status": { "type": "string", "enum": ["AVAILABLE", "UNDER_BID", "SOLD", "IN_TRANSIT"], "description": "Listing status." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "bookingId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "area": { "type": "string" },
+        "categories": { "type": "array" },
+        "itemsSummary": { "type": "string" },
+        "unitType": { "type": "string", "enum": ["KG", "Piece", "Bag", "Bulk"] },
+        "estimatedQuantityLabel": { "type": "string" },
+        "preferredDate": { "type": "string" },
+        "preferredTimeSlot": { "type": "string" },
+        "status": { "type": "string", "enum": ["searching", "locked", "cancelled"] },
+        "assignedCollectorId": { "type": "string" },
+        "radiusKm": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "lotCode", "title", "materialName", "category", "grade", "weightKg", "pricePerKg", "minimumBidPerKg", "highestBidPerKg", "bidsCount", "location", "warehouseName", "status", "createdAt", "updatedAt"]
+      "required": ["bookingId", "customerId", "city", "area", "categories", "itemsSummary", "unitType", "estimatedQuantityLabel", "preferredDate", "preferredTimeSlot", "status", "radiusKm", "createdAt", "updatedAt"]
     },
-    "SupportTicket": {
-      "title": "SupportTicket",
-      "description": "Customer or collector support complaint ticket.",
+    "PaymentMethodConfig": {
+      "title": "PaymentMethodConfig",
+      "description": "Admin-managed manual payment method instructions (Cash, Bank Transfer, Easypaisa).",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Reporter Firebase UID." },
-        "userName": { "type": "string", "description": "Reporter display name." },
-        "category": { "type": "string", "description": "Ticket category (WEIGHT, PAYMENT, DELAYED_PICKUP, etc.)." },
-        "subject": { "type": "string", "description": "Ticket subject." },
-        "message": { "type": "string", "description": "Detailed complaint description." },
-        "status": { "type": "string", "enum": ["OPEN", "ASSIGNED", "IN_PROGRESS", "WAITING", "RESOLVED", "CLOSED"], "description": "Ticket status." },
-        "resolutionNotes": { "type": "string", "description": "Support agent resolution notes." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." },
-        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp on update." }
+        "name": { "type": "string", "enum": ["Cash", "Bank Transfer", "Easypaisa"] },
+        "accountTitle": { "type": "string" },
+        "accountNumberOrNote": { "type": "string" },
+        "instructions": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "userName", "category", "subject", "message", "status", "createdAt", "updatedAt"]
+      "required": ["name", "accountTitle", "accountNumberOrNote", "instructions", "isActive", "createdAt", "updatedAt"]
+    },
+    "ManualPayment": {
+      "title": "ManualPayment",
+      "description": "Manual payment confirmation and admin verification record.",
+      "type": "object",
+      "properties": {
+        "bookingId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "collectorId": { "type": "string" },
+        "method": { "type": "string", "enum": ["Cash", "Bank Transfer", "Easypaisa"] },
+        "amountPkr": { "type": "number" },
+        "submittedByUid": { "type": "string" },
+        "referenceNumber": { "type": "string" },
+        "proofNote": { "type": "string" },
+        "customerConfirmed": { "type": "boolean" },
+        "verificationStatus": { "type": "string", "enum": ["pending_verification", "verified", "rejected"] },
+        "verifiedByAdminUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["bookingId", "customerId", "collectorId", "method", "amountPkr", "submittedByUid", "customerConfirmed", "verificationStatus", "createdAt", "updatedAt"]
+    },
+    "CommissionRecord": {
+      "title": "CommissionRecord",
+      "description": "Per-booking commission record preventing duplicate computation via deterministic booking ID key.",
+      "type": "object",
+      "properties": {
+        "bookingId": { "type": "string" },
+        "collectorId": { "type": "string" },
+        "collectorName": { "type": "string" },
+        "ruleType": { "type": "string", "enum": ["percentage", "fixed", "category"] },
+        "rateApplied": { "type": "number" },
+        "bookingAmountPkr": { "type": "number" },
+        "commissionAmountPkr": { "type": "number" },
+        "status": { "type": "string", "enum": ["unpaid", "settled"] },
+        "settlementId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["bookingId", "collectorId", "collectorName", "ruleType", "rateApplied", "bookingAmountPkr", "commissionAmountPkr", "status", "createdAt", "updatedAt"]
+    },
+    "CommissionSettlement": {
+      "title": "CommissionSettlement",
+      "description": "Immutable weekly or monthly manual collector commission settlement ledger.",
+      "type": "object",
+      "properties": {
+        "collectorId": { "type": "string" },
+        "collectorName": { "type": "string" },
+        "periodLabel": { "type": "string" },
+        "totalAmountPkr": { "type": "number" },
+        "commissionIds": { "type": "array" },
+        "paymentMethod": { "type": "string", "enum": ["Cash", "Bank Transfer", "Easypaisa"] },
+        "referenceNote": { "type": "string" },
+        "recordedByAdminUid": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["collectorId", "collectorName", "periodLabel", "totalAmountPkr", "commissionIds", "paymentMethod", "referenceNote", "recordedByAdminUid", "createdAt"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "In-app notification for booking, approval, or payment events.",
+      "type": "object",
+      "properties": {
+        "recipientUid": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "type": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientUid", "title", "body", "type", "referenceId", "read", "createdAt"]
+    },
+    "Complaint": {
+      "title": "Complaint",
+      "description": "Customer or collector complaint / support case.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userRole": { "type": "string", "enum": ["customer", "collector"] },
+        "bookingId": { "type": "string" },
+        "category": { "type": "string" },
+        "subject": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "in_review", "resolved", "closed"] },
+        "adminNotes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "userRole", "category", "subject", "description", "status", "createdAt", "updatedAt"]
+    },
+    "ServiceArea": {
+      "title": "ServiceArea",
+      "description": "Rawalpindi and Islamabad operational area and configurable matching radius.",
+      "type": "object",
+      "properties": {
+        "city": { "type": "string", "enum": ["Rawalpindi", "Islamabad"] },
+        "areaName": { "type": "string" },
+        "matchingRadiusKm": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["city", "areaName", "matchingRadiusKm", "isActive", "createdAt", "updatedAt"]
+    },
+    "AppSetting": {
+      "title": "AppSetting",
+      "description": "Platform-wide configuration for matching radius, commissions, and contact details.",
+      "type": "object",
+      "properties": {
+        "defaultMatchingRadiusKm": { "type": "number" },
+        "commissionRuleType": { "type": "string", "enum": ["percentage", "fixed", "category"] },
+        "defaultCommissionPercent": { "type": "number" },
+        "defaultFixedCommissionPkr": { "type": "number" },
+        "supportPhone": { "type": "string" },
+        "supportEmail": { "type": "string" },
+        "updatedBy": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["defaultMatchingRadiusKm", "commissionRuleType", "defaultCommissionPercent", "defaultFixedCommissionPkr", "supportPhone", "supportEmail", "updatedBy", "updatedAt"]
     },
     "AuditLog": {
       "title": "AuditLog",
-      "description": "Immutable operational and financial audit trail entry.",
+      "description": "Immutable operational and administrative audit trail.",
       "type": "object",
       "properties": {
-        "userId": { "type": "string", "description": "Actor Firebase UID." },
-        "actorRole": { "type": "string", "description": "Actor role at the time of action." },
-        "action": { "type": "string", "description": "Action code." },
-        "entity": { "type": "string", "description": "Target entity type." },
-        "entityId": { "type": "string", "description": "Target document ID." },
-        "details": { "type": "string", "description": "Audit details." },
-        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp on creation." }
+        "actorUid": { "type": "string" },
+        "actorRole": { "type": "string" },
+        "action": { "type": "string" },
+        "entity": { "type": "string" },
+        "entityId": { "type": "string" },
+        "details": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["userId", "actorRole", "action", "entity", "entityId", "details", "createdAt"]
+      "required": ["actorUid", "actorRole", "action", "entity", "entityId", "details", "createdAt"]
+    },
+    "AdminRegistry": {
+      "title": "AdminRegistry",
+      "description": "Verified admin authorization record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "super_admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
-      "schema": { "$ref": "#/entities/UserProfile" },
-      "description": "User profiles isolated by UID."
+      "schema": { "$ref": "#/entities/UserAccount" },
+      "description": "User accounts isolated by UID"
     },
-    "/users/{userId}/wallet_ledger/{entryId}": {
-      "schema": { "$ref": "#/entities/WalletLedgerEntry" },
-      "description": "Immutable user-scoped financial ledger transactions."
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/CustomerProfile" },
+      "description": "Customer profiles isolated by customer UID"
     },
-    "/scrap_inventory/{itemId}": {
-      "schema": { "$ref": "#/entities/ScrapInventoryItem" },
-      "description": "Warehouse scrap material inventory items."
+    "/collectors/{collectorId}": {
+      "schema": { "$ref": "#/entities/CollectorProfile" },
+      "description": "Collector profiles and admin approval status"
     },
-    "/pickups/{pickupId}": {
-      "schema": { "$ref": "#/entities/PickupRequest" },
-      "description": "Doorstep scrap pickup requests and verified weights."
+    "/scrap_categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/ScrapCategoryDoc" },
+      "description": "Admin-managed scrap material categories"
     },
-    "/pricing_rules/{ruleId}": {
-      "schema": { "$ref": "#/entities/PricingRule" },
-      "description": "Dynamic scrap pricing rules managed by admins."
+    "/scrap_prices/{priceId}": {
+      "schema": { "$ref": "#/entities/ScrapPriceDoc" },
+      "description": "Admin-managed indicative estimated scrap price ranges"
     },
-    "/hub_batches/{batchId}": {
-      "schema": { "$ref": "#/entities/HubBatch" },
-      "description": "Collection hub inbound and sorted inventory batches."
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Customer pickup bookings with full address restricted to owner, winner collector, and admin"
     },
-    "/marketplace_lots/{lotId}": {
-      "schema": { "$ref": "#/entities/MarketplaceLot" },
-      "description": "B2B recycler marketplace scrap lots."
+    "/pickup_pool/{bookingId}": {
+      "schema": { "$ref": "#/entities/PickupPoolItem" },
+      "description": "Sanitized open pickup pool with approximate area only until atomic collector lock"
     },
-    "/support_tickets/{ticketId}": {
-      "schema": { "$ref": "#/entities/SupportTicket" },
-      "description": "Customer and collector support tickets."
+    "/payment_methods/{methodId}": {
+      "schema": { "$ref": "#/entities/PaymentMethodConfig" },
+      "description": "Manual payment method settings managed by admin"
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/ManualPayment" },
+      "description": "Manual payment confirmations and admin verification status"
+    },
+    "/commissions/{commissionId}": {
+      "schema": { "$ref": "#/entities/CommissionRecord" },
+      "description": "Duplicate-safe commission records per completed booking"
+    },
+    "/commission_settlements/{settlementId}": {
+      "schema": { "$ref": "#/entities/CommissionSettlement" },
+      "description": "Immutable weekly/monthly commission settlement ledger"
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/NotificationItem" },
+      "description": "User-scoped in-app notifications"
+    },
+    "/complaints/{complaintId}": {
+      "schema": { "$ref": "#/entities/Complaint" },
+      "description": "Customer and collector complaints managed with admin"
+    },
+    "/service_areas/{areaId}": {
+      "schema": { "$ref": "#/entities/ServiceArea" },
+      "description": "Rawalpindi and Islamabad service areas and configurable matching radius"
+    },
+    "/app_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/AppSetting" },
+      "description": "Platform configuration settings managed by admin"
     },
     "/audit_logs/{logId}": {
       "schema": { "$ref": "#/entities/AuditLog" },
-      "description": "Immutable audit logs."
+      "description": "Immutable audit logs"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRegistry" },
+      "description": "Admin UID authorization documents"
     }
   }
 }

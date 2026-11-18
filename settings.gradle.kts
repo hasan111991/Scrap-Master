@@ -22,6 +22,6 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "Digital Kabariya"
+rootProject.name = "Collection Hub"
 
 include(":app")
